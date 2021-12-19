@@ -1,0 +1,84 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+
+}
+body{
+    font-family: 'Roboto', sans-serif;
+}
+/* ---- ---- HEADER ---- ---- */
+.cuadro-header{
+    width: 102%;
+    height: 150px;
+    background: #eeeeee;
+}
+.cuadro-header img {
+    margin: 35px 20px;
+    width: 80px;
+    float: left;
+    border-radius: 3px degrade #F5FBFF;
+}
+.cuadro-header h1 {
+    /* text-align: center; */
+    padding: 47px;
+    font-weight: 400;
+}
+.cuadro-header .informacion-header {
+    text-align: center;
+}
+/* ---- ---- MAIN ---- ---- */
+
+.main .select-idioma{
+    margin-top: 15px;
+    width: 300px;
+}
+.main .contenedor-formulario{
+    width: 50%;
+    text-align: center;
+    background: #F5FBFF;
+    border-right: 2px solid #eeeeee;
+    border-left: 2px solid #eeeeee;
+}
+
+.main .title {
+    padding: 20px;
+    text-align: center;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+.main .products {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.main .contact {
+    background: #f2f2f2;
+}
+
+/* ---- ---- ---- CARD RESPONSIVE ---- ---- ---- */
+
+.main .classcard{
+    /* padding: 10px; */
+    margin: auto;
+    /* border: 1px solid #CED4DA; */
+    /* border-bottom: 1px solid #CED4DA;; */
+}
+
+.main .classcard .classcard-img {
+    width: 40px;
+    margin: 5px;
+    float: left;
+}
+
+.main .classcard .classcard-title {
+    width: 320px;
+    float: left;
+}
+.main .classcard .classcard-price {
+    float: right;
+    margin: auto;
+}
+
+@media screen and (ma ) {
+    
+}

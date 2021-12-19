@@ -1,0 +1,84 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    
+}
+body{
+    font-family: 'Roboto', sans-serif;
+}
+/* ---- ---- HEADER ---- ---- */
+.cuadro-header{
+    height: 150px;
+    background: #eeeeee;
+}
+.cuadro-header img {
+    margin: 35px 20px;
+    width: 80px;
+    float: left;
+    border-radius: 3px degrade #F5FBFF;
+}
+.cuadro-header h1 {
+    /* text-align: center; */
+    padding: 47px;
+    font-weight: 400;
+}
+.cuadro-header .informacion-header {
+    text-align: center;
+}
+
+/* ---- ---- MAIN ---- ---- */
+.main{
+    background: #F5FBFF;
+}
+.main .select-idioma{
+    margin-top: 15px;
+    width: auto;
+}
+.main .contenedor-formulario{
+    width: 50%;
+    text-align: center;
+    background: #F5FBFF;
+    border-right: 2px solid #eeeeee;
+    border-left: 2px solid #eeeeee;
+}
+
+.main .title {
+    padding: 20px;
+    text-align: center;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+.main .formulario .labelclass{
+    margin-left: -200px;
+    padding: 5px;
+}
+.main .formulario .labelclass-email{
+    margin-left: -230px;
+}
+.main .formulario .inputclass{
+    width: 300px;
+    padding: 12px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+}
+.contenedor-input-label-telephone {
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 694px){
+    .main .contenedor-formulario{
+        width: 100%;
+}
+
+@media screen and (max-width: 324px){
+    .main .formulario .inputclass{
+        width: auto;
+    }
+    .main .formulario .labelclass{
+        display: none;
+    }   
+    .main .formulario .labelclass-email{
+        display: none;
+    }
+}
