@@ -1,5 +1,5 @@
 const spinner = {
-    show: (status) => {
+    show: () => {
 
         const current_effect = 'bounce';
 

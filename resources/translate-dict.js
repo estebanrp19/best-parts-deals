@@ -43,9 +43,13 @@ const dict = {
         en: "Now give us a clue about car's model and year",
         es: "Ahora danos una pista acerca del año y modelo de tu auto"
     },
-    "year_lbl": {
+    "year_init_lbl": {
         en: "Year",
-        es: "año"
+        es: "Año"
+    },
+    "year_end_lbl": {
+        en: "Maximun Year",
+        es: "Año Máximo"
     },
     "items-added-to-order": {
         en: "Items added to order",
