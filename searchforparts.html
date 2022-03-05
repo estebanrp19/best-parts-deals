@@ -17,6 +17,9 @@
     <link rel="stylesheet"
         href="libs/jQuery-Plugin-For-Creating-Loading-Overlay-with-CSS3-Animations-waitMe/waitMe.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+        integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -27,6 +30,7 @@
                     <div class="col-12 informacion-header">
                         <img src="img/logo.jpg" alt="">
                         <h1 class="tittle trn" data-trn-key="search-parts-title">Search for your parts</h1>
+                        <label for="">Items on Order: <span id="total-item-on-order">0</span></label>
                     </div>
                 </div>
             </div>
@@ -93,62 +97,10 @@
                     <input type="text" id="input-filter-text">
                 </div>
             </div>
+            <span id="form-message"></span>
         </div>
 
-        <div class="row products" id="products-list">
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-none d-sm-none d-md-block">
-                <div class="card">
-                    <img class="card-img-top" src="img/MS97146.jpg" alt="">
-                    <div class="card-body">
-                        <h5 class="card-tittle">09-20 TOYOTA COROLLA Exhaust Manifold Gasket Set FEL-PRO</h5>
-                        <p class="card-subtitle text-muted">$11.99</p>
-                        <h6 class="text-success">Available: 2</h6>
-                        <h6 class="text-secondary">Code: MS97146</h6>
-                        <a href="#" class="btn btn-outline-primary">Add</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-none d-sm-none d-md-block">
-                <div class="card">
-                    <img class="card-img-top" src="img/RK640360.jpg" alt="">
-                    <div class="card-body">
-                        <h5 class="card-tittle">03-13 TOYOTA COROLLA Drivestar Control Arm Front Lower RH</h5>
-                        <p class="card-subtitle text-muted">$79.99</p>
-                        <h6 class="text-success">Available: 1</h6>
-                        <h6 class="text-secondary">Code: RK640360</h6>
-                        <a href="#" class="btn btn-outline-primary">Add</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-none d-sm-none d-md-block">
-                <div class="card">
-                    <img class="card-img-top" src="img/EM-9447.jpg" alt="">
-                    <div class="card-body">
-                        <h5 class="card-tittle">09-13 TOYOTA COROLLA Motor Mount FWD FRONT RH WESTAR</h5>
-                        <p class="card-subtitle text-muted">$58.99</p>
-                        <h6 class="text-success">Available: 1</h6>
-                        <h6 class="text-secondary">Code: EM-9447</h6>
-                        <a href="#" class="btn btn-outline-primary">Add</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-none d-sm-none d-md-block">
-                <div class="card">
-                    <img class="card-img-top" src="img/VS50530R.jpg" alt="">
-                    <div class="card-body">
-                        <h5 class="card-tittle">09-12 TOYOTA COROLLA Valve Cover Gasket Set FEL-PRO</h5>
-                        <p class="card-subtitle text-muted">$18.99</p>
-                        <h6 class="text-success">Available: 1</h6>
-                        <h6 class="text-secondary">Code: EVS50530R</h6>
-                        <a href="#" class="btn btn-outline-primary">Add</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="row products" id="products-list"></div>
 
         <div class="row products">
 
@@ -187,28 +139,6 @@
         <div class="row products" id="products-add-to-order">
             <div class="col-12 title">
                 <h2 class="trn" data-trn-key="items-added-to-order">Items added to order</h2>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-tittle">09-12 TOYOTA COROLLA Valve Cover Gasket Set FEL-PRO</h5>
-                        <p class="card-subtitle text-muted">$18.99</p>
-                        <h6 class="text-secondary">Code: EVS50530R</h6>
-                        <a href="#" class="btn btn-outline-danger">Delete</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-tittle">09-20 TOYOTA COROLLA Exhaust Manifold Gasket Set FEL-PRO</h5>
-                        <p class="card-subtitle text-muted">$11.99</p>
-                        <h6 class="text-secondary">Code: MS97146</h6>
-                        <a href="#" class="btn btn-outline-danger">Delete</a>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -256,6 +186,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
+        integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js"></script>
     <script src="libs/jQuery-Plugin-For-Creating-Loading-Overlay-with-CSS3-Animations-waitMe/waitMe.min.js"></script>
     <script src="libs/client-side-translator/jquery.translate.js"></script>

@@ -1,5 +1,5 @@
 var configGeneral;
-const appState = {};
+const appState = { carShopList: [] };
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
@@ -8,7 +8,6 @@ $(document).ready(function () {
     spinner.show();
 
     const updateState = (e) => {
-        console.log($('#select-model').val())
         appState.brand = $('#select-brand').val();
         appState.model = $('#select-model').val();
         appState.modelYears = parseInt($('#model-year').val());
@@ -16,6 +15,76 @@ $(document).ready(function () {
     }
 
     $(document).on("updateState", updateState);
+
+    const addItemToOrder = (item) => {
+
+        let foundItem;
+
+        try {
+            appState.carShopList.forEach((element, index) => {
+                if (item.NUM_REG == element.NUM_REG) {
+                    foundItem = index;
+                    throw 'Break';
+                }
+            })
+        } catch (e) {
+            if (e !== 'Break') throw e
+        }
+
+        if (foundItem != undefined) {
+            const aux = parseInt(appState.carShopList[foundItem].qty) + parseInt(item.qty);
+            if (aux < item.EXISTENCIA) {
+                appState.carShopList[foundItem].qty = aux;
+                $('#order-item-' + item.NUM_REG).html(aux);
+                $.toast({
+                    heading: 'Success',
+                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado exitosamente',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    position: 'top-right',
+                })
+            } else {
+                $.toast({
+                    heading: 'Error',
+                    text: 'La cantidad de productos solicitados supera la existencia disponible',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    position: 'top-right',
+                })
+            }
+
+        } else {
+            if (item.qty <= item.EXISTENCIA) {
+                appState.carShopList.push(JSON.parse(JSON.stringify(item)));
+                $('#products-add-to-order').append(itemOnOrder(item));
+                $('#total-item-on-order').html(appState.carShopList.length);
+
+                $.toast({
+                    heading: 'Success',
+                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado exitosamente',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    position: 'top-right',
+                });
+
+                $('#btn-remove-item-order-' + item.NUM_REG).on('click', (e) => {
+                    const idItemToRemove = e.target.id.split('-')[4];
+                    removeItemOnOrder(idItemToRemove);
+                });
+
+            } else {
+                $.toast({
+                    heading: 'Error',
+                    text: 'La cantidad de productos solicitados supera la existencia disponible',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    position: 'top-right',
+                })
+            }
+
+        }
+
+    }
 
     api.loadInitialData().then((res) => {
 
@@ -30,7 +99,6 @@ $(document).ready(function () {
             $("#select-brand").append('<option value="' + element + '">' + element + '</option>')
         });
 
-
         let modelYears = [];
         for (let i = res.initYears[0]; i <= res.endYears[1]; i++) {
             modelYears.push(i.toString())
@@ -43,6 +111,47 @@ $(document).ready(function () {
         spinner.stop();
     });
 
+    const reloadProductList = (callback) => {
+        $.event.trigger({ type: 'updateState' });
+
+        filter = {
+            brand: appState.brand,
+            model: appState.model,
+            year: appState.modelYears,
+            inputFilterText: appState.inputFilterText
+        };
+
+        const filterValid = (filter.year && filter.brand != '' && filter.model != '') ? true : false;
+
+        if (filterValid) {
+            api.GET_FILTERED_PARTS_LIST(filter).then((res) => {
+
+                $('#products-list')
+                    .empty();
+
+                res.forEach((item) => {
+                    $('#products-list')
+                        .append(itemOnProductsList(item));
+
+                    $('#btn-add-item-' + item.NUM_REG).on('click', () => {
+                        item.qty = parseInt($('#qty-' + item.NUM_REG).val());
+                        addItemToOrder(item);
+                    })
+                });
+                if (callback) {
+                    callback();
+                }
+
+            });
+            $('#form-message').empty();
+        } else {
+            spinner.stop();
+            $('#products-list').empty();
+            $('#form-message').html('Los siguientes datos son requeridos, año, marca y modelo');
+
+        }
+
+    };
 
     $("#select-idioma").on("change", function () {
         const langSelected = $(this).val();
@@ -61,61 +170,67 @@ $(document).ready(function () {
             .append('<option value="" class="trn" data-trn-key="carModel_lbl">Model</option>');
 
         spinner.show();
-        $.event.trigger({ type: 'updateState' });
         const brandSelected = $(this).val();
 
-        filter = {
-            brand: appState.brand,
-            model: appState.model,
-            year: appState.modelYears,
-            inputFilterText: appState.inputFilterText
-        };
-
-        console.log(filter)
-
-        api.GET_FILTERED_PARTS_LIST(filter).then((res) => {
-            $('#products-list')
-                .empty();
-
-            res.forEach((item) => {
-                $('#products-list')
-                    .append(itemOnProductsList(item))
+        api.GET_MODELS(brandSelected).then((res) => {
+            res.forEach(element => {
+                $("#select-model").append('<option value="' + element.model + '">' + element.model + '</option>')
             });
-
-            api.GET_MODELS(brandSelected).then((res) => {
-                res.forEach(element => {
-                    $("#select-model").append('<option value="' + element.model + '">' + element.model + '</option>')
-                });
-                spinner.stop();
-            });
+            reloadProductList();
         });
 
     });
 
     $("#select-model").on("change", function () {
-        $.event.trigger({ type: 'updateState' });
-
-        filter = {
-            brand: appState.brand,
-            model: appState.model,
-            year: appState.modelYears,
-            inputFilterText: appState.inputFilterText
-        };
-
-
-        api.GET_FILTERED_PARTS_LIST(filter).then((res) => {
-            $('#products-list')
-                .empty();
-
-            res.forEach((item) => {
-                $('#products-list')
-                    .append(itemOnProductsList(item))
-            });
-        })
-
+        reloadProductList();
     });
 
     $("#model-year").on("change", function () {
-        console.log($(this).val())
-    })
+        reloadProductList();
+    });
+
+    let timeout = null
+    $("#input-filter-text").on("keyup blur change", function () {
+        var text = this.value
+        clearTimeout(timeout)
+        timeout = setTimeout(function () {
+            reloadProductList();
+        }, 500)
+    });
+
+    $("#select-idioma").on("change", function () {
+        const langSelected = $(this).val();
+        if (langSelected == "") {
+            translator.lang("en"); //English use by default 
+        } else {
+            translator.lang($(this).val());
+        }
+    });
+
+    const removeItemOnOrder = (idItemToRemove) => {
+        let foundItem;
+        try {
+            appState.carShopList.forEach((element, index) => {
+                if (idItemToRemove == element.NUM_REG) {
+                    foundItem = index;
+                    throw 'Break';
+                }
+            })
+        } catch (e) {
+            if (e !== 'Break') throw e
+        }
+
+        $.toast({
+            heading: 'Warning',
+            text: 'El producto ' + appState.carShopList[foundItem].APLICACION + ' - ' + appState.carShopList[foundItem].DESCRIPCION + ' ha eliminado de la orden',
+            showHideTransition: 'slide',
+            icon: 'warning',
+            position: 'top-right',
+        });
+
+        appState.carShopList.splice(foundItem, 1);
+        $('#container-order-item-' + idItemToRemove).remove();
+        $('#total-item-on-order').html(appState.carShopList.length);
+
+    }
 });
