@@ -38,7 +38,7 @@ $(document).ready(function () {
                 $('#order-item-' + item.NUM_REG).html(aux);
                 $.toast({
                     heading: 'Success',
-                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado exitosamente',
+                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado a la orden',
                     showHideTransition: 'slide',
                     icon: 'success',
                     position: 'top-right',
@@ -61,7 +61,7 @@ $(document).ready(function () {
 
                 $.toast({
                     heading: 'Success',
-                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado exitosamente',
+                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado a la orden',
                     showHideTransition: 'slide',
                     icon: 'success',
                     position: 'top-right',
@@ -121,7 +121,7 @@ $(document).ready(function () {
             inputFilterText: appState.inputFilterText
         };
 
-        const filterValid = (filter.year && filter.brand != '' && filter.model != '') ? true : false;
+        const filterValid = (filter.year && /^\d{4}$/.test(filter.year) && filter.brand != '' && filter.model != '') ? true : false;
 
         if (filterValid) {
             api.GET_FILTERED_PARTS_LIST(filter).then((res) => {
@@ -144,13 +144,16 @@ $(document).ready(function () {
 
             });
             $('#form-message').empty();
+        } else if (!(/^\d{4}$/.test(filter.year))) {
+            spinner.stop();
+            $('#products-list').empty();
+            $('#form-message').html('<span>Formato de año incorrecto - YYYY</span>');
+
         } else {
             spinner.stop();
             $('#products-list').empty();
-            $('#form-message').html('Los siguientes datos son requeridos, año, marca y modelo');
-
+            $('#form-message').html('<span>Los siguientes datos son requeridos, año, marca y modelo</span>');
         }
-
     };
 
     $("#select-idioma").on("change", function () {
@@ -185,7 +188,7 @@ $(document).ready(function () {
         reloadProductList();
     });
 
-    $("#model-year").on("change", function () {
+    $("#model-year").on("keyup blur change", function () {
         reloadProductList();
     });
 
