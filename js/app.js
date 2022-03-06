@@ -1,5 +1,5 @@
 var configGeneral;
-const appState = { carShopList: [] };
+const appState = { carShopList: [], filterErrors: [] };
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
         if (foundItem != undefined) {
             const aux = parseInt(appState.carShopList[foundItem].qty) + parseInt(item.qty);
-            if (aux < item.EXISTENCIA) {
+            if (aux <= item.EXISTENCIA) {
                 appState.carShopList[foundItem].qty = aux;
                 $('#order-item-' + item.NUM_REG).html(aux);
                 $.toast({
@@ -54,6 +54,7 @@ $(document).ready(function () {
             }
 
         } else {
+
             if (item.qty <= item.EXISTENCIA) {
                 appState.carShopList.push(JSON.parse(JSON.stringify(item)));
                 $('#products-add-to-order').append(itemOnOrder(item));
@@ -235,5 +236,30 @@ $(document).ready(function () {
         $('#container-order-item-' + idItemToRemove).remove();
         $('#total-item-on-order').html(appState.carShopList.length);
 
-    }
+    };
+
+
+
+    $("#contactForm").validate({
+        // in 'rules' user have to specify all the constraints for respective fields
+        rules: {
+            firstname: "required",
+            lastname: "required",
+            email: {
+                required: true,
+                email: true
+            },
+            phone: {
+                required: true
+            }
+        },
+        // in 'messages' user have to specify message as per rules
+        messages: {
+            firstname: "Please enter your firstname",
+            lastname: "Please enter your lastname",
+            email: "Please enter your email",
+            phone: "Please enter your phone"
+        }
+    });
+
 });
