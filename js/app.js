@@ -1,5 +1,5 @@
 var configGeneral;
-const appState = { carShopList: [] };
+const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [] };
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
@@ -296,11 +296,12 @@ $(document).ready(function () {
         }
     });
 
-    const requestEmailValidate = async () => {
+    const requestEmailValidate = async (isReturn) => {
+        const ubicador = isReturn ? 3 : 0;
         const data = {
-            correo: $("#email").val(),
+            correo: isReturn ? $("#emailReturn").val() : $("#email").val(),
             region: $("#select-region").val(),
-            ubicador: 0,
+            ubicador: ubicador,
             lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
         }
 
@@ -457,15 +458,85 @@ $(document).ready(function () {
         data.variables[0].TEL_CLI = $("#phone").val();
         data.variables[0].TIPO_INICIO = 1;
 
-        requestCaseNotification();
+        appState.carShopList = [];
+        $('#products-add-to-order').empty();
         apiProcessMaker.CREATE_ORDER_CASE(data);
+
     }
+
+    const requestGetOrder = async (data) => {
+        const params = {
+            correo: $("#emailReturn").val(),
+            ubicador: 6,
+            order_row: data.id
+        }
+
+        const resGetOrder = await apiProcessMaker.SAVE_CLIENT(params).then((res) => res);
+        return resGetOrder;
+    };
+
+    const selectReturnOrder = async (data) => {
+        const resGetOrder = await requestGetOrder(data);
+        appState.itemsByOrder = [];
+        $('#return-order-items').empty().append(
+            '<tr><th>order</th><th>Date</th><th>Number of items</th><th>Order total</th><th>is Returnable?</th></tr>'
+        );
+
+        appState.returnOrderSelected = data;
+
+        resGetOrder.forEach((item) => {
+            const params = {
+                description: item[1],
+                itemCode: item[0],
+                orderId: data.id,
+                itemPrice: item[2],
+                qty: item[4],
+                total: item[3],
+            }
+
+            const itemFound = appState.itemsReturned.filter((element) => (element.orderId == params.orderId && element.itemCode == params.itemCode));
+
+            if (!itemFound.length) {
+                appState.itemsByOrder.push(params);
+            }
+
+        });
+
+        $('#order-selected').text(data.id)
+
+        appState.itemsByOrder.forEach((item) => {
+            $('#return-order-items').append(returnOrderItem(item));
+            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).click(() => {
+                selectReturnItem(item);
+                $('#tr-return-item-' + item.orderId + '-' + item.itemCode).remove()
+            })
+        })
+
+    }
+
+
+
+    const selectReturnItem = (data) => {
+
+        appState.itemsReturned.push(data);
+        $('#items-returned-list').append(itemsReturnedList(data));
+        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).click(() => {
+            const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
+            appState.itemsReturned.splice(itemFound, 1);
+            $('#tr-remove-item-returned-' + data.orderId + '-' + data.itemCode).remove();
+            selectReturnOrder(appState.returnOrderSelected);
+            console.log('itemsReturned', appState.itemsReturned, $('#order-selected').text())
+        });
+
+    }
+
 
 
     $("#sendCase").click(async (e) => {
         const clientType = await requestClientType();
+        console.log(clientType)
         if ($("#contactForm").valid()) {
-            if (clientType == 1) {
+            if (clientType[2] == 1) {
                 const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
                 if (validated) {
                     updatePreReserva().then((res) => {
@@ -484,8 +555,8 @@ $(document).ready(function () {
 
     });
 
-    const emailChange = async () => {
-        const res = await requestEmailValidate().then(res => res);
+    const emailChange = async (isReturn) => {
+        const res = await requestEmailValidate(isReturn).then(res => res);
 
         const clientName = res[1];
         const clientLastname = res[2];
@@ -497,27 +568,54 @@ $(document).ready(function () {
 
         appState.userLang = clientLang;
 
-        switch (res[0]) {
-            case 0:
-                showToast("warning", translate('Ubi0Res0', appState.userLang));
-                $("#sendCase").attr('disabled', true);
-                break;
-            case 1:
-                showToast("warning", translate('Ubi0Res1', appState.userLang, [clientName, clientLastname]));
-                $("#sendCase").attr('disabled', false);
-                break;
-            case 2:
-                showToast("warning", translate('Ubi0Res2', appState.userLang, [clientName, clientLastname]));
-                $("#sendCase").attr('disabled', false);
-                break;
-            case 3:
-                showToast("warning", translate('Ubi0Res3', appState.userLang));
-                $("#sendCase").attr('disabled', true);
-                break;
-            case 4:
-                showToast("warning", translate('Ubi0Res4', appState.userLang));
-                $("#sendCase").attr('disabled', true);
-                break;
+        if (!isReturn) {
+            switch (res[0]) {
+                case 0:
+                    showToast("warning", translate('Ubi0Res0', appState.userLang));
+                    $("#sendCase").attr('disabled', true);
+                    break;
+                case 1:
+                    showToast("warning", translate('Ubi0Res1', appState.userLang, [clientName, clientLastname]));
+                    $("#sendCase").attr('disabled', false);
+                    break;
+                case 2:
+                    showToast("warning", translate('Ubi0Res2', appState.userLang, [clientName, clientLastname]));
+                    $("#sendCase").attr('disabled', false);
+                    break;
+                case 3:
+                    showToast("warning", translate('Ubi0Res3', appState.userLang));
+                    $("#sendCase").attr('disabled', true);
+                    break;
+                case 4:
+                    showToast("warning", translate('Ubi0Res4', appState.userLang));
+                    $("#sendCase").attr('disabled', true);
+                    break;
+            }
+        } else {
+            switch (res[0]) {
+                case 0:
+                    showToast("warning", "no tiene ordenes cargadas");
+                    break;
+                case 1:
+                    showToast("success", "sus ordenes han sido cargadas exitosamente");
+                    const orderList = res[7];
+                    orderList.forEach((element, index) => {
+                        const data = {};
+                        data.id = element[0];
+                        data.date = element[1];
+                        data.total = element[2];
+                        data.qtyItems = element[3];
+                        data.isReturnable = element[4] ? 'Si' : 'No';
+
+                        $('#return-orders-list')
+                            .append(returnOrders(data));
+
+                        $('#btn-select-return-order-' + data.id).click(() => {
+                            selectReturnOrder(data);
+                        })
+                    })
+                    break;
+            }
         }
 
         $("#firstname").val(clientName).blur();
@@ -526,8 +624,19 @@ $(document).ready(function () {
 
     }
 
-    $("#email").change(async (e) => {
+    $("#email").change((e) => {
         emailChange();
     });
+
+    $("#emailReturn").change((e) => {
+        emailChange(true);
+    });
+
+    const requestReturnItems = async () => {
+        const reStReturnItems = await apiProcessMaker.RETURN_ITEMS({ test: 'test' }).then((res) => res);
+        return reStReturnItems;
+    }
+
+    requestReturnItems()
 
 });

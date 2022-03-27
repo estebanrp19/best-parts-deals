@@ -19,7 +19,8 @@ const constants = {
         VALIDATE_EXISTENCE: "/pm/validate-existence",
         UPDATE_PRERESERVA: "/pm/update-pre-reserva",
         SAVE_CLIENT: "/pm/save-client",
-        CREATE_ORDER_CASE: "/pm/create-case"
+        CREATE_ORDER_CASE: "/pm/create-case",
+        RETURN_ITEMS: "/pm/return-items"
     },
     TASK_UID_DIRECT_SEARCH: "88981594356c9ef90b4bb48005562106",
     TASK_NAME_DIRECT_SEARCH: "direct_search",
