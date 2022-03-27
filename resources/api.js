@@ -79,12 +79,50 @@ class Api {
             url: constants.BASE_URL + constants.API_URLS.GET_FILTERED_PARTS_LIST + "?brand=" + filter.brand + '&model=' + filter.model + '&year=' + filter.year + '&inputFilterText=' + filter.inputFilterText
         });
     }
-
-
-
-    API_PROCESSMAKER = {
-
-    }
 }
 
+class ApiProcessMaker {
+
+
+    VALIDATE_EXISTENCE = async (data) => {
+        return $.ajax({
+            method: "POST",
+            dataType: 'json',
+            data,
+            crossDomain: true,
+            url: constants.BASE_URL + constants.WORKFLOW_API_REST.VALIDATE_EXISTENCE
+        })
+    };
+
+    UPDATE_PRE_RESERVA = async (data) => {
+        return $.ajax({
+            method: "POST",
+            dataType: 'json',
+            data,
+            crossDomain: true,
+            url: constants.BASE_URL + constants.WORKFLOW_API_REST.UPDATE_PRERESERVA
+        });
+    };
+
+    SAVE_CLIENT = async (data) => {
+        return $.ajax({
+            method: "POST",
+            dataType: 'json',
+            data,
+            crossDomain: true,
+            url: constants.BASE_URL + constants.WORKFLOW_API_REST.SAVE_CLIENT
+        });
+    };
+
+    CREATE_ORDER_CASE = async (data) => {
+        return $.ajax({
+            method: "POST",
+            dataType: 'json',
+            data,
+            crossDomain: true,
+            url: constants.BASE_URL + constants.WORKFLOW_API_REST.CREATE_ORDER_CASE
+        });
+    }
+
+}
 

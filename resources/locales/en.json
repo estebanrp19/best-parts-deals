@@ -1,0 +1,14 @@
+{
+    "hello": "Hello!",
+    "Good morning": "Good morning",
+    "Currency": "USD",
+    "wsite-content-title": "We help solving your car's problem",
+    "search-parts": "Search for Parts",
+    "return-parts": "Return Parts",
+    "search-parts-title": "Search for your parts",
+    "select-region-first": "You must select your region first",
+    "country": "Country",
+    "carBrand_lbl": "Brand",
+    "carModel_lbl": "Model",
+    "loading_initial_data_lbl": "Loading initial data"
+}

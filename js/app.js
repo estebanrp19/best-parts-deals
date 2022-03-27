@@ -1,10 +1,11 @@
 var configGeneral;
-const appState = { carShopList: [], filterErrors: [] };
+const appState = { carShopList: [] };
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
     const translator = $('body').translate({ lang: "en", t: dict }); //English use by default
     const api = new Api();
+    const apiProcessMaker = new ApiProcessMaker();
     spinner.show();
 
     const updateState = (e) => {
@@ -14,6 +15,11 @@ $(document).ready(function () {
         appState.inputFilterText = $('#input-filter-text').val();
     }
 
+    $('#select-region').val("USA-001");
+    $('#select-idioma').val("es");
+
+    $('#pagination-top').html(pagination());
+    $('#pagination-botton').html(pagination());
     $(document).on("updateState", updateState);
 
     const addItemToOrder = (item) => {
@@ -93,7 +99,7 @@ $(document).ready(function () {
         BPD_IMAGES_URL = configGeneral.filter((item) => item.CATEGORIA == 'BPD_IMAGES_URL')[0].VALOR;
 
         res.regions[0].forEach(element => {
-            $("#select-region").append('<option value="' + element.ALMACEN_ID + '">' + element.REGION_NAME + '</option>')
+            $("#select-region").append('<option value="' + element.REGION_ID + '">' + element.REGION_NAME + '</option>')
         });
 
         res.brands[0].forEach(element => {
@@ -238,28 +244,290 @@ $(document).ready(function () {
 
     };
 
+    $.validator.methods.email = function (value, element) {
+        return this.optional(element) || /[a-z]+@[a-z]+\.[a-z]+/.test(value);
+    }
 
+    jQuery.validator.addMethod("lettersAndSpace", function (value, element) {
+        return this.optional(element) || /^[a-zA-Z ]+$/.test(value);
+    }, "Only lethers an space");
 
     $("#contactForm").validate({
         // in 'rules' user have to specify all the constraints for respective fields
         rules: {
-            firstname: "required",
-            lastname: "required",
+            firstname: {
+                required: true,
+                lettersAndSpace: true
+            },
+            lastname: {
+                required: true,
+                lettersAndSpace: true
+            },
             email: {
                 required: true,
                 email: true
             },
             phone: {
-                required: true
+                required: true,
+                digits: true,
             }
         },
         // in 'messages' user have to specify message as per rules
         messages: {
-            firstname: "Please enter your firstname",
-            lastname: "Please enter your lastname",
-            email: "Please enter your email",
-            phone: "Please enter your phone"
+            firstname: {
+                required: "Please enter your firstname",
+                lettersAndSpace: "Only letters and spaces"
+            },
+            lastname: {
+                required: "Please enter your firstname",
+                lettersAndSpace: "Only letters and spaces"
+            },
+            email: {
+                required: "Please enter your email",
+                email: "Email format invalid"
+            },
+            phone: {
+                required: "Please enter your phone",
+                digits: "Phone number invalid, Only numbers.",
+
+            }
+        }, submitHandler: () => {
+            requestSaveClient();
         }
+    });
+
+    const requestEmailValidate = async () => {
+        const data = {
+            correo: $("#email").val(),
+            region: $("#select-region").val(),
+            ubicador: 0,
+            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+        }
+
+        const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        return requestEmailValidate;
+    };
+
+    const requestSaveClient = async () => {
+        const data = {
+            correo: $("#email").val(),
+            region: $("#select-region").val(),
+            ubicador: 1,
+            nmb: $("#firstname").val(),
+            apell: $("#lastname").val(),
+            tlf: $("#phone").val(),
+            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+        }
+
+        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        return resSaveClient;
+    }
+
+    const requestClientType = async () => {
+        const data = {
+            correo: $("#email").val(),
+            region: $("#select-region").val(),
+            ubicador: 2,
+            nmb: $("#firstname").val(),
+            apell: $("#lastname").val(),
+            tlf: $("#phone").val(),
+            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+        }
+
+        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        return resSaveClient;
+    }
+
+    const validateExistence = async () => {
+        const data = {
+            correo: $("#email").val(),
+            region: $("#select-region").val()
+        }
+
+        const arrDataRequest = [];
+
+        appState.carShopList.forEach((item, index) => {
+            let objGrille = [
+                item.CODIGO,
+                item.qty,
+                index
+            ]
+
+            arrDataRequest.push(objGrille);
+        });
+
+        data.datos = arrDataRequest;
+        const resValidateExistence = await apiProcessMaker.VALIDATE_EXISTENCE(data).then((res) => res);
+
+        existenceIsValid = false;
+        const itemInvalids = resValidateExistence[0].filter((item) => {
+            const existencia = item[1];
+            if (existencia == 0) {
+                return item;
+            }
+        });
+
+
+        if (appState.carShopList.length == 0) {
+            $.toast({
+                heading: 'Warning',
+                text: 'La orden esta vacia',
+                showHideTransition: 'slide',
+                icon: 'warning',
+                position: 'top-right',
+            });
+            return false;
+        }
+
+        if (itemInvalids.length > 0) {
+            itemInvalids.forEach((item) => {
+                $("#item-order-card-" + item[0]).css("background-color", "red");
+                $.toast({
+                    heading: 'Error',
+                    text: 'La referencia ' + item[0] + ' no tiene suficiente exitencia disponible',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    position: 'top-right',
+                });
+
+                reloadProductList();
+            });
+            return false;
+
+        } else {
+            return true;
+        }
+
+    }
+
+    const updatePreReserva = async () => {
+        let app_number = "";
+        let orderTotal = 0;
+        const data = {
+            correo: $("#email").val(),
+            region: $("#select-region").val(),
+        }
+
+        const arrDataRequest = [];
+
+        appState.carShopList.forEach((item, index) => {
+            let objGrille = [
+                item.CODIGO,
+                item.qty,
+                item.DESCRIPCION,
+                item.PRECIO1,
+                parseFloat(item.PRECIO1) * parseInt(item.qty),
+                index
+            ]
+
+            orderTotal += parseFloat(item.PRECIO1) * parseInt(item.qty);
+
+            arrDataRequest.push(objGrille);
+        });
+
+        data.datos = arrDataRequest;
+        data.total_orden = orderTotal;
+        data.nmb = $("#firstname").val();
+        data.apell = $("#lastname").val();
+        data.tlf = $("#phone").val();
+        data.lang = ($("#select-idioma").val() == "en") ? "en-001" : "sp-001";
+
+
+        await apiProcessMaker.UPDATE_PRE_RESERVA(data).then((res) => {
+            app_number = res;
+        })
+
+        return app_number;
+    }
+
+    const createOrderCase = (APP_NUMBER) => {
+        const data = {
+            pro_uid: constants.PRO_UID,
+            tas_uid: constants.TASK_UID_DIRECT_SEARCH,
+            variables: [{}]
+        };
+
+        data.variables[0].APP_NUMBER = APP_NUMBER;
+        data.variables[0].TASK_FROM = constants.TASK_NAME_DIRECT_SEARCH;
+        data.variables[0].REGION = $("#select-region").val();
+        data.variables[0].LANG = ($("#select-idioma").val() == "en") ? "en-001" : "sp-001";
+        data.variables[0].AP_CLI = $("#lastname").val();
+        data.variables[0].MAIL_CLI = $("#email").val();
+        data.variables[0].NMB_CLI = $("#firstname").val();
+        data.variables[0].TEL_CLI = $("#phone").val();
+        data.variables[0].TIPO_INICIO = 1;
+
+        requestCaseNotification();
+        apiProcessMaker.CREATE_ORDER_CASE(data);
+    }
+
+
+    $("#sendCase").click(async (e) => {
+        const clientType = await requestClientType();
+        if ($("#contactForm").valid()) {
+            if (clientType == 1) {
+                const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
+                if (validated) {
+                    updatePreReserva().then((res) => {
+                        createOrderCase(res);
+                    }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
+                } else {
+                    showToast("warning", translate('insuficientExistence', appState.userLang))
+                }
+            } else {
+                showToast("warning", translate('mustConfirEmail', appState.userLang))
+            }
+        } else {
+            showToast("warning", translate('invalidForm', appState.userLang))
+        }
+
+
+    });
+
+    const emailChange = async () => {
+        const res = await requestEmailValidate().then(res => res);
+
+        const clientName = res[1];
+        const clientLastname = res[2];
+        const clientPhone = res[3];
+        const clientLang = res[6] == 'sp-001' ? 'es' : 'en';
+        /*const region = res[5];
+        const land = res[4];
+        const score = res[7];*/
+
+        appState.userLang = clientLang;
+
+        switch (res[0]) {
+            case 0:
+                showToast("warning", translate('Ubi0Res0', appState.userLang));
+                $("#sendCase").attr('disabled', true);
+                break;
+            case 1:
+                showToast("warning", translate('Ubi0Res1', appState.userLang, [clientName, clientLastname]));
+                $("#sendCase").attr('disabled', false);
+                break;
+            case 2:
+                showToast("warning", translate('Ubi0Res2', appState.userLang, [clientName, clientLastname]));
+                $("#sendCase").attr('disabled', false);
+                break;
+            case 3:
+                showToast("warning", translate('Ubi0Res3', appState.userLang));
+                $("#sendCase").attr('disabled', true);
+                break;
+            case 4:
+                showToast("warning", translate('Ubi0Res4', appState.userLang));
+                $("#sendCase").attr('disabled', true);
+                break;
+        }
+
+        $("#firstname").val(clientName).blur();
+        $("#lastname").val(clientLastname).blur();
+        $("#phone").val(clientPhone).blur();
+
+    }
+
+    $("#email").change(async (e) => {
+        emailChange();
     });
 
 });

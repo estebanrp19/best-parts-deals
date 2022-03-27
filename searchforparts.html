@@ -49,14 +49,12 @@
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
                     <select class="form-select select-idioma" id="select-region">
-                        <option value="">Region</option>
                     </select>
                 </div>
 
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
                     <select class="form-select select-idioma" id="select-idioma">
-                        <option value="">Language/Idioma</option>
                         <option value="en">English</option>
                         <option value="es">Español</option>
                     </select>
@@ -100,7 +98,11 @@
             <span id="form-message"></span>
         </div>
 
+
+        <span id="pagination-top"></span>
         <div class="row products" id="products-list"></div>
+        <span id="pagination-botton"></span>
+
 
         <div class="row products">
 
@@ -150,6 +152,10 @@
             <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                 <div class="col">
                     <div class="mb-3 d-flex justify-content-center">
+                        <input id="email" name="email" type="email" class="form-control" placeholder="E-mail"
+                            style="max-width: 300px;">
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
                         <input id="firstname" name="firstname" type="text" class="form-control" placeholder="First Name"
                             style="max-width: 300px;">
                     </div>
@@ -157,17 +163,13 @@
                         <input id="lastname" name="lastname" type="text" class="form-control" placeholder="Last Name"
                             style="max-width: 300px;">
                     </div>
-                    <div class="mb-3 d-flex justify-content-center">
-                        <input id="email" name="email" type="email" class="form-control" placeholder="E-mail"
-                            style="max-width: 300px;">
-                    </div>
+
                     <div class="mb-3 d-flex justify-content-center">
                         <input id="phone" name="phone" type="text" class="form-control" placeholder="Telephone"
                             style="max-width: 300px;">
                     </div>
-
                     <div class="mb-3 d-flex justify-content-center">
-                        <button type="submit" value="submit" class="btn btn-secondary submit">Save
+                        <button type="submit" value="submit" class="btn btn-secondary submit" id="saveClient">Save
                             data?</button>
                     </div>
                 </div>
@@ -177,8 +179,7 @@
         <div class="row">
             <div class="col-12 title mb-1">
                 <h2>You can place your order here</h2>
-
-                <input type="submit" class="btn btn-primary" value="Order">
+                <input type="submit" class="btn btn-primary" value="Order" id="sendCase" disabled>
             </div>
         </div>
 
@@ -201,12 +202,17 @@
     <script src="libs/client-side-translator/jquery.translate.js"></script>
 
     <script src="resources/constants.js"></script>
+    <script src="resources/create-case-template.js"></script>
     <script src="resources/translate-dict.js"></script>
     <script src="resources/Api.js"></script>
     <script src="js/components/item-on-products-list.js"></script>
     <script src="js/components/item-on-order.js"></script>
+    <script src="js/components/pagination.js"></script>
     <script src="js/app.js"></script>
     <script src="utils/spinner.js"></script>
+    <script src="utils/customToast.js"></script>
+    <script src="resources/locales/langTranslate.js"></script>
+    <script src="utils/translate.js"></script>
 
 
 </body>
