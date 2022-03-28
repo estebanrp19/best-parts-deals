@@ -479,7 +479,7 @@ $(document).ready(function () {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty().append(
-            '<tr><th>Description</th><th>Code</th><th>Order</th><th>Unit price</th><th>Quantity</th><th>Total</th> </tr>'
+            '<tr><th>Description</th><th>Code</th><th>Order</th><th>Unit price</th><th>Quantity</th><th>Total</th><th>Actions</th></tr>'
         );
 
         appState.returnOrderSelected = data;
