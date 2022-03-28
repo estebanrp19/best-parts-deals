@@ -1,6 +1,6 @@
 const itemOnOrder = (data) => {
     const template = '<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" id="container-order-item-' + data.NUM_REG + '">' +
-        '<div class="box-items-order">' +
+        '<div class="box-items-order" id="item-order-card-' + data.CODIGO + '">' +
         '<div class="card-body">' +
         '<h5 class="card-tittle">' + data.APLICACION + ' - ' + data.DESCRIPCION + '</h5>' +
         '<p class="card-subtitle text-muted">$' + data.PRECIO1 + '</p>' +
