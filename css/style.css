@@ -27,10 +27,31 @@ body{
 .cuadro-header .informacion-header {
     text-align: center;
 }
+.cart-items{
+    margin-right: 20px;
+    margin-top: -95px;
+    float: right;
+    position: relative;
+}
+.number-rounded-cart{
+    position: absolute;
+    top: 0;
+    left: 68%;
+    background: #777;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 2px;
+}
+
 /* ---- ---- MAIN ---- ---- */
 
 .main .select-idioma{
-    margin-top: 15px;
+    margin-top: 3px;
     width: 300px;
 }
 .main .contenedor-formulario{
@@ -54,9 +75,32 @@ body{
 .main .contact {
     background: #f2f2f2;
 }
+.main .label-select {
+    margin-bottom: 1px;
+    margin-left: 10px;
+}
+.main .input-about{
+    width: 230px;
+}
 
+.main .input-element{
+    flex-direction: column;
+    margin: auto;
+    text-align: center;
+}
 /* ---- ---- ---- CARD RESPONSIVE ---- ---- ---- */
-
+.main .card{
+    height: 508px;
+}
+.main .box-items-order{
+    height: auto;
+    border: 1px solid #777;
+    border-radius: 5px;
+    padding-bottom: 15px;
+}
+.main .cardimg{
+    max-height: 281.5px;
+}
 .main .classcard{
     /* padding: 10px; */
     margin: auto;
@@ -78,7 +122,38 @@ body{
     float: right;
     margin: auto;
 }
-
-@media screen and (ma ) {
+.btn-add-delete{
+    float: right;
     
+}
+
+.quantity-text{
+    color: #777;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 2px;
+
+}
+.quantity-input{
+    color: #777;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 2px;
+    border: none;
+    width: 50px;
+}
+.error{
+    width: 100%;
+    color: #ff3333;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+.line-order{
+    height: 3px;
+    background: #777;
+}
+
+@media screen and (max-width: 768px) {
+    .main .card{
+        height: auto;
+    }
 }

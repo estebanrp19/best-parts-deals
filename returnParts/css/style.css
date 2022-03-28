@@ -29,7 +29,7 @@ body{
 
 /* ---- ---- MAIN ---- ---- */
 .main{
-    background: #F5FBFF;
+    background: #fff;
 }
 .main .select-idioma{
     margin-top: 15px;
@@ -38,7 +38,7 @@ body{
 .main .contenedor-formulario{
     width: 50%;
     text-align: center;
-    background: #F5FBFF;
+    background: #fff;
     border-right: 2px solid #eeeeee;
     border-left: 2px solid #eeeeee;
 }

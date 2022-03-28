@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
         integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -30,7 +31,8 @@
                     <div class="col-12 informacion-header">
                         <img src="img/logo.jpg" alt="">
                         <h1 class="tittle trn" data-trn-key="search-parts-title">Search for your parts</h1>
-                        <label for="">Items on Order: <span id="total-item-on-order">0</span></label>
+                        <label for="" class="cart-items"><i class="fa fa-shopping-cart fa_custom fa-2x"></i> 
+                            <span id="total-item-on-order" class="number-rounded-cart">0</span></label>
                     </div>
                 </div>
             </div>
@@ -49,14 +51,14 @@
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
                     <select class="form-select select-idioma" id="select-region">
-                        <option value="">Region</option>
+                        
                     </select>
                 </div>
 
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
                     <select class="form-select select-idioma" id="select-idioma">
-                        <option value="">Language/Idioma</option>
+                
                         <option value="en">English</option>
                         <option value="es">Español</option>
                     </select>
@@ -73,31 +75,40 @@
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
                     <div class="ui-widget">
-                        <label for="initYears" class="trn" data-trn-key="year_init_lbl">Year</label>
-                        <input id="model-year" type="number">
+                        <label for="initYears" class="trn label-select" data-trn-key="year_init_lbl">Year</label>
+                        <input id="model-year" class="form-control select-idioma input-about" type="number">
                     </div>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                    <label for="select-idioma"></label>
-                    <select class="form-select select-idioma" id="select-brand">
-                        <option value="" class="trn" data-trn-key="carBrand_lbl">Brand</option>
-                    </select>
+                    <div class="">
+                        <label for="select-idioma" class="label-selects label-select">Brand</label>
+                        <select class="form-select sel  ect-idioma input-about" id="select-brand">
+                            <option value="" class="trn" data-trn-key="carBrand_lbl"></option>
+                        </select>
+
+                    </div>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                    <label for="select-idioma"></label>
-                    <select class="form-select select-idioma" id="select-model">
-                        <option value="" class="trn" data-trn-key="carModel_lbl">Model</option>
-                    </select>
+                    <div class="">
+                        <label for="select-idioma" class="label-select">Model</label>
+                        <select class="form-select select-idioma input-about input-about" id="select-model" >
+                            <option value="" class="trn" data-trn-key="carModel_lbl">Model</option>
+                        </select>
+
+                    </div>
                 </div>
 
                 <div class="col d-flex justify-content-center">
-                    <label for="input-filter-text"></label>
-                    <input type="text" id="input-filter-text" placeholder="filtrar por la palabra..">
+                    <div class="">
+                        <label for="input-filter-text label-select" style="margin-left: 10px;">Filtrar</label>
+                        <input type="text" id="input-filter-text" class="form-control select-idioma input-about" placeholder="">
+                    </div>
                 </div>
             </div>
-            <span id="form-message"></span>
+            
+            <div id="form-message" class="error"></div>
         </div>
 
         <div class="row products" id="products-list"></div>
@@ -107,7 +118,7 @@
             <div class="card mb-3 d-block d-sm-block d-md-none">
                 <div class="row">
                     <div class="col-4 col-sm-4">
-                        <img src="img/MS97146.jpg" class="img-fluid rounded-start" alt="">
+                        <img src="img/MS97146.jpg" class="img-fluid rounded-start cardimg" alt="">
                     </div>
                     <div class="col-8 col-sm-8">
                         <div class="card-body">
@@ -131,10 +142,12 @@
                     </div>
                 </div>
             </div>
-            <!-- FIN PRUEBA CARD -->
+
         </div>
 
-        <hr>
+        <div class="line-order">
+            <hr>
+        </div>
 
         <div class="row products" id="products-add-to-order">
             <div class="col-12 title">
@@ -149,20 +162,21 @@
 
             <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                 <div class="col">
-                    <div class="mb-3 d-flex justify-content-center">
-                        <input id="firstname" name="firstname" type="text" class="form-control" placeholder="First Name"
+                    <div class="mb-3 d-flex justify-content-center input-element">
+                        <input id="firstname" name="firstname" type="text" class="form-control input-element" placeholder="First Name"
+                            style="max-width: 300px;">
+                            <!-- error -->
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center input-element">
+                        <input id="lastname" name="lastname" type="text" class="form-control input-element" placeholder="Last Name"
                             style="max-width: 300px;">
                     </div>
-                    <div class="mb-3 d-flex justify-content-center">
-                        <input id="lastname" name="lastname" type="text" class="form-control" placeholder="Last Name"
+                    <div class="mb-3 d-flex justify-content-center input-element">
+                        <input id="email" name="email" type="email" class="form-control input-element" placeholder="E-mail"
                             style="max-width: 300px;">
                     </div>
-                    <div class="mb-3 d-flex justify-content-center">
-                        <input id="email" name="email" type="email" class="form-control" placeholder="E-mail"
-                            style="max-width: 300px;">
-                    </div>
-                    <div class="mb-3 d-flex justify-content-center">
-                        <input id="phone" name="phone" type="text" class="form-control" placeholder="Telephone"
+                    <div class="mb-3 d-flex justify-content-center input-element">
+                        <input id="phone" name="phone" type="text" class="form-control input-element" placeholder="Telephone"
                             style="max-width: 300px;">
                     </div>
 
