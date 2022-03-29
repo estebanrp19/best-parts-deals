@@ -55,4 +55,28 @@ const dict = {
         en: "Items added to order",
         es: "Articulos agregados a la orden"
     },
+    "filter_lbl": {
+        en: "Filter",
+        es: "Filtrar"
+    },
+    "select_lbl": {
+        en: "Select",
+        es: "Seleccione"
+    },
+    "load_contact_info_lbl": {
+        en: "Load your contact info",
+        es: "Cargue su informaciòn de contacto"
+    },
+    "save_data_lbl": {
+        en: "Save data?",
+        es: "Guardar datos?"
+    },
+    "place_order_lbl": {
+        en: "You can place your order here",
+        es: "Puedes colocar tu orden aqui"
+    },
+    "order_btn": {
+        en: "Order",
+        es: "Ordenar"
+    },
 }

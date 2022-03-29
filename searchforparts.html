@@ -21,6 +21,9 @@
         integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css"
+        integrity="sha512-0V10q+b1Iumz67sVDL8LPFZEEavo6H/nBSyghr7mm9JEQkOAm91HNoZQRvQdjennBb/oEuW+8oZHVpIKq+d25g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -80,9 +83,10 @@
 
                 <div class="col d-flex justify-content-center">
                     <div class="">
-                        <label for="select-idioma" class="label-selects label-select">Brand</label>
+                        <label for="select-idioma" class="trn label-selects label-select"
+                            data-trn-key="carBrand_lbl">Brand</label>
                         <select class="form-select sel  ect-idioma input-about" id="select-brand">
-                            <option value="" class="trn" data-trn-key="carBrand_lbl"></option>
+                            <option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>
                         </select>
 
                     </div>
@@ -90,9 +94,9 @@
 
                 <div class="col d-flex justify-content-center">
                     <div class="">
-                        <label for="select-idioma" class="label-select">Model</label>
+                        <label for="select-idioma" class="trn label-select" data-trn-key="carModel_lbl">Model</label>
                         <select class="form-select select-idioma input-about input-about" id="select-model">
-                            <option value="" class="trn" data-trn-key="carModel_lbl">Model</option>
+                            <option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>
                         </select>
 
                     </div>
@@ -100,7 +104,8 @@
 
                 <div class="col d-flex justify-content-center">
                     <div class="">
-                        <label for="input-filter-text label-select" style="margin-left: 10px;">Filtrar</label>
+                        <label for="input-filter-text label-select" class="trn" data-trn-key="filter_lbl"
+                            style="margin-left: 10px;">Filtrar</label>
                         <input type="text" id="input-filter-text" class="form-control select-idioma input-about"
                             placeholder="">
                     </div>
@@ -111,41 +116,12 @@
         </div>
 
 
-        <span id="pagination-top"></span>
+        <span id="pagination-top" hidden></span>
         <div class="row products" id="products-list"></div>
-        <span id="pagination-botton"></span>
+        <span id="pagination-botton" hidden></span>
 
 
         <div class="row products">
-
-            <div class="card mb-3 d-block d-sm-block d-md-none">
-                <div class="row">
-                    <div class="col-4 col-sm-4">
-                        <img src="img/MS97146.jpg" class="img-fluid rounded-start cardimg" alt="">
-                    </div>
-                    <div class="col-8 col-sm-8">
-                        <div class="card-body">
-                            <p class="card-text">09-20 TOYOTA COROLLA Exhaust Manifold Gasket Set FEL-PRO </p>
-                            <p class="card-text"><small class="text-muted">$11.99</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-3 d-block d-sm-block d-md-none">
-                <div class="row">
-                    <div class="col-4 col-sm-4">
-                        <img src="img/RK640360.jpg" class="img-fluid rounded-start" alt="">
-                    </div>
-                    <div class="col-8 col-sm-8">
-                        <div class="card-body">
-                            <p class="card-text">03-13 TOYOTA COROLLA Drivestar Control Arm Front Lower RH</p>
-                            <p class="card-text"><small class="text-muted">$79.99</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div class="line-order">
@@ -160,13 +136,13 @@
 
         <div class="row contact">
             <div class="col-12 title">
-                <h2>Load your contact info</h2>
+                <h2 class="trn" data-trn-key="load_contact_info_lbl">Load your contact info</h2>
             </div>
 
             <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                 <div class="col">
                     <div class="mb-3 d-flex justify-content-center input-element">
-                        <input id="email" name="email" type="email" class="form-control input-element"
+                        <input id="email" name="email" type="email" class="trn form-control input-element"
                             placeholder="E-mail" style="max-width: 300px;">
                     </div>
                     <div class="mb-3 d-flex justify-content-center input-element">
@@ -183,7 +159,8 @@
                             placeholder="Telephone" style="max-width: 300px;">
                     </div>
                     <div class="mb-3 d-flex justify-content-center">
-                        <button type="submit" value="submit" class="btn btn-secondary submit" id="saveClient">Save
+                        <button type="submit" value="submit" class="trn btn btn-secondary submit" id="saveClient"
+                            data-trn-key="save_data_lbl">Save
                             data?</button>
                     </div>
                 </div>
@@ -192,8 +169,9 @@
 
         <div class="row">
             <div class="col-12 title mb-1">
-                <h2>You can place your order here</h2>
-                <input type="submit" class="btn btn-primary" value="Order" id="sendCase" disabled>
+                <h2 class="trn" data-trn-key="place_order_lbl">You can place your order here</h2>
+                <button type="submit" class="trn btn btn-primary" id="sendCase" disabled
+                    data-trn-key="order_btn">Order</button>
             </div>
         </div>
 
@@ -203,6 +181,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"
+        integrity="sha512-zP5W8791v1A6FToy+viyoyUUyjCzx+4K8XZCKzW28AnCoepPNIXecxh9mvGuy3Rt78OzEsU+VCvcObwAMvBAww=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
