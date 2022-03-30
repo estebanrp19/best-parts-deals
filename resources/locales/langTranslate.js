@@ -32,6 +32,8 @@ const langTranlate = {
         "cancel_return_btn": 'Cancelar returno',
         "select_order_btn": 'Seleccionar Orden',
         "return_item_btn": 'Retornar articulo',
+        "OrdersNotLoaded": 'No tiene ordenes cargadas',
+        "OrdersLoaded": "sus ordenes han sido cargadas exitosamente",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -67,5 +69,7 @@ const langTranlate = {
         "cancel_return_btn": 'Cancel return',
         "select_order_btn": 'Select order',
         "return_item_btn": 'Return item',
+        "OrdersNotLoaded": 'Dont have orders loaded',
+        "OrdersLoaded": "Your orders has been loaded",
     }
 }

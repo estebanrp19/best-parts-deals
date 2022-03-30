@@ -676,15 +676,14 @@ $(document).ready(function () {
 
     const emailChange = async (isReturn) => {
         const res = await requestEmailValidate(isReturn).then(res => res);
-
         const clientName = res[1];
         const clientLastname = res[2];
         const clientPhone = res[3];
-        const clientLang = res[4] == 'sp-001' ? 'es' : 'en';
-        /*const region = res[5];
-        const land = res[4];
-        const score = res[7];*/
+        const clientLang = res[4] == null ? $('#select-idioma').val() : 'sp-001' ? 'es' : 'en';
+        const orderList = res[7];
+        $('#order-selected').text('');
 
+        console.log('clientLang', res[4], clientLang)
         appState.userLang = clientLang;
 
         if (!isReturn) {
@@ -713,11 +712,42 @@ $(document).ready(function () {
         } else {
             switch (res[0]) {
                 case 0:
-                    showToast("warning", "no tiene ordenes cargadas");
+                    console.log(translate('OrdersNotLoaded', appState.userLang))
+                    showToast("warning", translate('OrdersNotLoaded', appState.userLang));
+
+                    $('#return-orders-list').empty();
+                    $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">Order</th> ' +
+                        '<th class="trn" scope="col" data-trn-key="date_th">Date</th> <th class="trn" scope="col" data-trn-key="number_item_th">Number of items</th> ' +
+                        '<th class="trn" scope="col" data-trn-key="order_total_th">Order total</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">is Returnable?</th> ' +
+                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>');
+
+                    $('#return-order-items').empty();
+                    $('#return-order-items').empty().append(
+                        '<tr> <th class="trn" scope="col" data-trn-key="description_th">Description</th> <th class="trn" scope="col" data-trn-key="code_th">Code</th>' +
+                        '<th class="trn" scope="col" data-trn-key="order_th">Order</th> <th class="trn" scope="col" data-trn-key="unit_price_th">Unit price</th>' +
+                        '<th class="trn" scope="col" data-trn-key="qty_th">Quantity</th> <th class="trn" scope="col" data-trn-key="total_th">Total</th>' +
+                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>'
+                    );
+
+                    $('#items-returned-list').empty();
+                    $('#items-returned-list').empty().append(
+                        '<tr> <th class="trn" scope="col" data-trn-key="description_th">Description</th> <th class="trn" scope="col" data-trn-key="code_th">Code</th>' +
+                        '<th class="trn" scope="col" data-trn-key="order_th">Order</th> <th class="trn" scope="col" data-trn-key="unit_price_th">Unit price</th>' +
+                        '<th class="trn" scope="col" data-trn-key="qty_th">Quantity</th> <th class="trn" scope="col" data-trn-key="total_th">Total</th>' +
+                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>'
+                    );
+
                     break;
                 case 1:
-                    showToast("success", "sus ordenes han sido cargadas exitosamente");
-                    const orderList = res[7];
+                    showToast("success", translate('OrdersLoaded', appState.userLang));
+
+                    $('#return-orders-list').empty();
+                    $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">Order</th> ' +
+                        '<th class="trn" scope="col" data-trn-key="date_th">Date</th> <th class="trn" scope="col" data-trn-key="number_item_th">Number of items</th> ' +
+                        '<th class="trn" scope="col" data-trn-key="order_total_th">Order total</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">is Returnable?</th> ' +
+                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>');
+
+
                     orderList.forEach((element, index) => {
                         const data = {};
                         data.id = element[0];
