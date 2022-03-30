@@ -171,6 +171,8 @@ $(document).ready(function () {
             translator.lang($(this).val());
         }
 
+        appState.langSelected = langSelected;
+
         $('#email').attr('placeholder', translate('email_placeholder', langSelected));
         $('#emailReturn').attr('placeholder', translate('email_placeholder', langSelected));
         $('#firstname').attr('placeholder', translate('firstname_placeholder', langSelected));
@@ -558,10 +560,13 @@ $(document).ready(function () {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty().append(
-            '<tr> <th class="trn" scope="col" data-trn-key="description_th">Description</th> <th class="trn" scope="col" data-trn-key="code_th">Code</th>' +
-            '<th class="trn" scope="col" data-trn-key="order_th">Order</th> <th class="trn" scope="col" data-trn-key="unit_price_th">Unit price</th>' +
-            '<th class="trn" scope="col" data-trn-key="qty_th">Quantity</th> <th class="trn" scope="col" data-trn-key="total_th">Total</th>' +
-            '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>'
+            '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
+            '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
+            '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
+            '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
+            '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
+            '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
+            '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
         );
 
         appState.returnOrderSelected = data;
@@ -662,6 +667,7 @@ $(document).ready(function () {
                         if (resPreReturn) {
                             createReturnCase().then((res) => {
                                 showToast('success', translate('preReturnSuccess', appState.userLang));
+                                clearReturnTables('all');
                             });
                             //showToast('success', translate('preReturnSuccess', appState.userLang));
                         }
@@ -673,6 +679,78 @@ $(document).ready(function () {
         });
 
     });
+
+    const clearReturnTables = (table) => {
+        switch (table) {
+            case 'all':
+                $('#return-orders-list').empty();
+                $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) + '</th> ' +
+                    '<th class="trn" scope="col" data-trn-key="date_th">' + translate('date_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="number_item_th">'
+                    + translate('number_item_th', appState.langSelected) + '</th> ' +
+                    '<th class="trn" scope="col" data-trn-key="order_total_th">' + translate('order_total_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">'
+                    + translate('is_returnable_th', appState.langSelected) + '</th> ' +
+                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>');
+
+                $('#return-order-items').empty();
+                $('#return-order-items').empty().append(
+                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
+                );
+
+                $('#items-returned-list').empty();
+                $('#items-returned-list').empty().append(
+                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
+                );
+                break;
+            case 'return-orders-list':
+                $('#return-orders-list').empty();
+                $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) + '</th> ' +
+                    '<th class="trn" scope="col" data-trn-key="date_th">' + translate('date_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="number_item_th">'
+                    + translate('number_item_th', appState.langSelected) + '</th> ' +
+                    '<th class="trn" scope="col" data-trn-key="order_total_th">' + translate('order_total_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">'
+                    + translate('is_returnable_th', appState.langSelected) + '</th> ' +
+                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>');
+
+                break;
+
+            case 'return-order-items':
+                $('#return-order-items').empty();
+                $('#return-order-items').empty().append(
+                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
+                );
+                break;
+
+            case 'items-returned-list':
+                $('#items-returned-list').empty();
+                $('#items-returned-list').empty().append(
+                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
+                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
+                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
+                );
+                break;
+        }
+    }
 
     const emailChange = async (isReturn) => {
         const res = await requestEmailValidate(isReturn).then(res => res);
@@ -715,38 +793,13 @@ $(document).ready(function () {
                     console.log(translate('OrdersNotLoaded', appState.userLang))
                     showToast("warning", translate('OrdersNotLoaded', appState.userLang));
 
-                    $('#return-orders-list').empty();
-                    $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">Order</th> ' +
-                        '<th class="trn" scope="col" data-trn-key="date_th">Date</th> <th class="trn" scope="col" data-trn-key="number_item_th">Number of items</th> ' +
-                        '<th class="trn" scope="col" data-trn-key="order_total_th">Order total</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">is Returnable?</th> ' +
-                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>');
-
-                    $('#return-order-items').empty();
-                    $('#return-order-items').empty().append(
-                        '<tr> <th class="trn" scope="col" data-trn-key="description_th">Description</th> <th class="trn" scope="col" data-trn-key="code_th">Code</th>' +
-                        '<th class="trn" scope="col" data-trn-key="order_th">Order</th> <th class="trn" scope="col" data-trn-key="unit_price_th">Unit price</th>' +
-                        '<th class="trn" scope="col" data-trn-key="qty_th">Quantity</th> <th class="trn" scope="col" data-trn-key="total_th">Total</th>' +
-                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>'
-                    );
-
-                    $('#items-returned-list').empty();
-                    $('#items-returned-list').empty().append(
-                        '<tr> <th class="trn" scope="col" data-trn-key="description_th">Description</th> <th class="trn" scope="col" data-trn-key="code_th">Code</th>' +
-                        '<th class="trn" scope="col" data-trn-key="order_th">Order</th> <th class="trn" scope="col" data-trn-key="unit_price_th">Unit price</th>' +
-                        '<th class="trn" scope="col" data-trn-key="qty_th">Quantity</th> <th class="trn" scope="col" data-trn-key="total_th">Total</th>' +
-                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>'
-                    );
+                    clearReturnTables('all');
 
                     break;
                 case 1:
                     showToast("success", translate('OrdersLoaded', appState.userLang));
 
-                    $('#return-orders-list').empty();
-                    $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">Order</th> ' +
-                        '<th class="trn" scope="col" data-trn-key="date_th">Date</th> <th class="trn" scope="col" data-trn-key="number_item_th">Number of items</th> ' +
-                        '<th class="trn" scope="col" data-trn-key="order_total_th">Order total</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">is Returnable?</th> ' +
-                        '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>');
-
+                    clearReturnTables('return-orders-list');
 
                     orderList.forEach((element, index) => {
                         const data = {};
