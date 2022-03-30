@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
-                    <select class="form-select select-idioma" id="select-idioma">
+                    <select class="form-select select-idioma mt-3" id="select-idioma">
                         <option value="en">English</option>
                         <option value="es">Español</option>
                     </select>
@@ -52,7 +52,7 @@
                 <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                     <div class="col">
                         <div class="mb-3 d-flex justify-content-center">
-                            <input id="emailReturn" name="email" type="email" class="form-control" placeholder="E-mail"
+                            <input id="emailReturn" name="email" type="email" class="form-control mt-3" placeholder="E-mail"
                                 style="max-width: 300px;">
                         </div>
                         <div class="mb-3 d-flex justify-content-center">
@@ -73,51 +73,55 @@
         </div>
 
         <div class="row">
-            <table id="return-orders-list">
+            <table class="table table-striped" id="return-orders-list">
+                <label for="">Table 1</label>
                 <tr>
-                    <th>order</th>
-                    <th>Date</th>
-                    <th>Number of items</th>
-                    <th>Order total</th>
-                    <th>is Returnable?</th>
-                    <th>Actions</th>
+                    <th scope="col">order</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Number of items</th>
+                    <th scope="col">Order total</th>
+                    <th scope="col">is Returnable?</th>
+                    <th scope="col">Actions</th>
                 </tr>
 
             </table>
         </div>
 
         <div class="row">
-            <Label>Order Number: <span id="order-selected"></span></Label>
-            <table id="return-order-items">
+            
+            <Label class="orden-number">Order Number: <span id="order-selected"></span></Label>
+            <table class="table" id="return-order-items">
+                <th scope="col">Tabla 2</th>
                 <tr>
-                    <th>Description</th>
-                    <th>Code</th>
-                    <th>Order</th>
-                    <th>Unit price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Actions</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Unit price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </table>
         </div>
 
         <div class="row">
-            <table id="items-returned-list">
+            <table class="table" id="items-returned-list">
+                <label for="">Tabla 3</label>
                 <tr>
-                    <th>Description</th>
-                    <th>Code</th>
-                    <th>Order</th>
-                    <th>Unit price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Actions</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Unit price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Actions</th>
                 </tr>
 
             </table>
         </div>
 
         <div class="col-12 contenedor-input-label mb-4">
-            <input class="inputclass" type="submit" id="input-submit" value="Enviar">
+            <input class="inputclass btn btn-primary" type="submit" id="input-submit" value="Enviar">
         </div>
 
     </section>
