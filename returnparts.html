@@ -45,7 +45,7 @@
             <div class="row">
                 <div class="col d-flex justify-content-center">
                     <label for="select-idioma"></label>
-                    <select class="form-select select-idioma" id="select-idioma">
+                    <select class="form-select select-idioma mt-3" id="select-idioma">
                         <option value="en">English</option>
                         <option value="es">Español</option>
                     </select>
@@ -56,8 +56,8 @@
                 <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                     <div class="col">
                         <div class="mb-3 d-flex justify-content-center input-element">
-                            <input id="emailReturn" name="emailreturn" type="email"
-                                class="trn form-control input-element" placeholder="E-mail" style="max-width: 300px;">
+                            <input id="emailReturn" name="emailreturn" type="email" class="trn form-control mt-3"
+                                placeholder="E-mail" style="max-width: 300px;">
                         </div>
                         <div class="mb-3 d-flex justify-content-center input-element">
                             <input id="firstname" name="firstname" type="text" class="form-control input-element"
@@ -83,7 +83,8 @@
         </div>
 
         <div class="row">
-            <table id="return-orders-list">
+            <table class="table table-striped" id="return-orders-list">
+                <label for="">Table 1</label>
                 <tr>
                     <th class="trn" scope="col" data-trn-key="order_th">Order</th>
                     <th class="trn" scope="col" data-trn-key="date_th">Date</th>
@@ -97,8 +98,10 @@
         </div>
 
         <div class="row">
-            <Label>Order Number: <span id="order-selected"></span></Label>
-            <table id="return-order-items">
+
+            <Label class="orden-number">Order Number: <span id="order-selected"></span></Label>
+            <table class="table" id="return-order-items">
+                <th scope="col">Tabla 2</th>
                 <tr>
                     <th class="trn" scope="col" data-trn-key="description_th">Description</th>
                     <th class="trn" scope="col" data-trn-key="code_th">Code</th>
@@ -112,7 +115,8 @@
         </div>
 
         <div class="row">
-            <table id="items-returned-list">
+            <table class="table" id="items-returned-list">
+                <label for="">Tabla 3</label>
                 <tr>
                     <th class="trn" scope="col" data-trn-key="description_th">Description</th>
                     <th class="trn" scope="col" data-trn-key="code_th">Code</th>
@@ -126,7 +130,8 @@
         </div>
 
         <div class="col-12 contenedor-input-label mb-4">
-            <button class="trn inputclass" type="button" id="sendReturn" data-trn-key="send_return_btn">Request
+            <button class="trn inputclass btn btn-primary" type="button" id="sendReturn"
+                data-trn-key="send_return_btn">Request
                 return</button>
         </div>
 

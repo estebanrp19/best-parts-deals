@@ -65,7 +65,12 @@ body{
 .contenedor-input-label-telephone {
     margin-bottom: 20px;
 }
+/* ---- ---- TABLA ---- ---- */
+.table {
+    background: #000;
+}
 
+/* ---- ---- RESPONSIVE DESING ---- ---- */
 @media screen and (max-width: 694px){
     .main .contenedor-formulario{
         width: 100%;
@@ -80,5 +85,4 @@ body{
     }   
     .main .formulario .labelclass-email{
         display: none;
-    }
-}
+    }}

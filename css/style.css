@@ -55,9 +55,9 @@ body{
     width: 300px;
 }
 .main .contenedor-formulario{
-    width: 50%;
+    width: 80%;
     text-align: center;
-    background: #F5FBFF;
+    /* background: #F5FBFF; */
     border-right: 2px solid #eeeeee;
     border-left: 2px solid #eeeeee;
 }
@@ -90,7 +90,8 @@ body{
 }
 /* ---- ---- ---- CARD RESPONSIVE ---- ---- ---- */
 .main .card{
-    height: 508px;
+    min-height: 512px;
+    overflow: hidden;
 }
 .main .box-items-order{
     height: auto;
@@ -156,4 +157,24 @@ body{
     .main .card{
         height: auto;
     }
+}
+
+/* ---- ---- TABLE ---- ---- */
+table {
+    width: 100%;
+    border: 1px solid #000;
+ }
+ th, td {
+    /* width: 25%; */
+    border: 1px solid #000;
+ }
+ .orden-number{
+     padding: 10px;
+ }
+.btn-select-case-return{
+    padding: 5px 10px;
+    border: none;
+    background: #0D6EFD;
+    color: #fff;
+    border-radius: 5px;
 }
