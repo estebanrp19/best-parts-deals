@@ -83,7 +83,6 @@ class Api {
 
 class ApiProcessMaker {
 
-
     VALIDATE_EXISTENCE = async (data) => {
         return $.ajax({
             method: "POST",
