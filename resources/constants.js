@@ -20,9 +20,11 @@ const constants = {
         UPDATE_PRERESERVA: "/pm/update-pre-reserva",
         SAVE_CLIENT: "/pm/save-client",
         CREATE_ORDER_CASE: "/pm/create-case",
+        PRE_RETURN: "/pm/pre-return",
         RETURN_ITEMS: "/pm/return-items"
     },
-    TASK_UID_DIRECT_SEARCH: "88981594356c9ef90b4bb48005562106",
     TASK_NAME_DIRECT_SEARCH: "direct_search",
-    PRO_UID: "51619574156c9451f180a57008793936"
+    TASK_UID_DIRECT_SEARCH: "88981594356c9ef90b4bb48005562106",
+    TASK_NAME_RETURN: "retornos",
+    TASK_UID_RETURN: "754598695606bb6b494b4e1090394054",
 }

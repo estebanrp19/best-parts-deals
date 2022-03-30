@@ -16,7 +16,7 @@ $(document).ready(function () {
     }
 
     $('#select-region').val("USA-001");
-    $('#select-idioma').val("es");
+    $('#select-idioma').val("en");
 
     $('#pagination-top').html(pagination());
     $('#pagination-botton').html(pagination());
@@ -170,14 +170,20 @@ $(document).ready(function () {
         } else {
             translator.lang($(this).val());
         }
+
+        $('#email').attr('placeholder', translate('email_placeholder', langSelected));
+        $('#emailReturn').attr('placeholder', translate('email_placeholder', langSelected));
+        $('#firstname').attr('placeholder', translate('firstname_placeholder', langSelected));
+        $('#lastname').attr('placeholder', translate('lastname_placeholder', langSelected));
+        $('#phone').attr('placeholder', translate('telephone_placeholder', langSelected));
     });
 
     $("#select-brand").on("change", function () {
-        $('#select-model')
+        /* $('#select-model')
             .find('option')
             .remove()
             .end()
-            .append('<option value="" class="trn" data-trn-key="carModel_lbl">Model</option>');
+            .append('<option value="" class="trn" data-trn-key="carModel_lbl">Model</option>'); */
 
         spinner.show();
         const brandSelected = $(this).val();
@@ -441,15 +447,58 @@ $(document).ready(function () {
         return app_number;
     }
 
+    const requestPreReturn = async () => {
+        const data = {
+            correo: $("#emailReturn").val()
+        };
+
+        let resPreReturn = null;
+
+        arrDataRequest = [];
+        returnOrderTotal = 0;
+        itemQtyTotal = 0;
+
+        if (!appState.itemsReturned.length) {
+            showToast('success', translate('preReturnEmpty', appState.userLang));
+        } else {
+
+
+            appState.itemsReturned.forEach((item, index) => {
+                itemQtyTotal += parseInt(item.qty);
+
+                let objGrille = [
+                    item.itemCode,
+                    item.itemPrice,
+                    item.qty,
+                    itemQtyTotal,
+                    item.orderId,
+                    item.description
+                ]
+
+
+                returnOrderTotal += parseFloat(item.itemPrice) * parseInt(item.qty);
+
+                arrDataRequest.push(objGrille);
+            });
+
+            data.datos = arrDataRequest;
+            data.total_price_ret = returnOrderTotal;
+            data.total_qty_ret = itemQtyTotal;
+
+            resPreReturn = await apiProcessMaker.PRE_RETURN(data).then((res) => res);
+        }
+
+        return resPreReturn;
+    }
+
     const createOrderCase = (APP_NUMBER) => {
         const data = {
-            pro_uid: constants.PRO_UID,
             tas_uid: constants.TASK_UID_DIRECT_SEARCH,
             variables: [{}]
         };
 
-        data.variables[0].APP_NUMBER = APP_NUMBER;
         data.variables[0].TASK_FROM = constants.TASK_NAME_DIRECT_SEARCH;
+        data.variables[0].APP_NUMBER = APP_NUMBER;
         data.variables[0].REGION = $("#select-region").val();
         data.variables[0].LANG = ($("#select-idioma").val() == "en") ? "en-001" : "sp-001";
         data.variables[0].AP_CLI = $("#lastname").val();
@@ -460,10 +509,40 @@ $(document).ready(function () {
 
         appState.carShopList = [];
         $('#products-add-to-order').empty();
-        apiProcessMaker.CREATE_ORDER_CASE(data);
+        apiProcessMaker.CREATE_CASE(data);
 
     }
 
+    const createReturnCase = (APP_NUMBER) => {
+        const data = {
+            tas_uid: constants.TASK_UID_DIRECT_SEARCH,
+            variables: [{}]
+        };
+
+        data.variables[0].TASK_FROM = constants.TASK_NAME_RETURN;
+        data.variables[0].CASE_OPTION = 4;
+        data.variables[0].MAIL_CLI = $("#emailReturn").val();
+        data.variables[0].NMB_CLI = $("#firstname").val();
+        data.variables[0].AP_CLI = $("#lastname").val();
+        data.variables[0].TEL_CLI = $("#phone").val();
+        data.variables[0].INDEX = 2;
+        data.variables[0].MATCH_ID = 1;
+        data.variables[0].REGION = $("#select-region").val();
+        data.variables[0].LANG = ($("#select-idioma").val() == "en") ? "en-001" : "sp-001";
+        data.variables[0].LANG_CLI = (appState.userLang == "en") ? "en-001" : "sp-001";;
+
+        if ($("#select-region").val() == "VEN-001") {
+            data.variables[0].ORDER_NUMBER_SP = APP_NUMBER; //APP_NUMBER
+        } else {
+            data.variables[0].ORDER_NUMBER = APP_NUMBER; //APP_NUMBER
+        }
+
+        //appState.carShopList = [];
+        //$('#products-add-to-order').empty();
+        const response = apiProcessMaker.CREATE_CASE(data);
+        return response;
+
+    }
     const requestGetOrder = async (data) => {
         const params = {
             correo: $("#emailReturn").val(),
@@ -479,7 +558,10 @@ $(document).ready(function () {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty().append(
-            '<tr><th>Description</th><th>Code</th><th>Order</th><th>Unit price</th><th>Quantity</th><th>Total</th><th>Actions</th></tr>'
+            '<tr> <th class="trn" data-trn-key="description_th">Description</th> <th class="trn" data-trn-key="code_th">Code</th>' +
+            '<th class="trn" data-trn-key="order_th">Order</th> <th class="trn" data-trn-key="unit_price_th">Unit price</th>' +
+            '<th class="trn" data-trn-key="qty_th">Quantity</th> <th class="trn" data-trn-key="total_th">Total</th>' +
+            '<th class="trn" data-trn-key="actions_th">Actions</th> </tr>'
         );
 
         appState.returnOrderSelected = data;
@@ -509,49 +591,86 @@ $(document).ready(function () {
             $('#btn-return-item-' + item.orderId + '-' + item.itemCode).click(() => {
                 selectReturnItem(item);
                 $('#tr-return-item-' + item.orderId + '-' + item.itemCode).remove()
-            })
+            });
+            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
         })
 
     }
-
-
 
     const selectReturnItem = (data) => {
 
         appState.itemsReturned.push(data);
         $('#items-returned-list').append(itemsReturnedList(data));
+        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', $("#select-idioma").val()));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).click(() => {
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
             appState.itemsReturned.splice(itemFound, 1);
             $('#tr-remove-item-returned-' + data.orderId + '-' + data.itemCode).remove();
             selectReturnOrder(appState.returnOrderSelected);
-            console.log('itemsReturned', appState.itemsReturned, $('#order-selected').text())
         });
 
     }
 
-
-
     $("#sendCase").click(async (e) => {
-        const clientType = await requestClientType();
-        console.log(clientType)
-        if ($("#contactForm").valid()) {
-            if (clientType[2] == 1) {
-                const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
-                if (validated) {
-                    updatePreReserva().then((res) => {
-                        createOrderCase(res);
-                    }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
-                } else {
-                    showToast("warning", translate('insuficientExistence', appState.userLang))
-                }
-            } else {
-                showToast("warning", translate('mustConfirEmail', appState.userLang))
-            }
-        } else {
-            showToast("warning", translate('invalidForm', appState.userLang))
-        }
+        const confirmar = translate('confirm', appState.userLang);
+        const cancelar = translate('cancel', appState.userLang);
 
+        $.confirm({
+            title: translate('confirmOderTitle', appState.userLang),
+            content: translate('preOrderAgree', appState.userLang),
+            buttons: {
+                confirmar: {
+                    text: confirmar,
+                    action: async () => {
+                        const clientType = await requestClientType();
+                        if ($("#contactForm").valid()) {
+                            if (clientType[2] == 1) {
+                                const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
+                                if (validated) {
+                                    updatePreReserva().then((res) => {
+                                        createOrderCase(res);
+                                    }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
+                                } else {
+                                    showToast("warning", translate('insuficientExistence', appState.userLang))
+                                }
+                            } else {
+                                showToast("warning", translate('mustConfirEmail', appState.userLang))
+                            }
+                        } else {
+                            showToast("warning", translate('invalidForm', appState.userLang))
+                        }
+                    }
+
+                },
+                cancelar: { text: cancelar },
+            }
+        });
+    });
+
+    $("#sendReturn").click(async (e) => {
+        const confirmar = translate('confirm', appState.userLang);
+        const cancelar = translate('cancel', appState.userLang);
+
+        $.confirm({
+            title: translate('confirmReturnTitle', appState.userLang),
+            content: translate('preReturnAgree', appState.userLang),
+            buttons: {
+                confirmar: {
+                    text: confirmar,
+                    action: async () => {
+                        const resPreReturn = await requestPreReturn().then((res) => res);
+                        if (resPreReturn) {
+                            createReturnCase().then((res) => {
+                                showToast('success', translate('preReturnSuccess', appState.userLang));
+                            });
+                            //showToast('success', translate('preReturnSuccess', appState.userLang));
+                        }
+                    }
+
+                },
+                cancelar: { text: cancelar },
+            }
+        });
 
     });
 
@@ -561,7 +680,7 @@ $(document).ready(function () {
         const clientName = res[1];
         const clientLastname = res[2];
         const clientPhone = res[3];
-        const clientLang = res[6] == 'sp-001' ? 'es' : 'en';
+        const clientLang = res[4] == 'sp-001' ? 'es' : 'en';
         /*const region = res[5];
         const land = res[4];
         const score = res[7];*/
@@ -608,11 +727,17 @@ $(document).ready(function () {
                         data.isReturnable = element[4] ? 'Si' : 'No';
 
                         $('#return-orders-list')
-                            .append(returnOrders(data));
+                            .append(returnOrders(data, data.isReturnable));
+
+                        if (!element[4]) {
+                            $('#btn-select-return-order-' + data.id).attr('disabled', true)
+                        }
 
                         $('#btn-select-return-order-' + data.id).click(() => {
                             selectReturnOrder(data);
-                        })
+                        });
+
+                        $('#btn-select-return-order-' + data.id).text(translate('select_order_btn', $("#select-idioma").val()))
                     })
                     break;
             }
@@ -632,11 +757,13 @@ $(document).ready(function () {
         emailChange(true);
     });
 
+
+
     const requestReturnItems = async () => {
-        const reStReturnItems = await apiProcessMaker.RETURN_ITEMS({ test: 'test' }).then((res) => res);
-        return reStReturnItems;
+        //const reStReturnItems = await apiProcessMaker.RETURN_ITEMS({ test: 'test' }).then((res) => res);
+        //return reStReturnItems;
     }
 
-    requestReturnItems()
+    //requestReturnItems()
 
 });

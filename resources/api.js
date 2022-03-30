@@ -114,7 +114,7 @@ class ApiProcessMaker {
         });
     };
 
-    CREATE_ORDER_CASE = async (data) => {
+    CREATE_CASE = async (data) => {
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -123,6 +123,16 @@ class ApiProcessMaker {
             url: constants.BASE_URL + constants.WORKFLOW_API_REST.CREATE_ORDER_CASE
         });
     }
+
+    PRE_RETURN = async (data) => {
+        return $.ajax({
+            method: "POST",
+            dataType: 'json',
+            data,
+            crossDomain: true,
+            url: constants.BASE_URL + constants.WORKFLOW_API_REST.PRE_RETURN
+        })
+    };
 
     RETURN_ITEMS = async (data) => {
         return $.ajax({
