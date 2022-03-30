@@ -558,10 +558,10 @@ $(document).ready(function () {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty().append(
-            '<tr> <th class="trn" data-trn-key="description_th">Description</th> <th class="trn" data-trn-key="code_th">Code</th>' +
-            '<th class="trn" data-trn-key="order_th">Order</th> <th class="trn" data-trn-key="unit_price_th">Unit price</th>' +
-            '<th class="trn" data-trn-key="qty_th">Quantity</th> <th class="trn" data-trn-key="total_th">Total</th>' +
-            '<th class="trn" data-trn-key="actions_th">Actions</th> </tr>'
+            '<tr> <th class="trn" scope="col" data-trn-key="description_th">Description</th> <th class="trn" scope="col" data-trn-key="code_th">Code</th>' +
+            '<th class="trn" scope="col" data-trn-key="order_th">Order</th> <th class="trn" scope="col" data-trn-key="unit_price_th">Unit price</th>' +
+            '<th class="trn" scope="col" data-trn-key="qty_th">Quantity</th> <th class="trn" scope="col" data-trn-key="total_th">Total</th>' +
+            '<th class="trn" scope="col" data-trn-key="actions_th">Actions</th> </tr>'
         );
 
         appState.returnOrderSelected = data;

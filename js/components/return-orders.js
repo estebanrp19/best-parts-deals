@@ -6,7 +6,7 @@ const returnOrders = (data) => {
         '<td id="orderQtyItem">' + data.qtyItems + '</td>' +
         '<td id="ordetTotal">' + data.total + '</td>' +
         '<td id="orderIsReturnable">' + data.isReturnable + '</td>' +
-        '<td><button class="trn btn-select-case-return" data-trn-key="select_order_btn" id="btn-select-return-order-' + data.id + '">Select order</button></td>' +
+        '<td><button class="trn btn-case-return" data-trn-key="select_order_btn" id="btn-select-return-order-' + data.id + '">Select order</button></td>' +
         '</tr>'
 
     return template;

@@ -7,7 +7,7 @@ const returnOrderItem = (data) => {
         '<td id="itemPrice">' + data.itemPrice + '</td>' +
         '<td id="qty">' + data.qty + '</td>' +
         '<td id="total">' + data.total + '</td>' +
-        '<td><button class="trn" data-trn-key="return_item_btn" id="btn-return-item-' + data.orderId + '-' + data.itemCode + '">Return item</button></td>' +
+        '<td><button class="trn btn-case-return" data-trn-key="return_item_btn" id="btn-return-item-' + data.orderId + '-' + data.itemCode + '">Return item</button></td>' +
         '</tr>'
 
     return template;

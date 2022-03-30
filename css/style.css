@@ -160,21 +160,17 @@ body{
 }
 
 /* ---- ---- TABLE ---- ---- */
-table {
-    width: 100%;
-    border: 1px solid #000;
- }
- th, td {
-    /* width: 25%; */
-    border: 1px solid #000;
- }
+
  .orden-number{
      padding: 10px;
  }
-.btn-select-case-return{
+.btn-case-return{
     padding: 5px 10px;
     border: none;
     background: #0D6EFD;
     color: #fff;
     border-radius: 5px;
+}
+.btn-case-return:hover{
+    background: #0a58ca;
 }
