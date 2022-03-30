@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
         integrity="sha512-wJgJNTBBkLit7ymC6vvzM1EcSWeM9mmOu+1USHaRBbHkm6W9EgM0HY27+UtUaprntaYQJF75rc8gjxllKs5OIQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css"
         integrity="sha512-0V10q+b1Iumz67sVDL8LPFZEEavo6H/nBSyghr7mm9JEQkOAm91HNoZQRvQdjennBb/oEuW+8oZHVpIKq+d25g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -32,7 +33,7 @@
                 <div class="row">
                     <div class="col-12 informacion-header">
                         <img src="img/logo.jpg" alt="">
-                        <h1 class="tittle">Start a return case</h1>
+                        <h1 class="trn tittle" data-trn-key="start_return_case">Start a return case</h1>
                     </div>
                 </div>
             </div>
@@ -54,23 +55,29 @@
             <div class="row">
                 <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                     <div class="col">
-                        <div class="mb-3 d-flex justify-content-center">
-                            <input id="emailReturn" name="email" type="email" class="form-control" placeholder="E-mail"
-                                style="max-width: 300px;">
+                        <div class="mb-3 d-flex justify-content-center input-element">
+                            <input id="emailReturn" name="emailreturn" type="email"
+                                class="trn form-control input-element" placeholder="E-mail" style="max-width: 300px;">
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
-                            <input id="firstname" name="firstname" type="text" class="form-control" disabled
+                        <div class="mb-3 d-flex justify-content-center input-element">
+                            <input id="firstname" name="firstname" type="text" class="form-control input-element"
                                 placeholder="First Name" style="max-width: 300px;">
+                            <!-- error -->
                         </div>
-                        <div class="mb-3 d-flex justify-content-center">
-                            <input id="lastname" name="lastname" type="text" class="form-control" disabled
+                        <div class="mb-3 d-flex justify-content-center input-element">
+                            <input id="lastname" name="lastname" type="text" class="form-control input-element"
                                 placeholder="Last Name" style="max-width: 300px;">
                         </div>
-
-                        <div class="mb-3 d-flex justify-content-center">
-                            <input id="phone" name="phone" type="text" class="form-control" placeholder="Telephone"
-                                disabled style="max-width: 300px;">
+                        <div class="mb-3 d-flex justify-content-center input-element">
+                            <input id="phone" name="phone" type="text" class="form-control input-element"
+                                placeholder="Telephone" style="max-width: 300px;">
                         </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button type="submit" value="submit" class="trn btn btn-secondary submit" id="saveClient"
+                                data-trn-key="save_data_lbl">Save
+                                data?</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -78,12 +85,12 @@
         <div class="row">
             <table id="return-orders-list">
                 <tr>
-                    <th>order</th>
-                    <th>Date</th>
-                    <th>Number of items</th>
-                    <th>Order total</th>
-                    <th>is Returnable?</th>
-                    <th>Actions</th>
+                    <th class="trn" data-trn-key="order_th">Order</th>
+                    <th class="trn" data-trn-key="date_th">Date</th>
+                    <th class="trn" data-trn-key="number_item_th">Number of items</th>
+                    <th class="trn" data-trn-key="order_total_th">Order total</th>
+                    <th class="trn" data-trn-key="is_returnable_th">is Returnable?</th>
+                    <th class="trn" data-trn-key="actions_th">Actions</th>
                 </tr>
 
             </table>
@@ -93,13 +100,13 @@
             <Label>Order Number: <span id="order-selected"></span></Label>
             <table id="return-order-items">
                 <tr>
-                    <th>Description</th>
-                    <th>Code</th>
-                    <th>Order</th>
-                    <th>Unit price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Actions</th>
+                    <th class="trn" data-trn-key="description_th">Description</th>
+                    <th class="trn" data-trn-key="code_th">Code</th>
+                    <th class="trn" data-trn-key="order_th">Order</th>
+                    <th class="trn" data-trn-key="unit_price_th">Unit price</th>
+                    <th class="trn" data-trn-key="qty_th">Quantity</th>
+                    <th class="trn" data-trn-key="total_th">Total</th>
+                    <th class="trn" data-trn-key="actions_th">Actions</th>
                 </tr>
             </table>
         </div>
@@ -107,20 +114,20 @@
         <div class="row">
             <table id="items-returned-list">
                 <tr>
-                    <th>Description</th>
-                    <th>Code</th>
-                    <th>Order</th>
-                    <th>Unit price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Actions</th>
+                    <th class="trn" data-trn-key="description_th">Description</th>
+                    <th class="trn" data-trn-key="code_th">Code</th>
+                    <th class="trn" data-trn-key="order_th">Order</th>
+                    <th class="trn" data-trn-key="unit_price_th">Unit price</th>
+                    <th class="trn" data-trn-key="qty_th">Quantity</th>
+                    <th class="trn" data-trn-key="total_th">Total</th>
+                    <th class="trn" data-trn-key="actions_th">Actions</th>
                 </tr>
-
             </table>
         </div>
 
         <div class="col-12 contenedor-input-label mb-4">
-            <input class="inputclass" type="button" value="Enviar" id="sendReturn">
+            <button class="trn inputclass" type="button" id="sendReturn" data-trn-key="send_return_btn">Request
+                return</button>
         </div>
 
     </section>

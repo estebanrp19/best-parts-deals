@@ -27,6 +27,11 @@ const langTranlate = {
         "firstname_placeholder": 'Primer Nombre',
         "lastname_placeholder": 'Apellido',
         "telephone_placeholder": 'Teléfono',
+        "start_return_case": 'Iniciar una orden de retorno',
+        "order_lbl": 'Orden',
+        "cancel_return_btn": 'Cancelar returno',
+        "select_order_btn": 'Seleccionar Orden',
+        "return_item_btn": 'Retornar articulo',
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -57,5 +62,10 @@ const langTranlate = {
         "firstname_placeholder": 'First Name',
         "lastname_placeholder": 'Last Name',
         "telephone_placeholder": 'Telephone',
+        "start_return_case": 'Start a return case',
+        "order_lbl": 'Order',
+        "cancel_return_btn": 'Cancel return',
+        "select_order_btn": 'Select order',
+        "return_item_btn": 'Return item',
     }
 }

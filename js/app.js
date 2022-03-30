@@ -172,6 +172,7 @@ $(document).ready(function () {
         }
 
         $('#email').attr('placeholder', translate('email_placeholder', langSelected));
+        $('#emailReturn').attr('placeholder', translate('email_placeholder', langSelected));
         $('#firstname').attr('placeholder', translate('firstname_placeholder', langSelected));
         $('#lastname').attr('placeholder', translate('lastname_placeholder', langSelected));
         $('#phone').attr('placeholder', translate('telephone_placeholder', langSelected));
@@ -528,7 +529,7 @@ $(document).ready(function () {
         data.variables[0].MATCH_ID = 1;
         data.variables[0].REGION = $("#select-region").val();
         data.variables[0].LANG = ($("#select-idioma").val() == "en") ? "en-001" : "sp-001";
-        data.variables[0].LANG_CLI = appState.userLang;
+        data.variables[0].LANG_CLI = (appState.userLang == "en") ? "en-001" : "sp-001";;
 
         if ($("#select-region").val() == "VEN-001") {
             data.variables[0].ORDER_NUMBER_SP = APP_NUMBER; //APP_NUMBER
@@ -557,7 +558,10 @@ $(document).ready(function () {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty().append(
-            '<tr><th>Description</th><th>Code</th><th>Order</th><th>Unit price</th><th>Quantity</th><th>Total</th><th>Actions</th></tr>'
+            '<tr> <th class="trn" data-trn-key="description_th">Description</th> <th class="trn" data-trn-key="code_th">Code</th>' +
+            '<th class="trn" data-trn-key="order_th">Order</th> <th class="trn" data-trn-key="unit_price_th">Unit price</th>' +
+            '<th class="trn" data-trn-key="qty_th">Quantity</th> <th class="trn" data-trn-key="total_th">Total</th>' +
+            '<th class="trn" data-trn-key="actions_th">Actions</th> </tr>'
         );
 
         appState.returnOrderSelected = data;
@@ -587,7 +591,8 @@ $(document).ready(function () {
             $('#btn-return-item-' + item.orderId + '-' + item.itemCode).click(() => {
                 selectReturnItem(item);
                 $('#tr-return-item-' + item.orderId + '-' + item.itemCode).remove()
-            })
+            });
+            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
         })
 
     }
@@ -596,6 +601,7 @@ $(document).ready(function () {
 
         appState.itemsReturned.push(data);
         $('#items-returned-list').append(itemsReturnedList(data));
+        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', $("#select-idioma").val()));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).click(() => {
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
             appState.itemsReturned.splice(itemFound, 1);
@@ -722,13 +728,16 @@ $(document).ready(function () {
 
                         $('#return-orders-list')
                             .append(returnOrders(data, data.isReturnable));
+
                         if (!element[4]) {
                             $('#btn-select-return-order-' + data.id).attr('disabled', true)
                         }
 
                         $('#btn-select-return-order-' + data.id).click(() => {
                             selectReturnOrder(data);
-                        })
+                        });
+
+                        $('#btn-select-return-order-' + data.id).text(translate('select_order_btn', $("#select-idioma").val()))
                     })
                     break;
             }
