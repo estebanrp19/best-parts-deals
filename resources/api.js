@@ -2,30 +2,35 @@ class Api {
     #GET_BRANDS = $.ajax({
         method: "GET",
         dataType: 'json',
+        crossDomain: true,
         url: constants.BASE_URL + constants.API_URLS.GET_APPLICATIONS_BRANDS
     });
 
     #GET_REGIONS = $.ajax({
         method: "GET",
         dataType: 'json',
+        crossDomain: true,
         url: constants.BASE_URL + constants.API_URLS.GET_REGIONS
     });
 
     #GET_INIT_YEARS = $.ajax({
         method: "GET",
         dataType: 'json',
+        crossDomain: true,
         url: constants.BASE_URL + constants.API_URLS.GET_APPLICATIONS_YEAR_START
     });
 
     #GET_END_YEARS = $.ajax({
         method: "GET",
         dataType: 'json',
+        crossDomain: true,
         url: constants.BASE_URL + constants.API_URLS.GET_APPLICATIONS_YEAR_END
     });
 
     #GET_CONFIG_GENERAL = $.ajax({
         method: "GET",
         dataType: 'json',
+        crossDomain: true,
         url: constants.BASE_URL + constants.API_URLS.GET_GENERAL_CONFIG
 
     });
