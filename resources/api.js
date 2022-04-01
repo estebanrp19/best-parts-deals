@@ -59,11 +59,12 @@ class Api {
 
     }
 
-    GET_MODELS = async (brand) => {
+    GET_MODELS = async (data) => {
         const models = await $.ajax({
-            method: "GET",
+            method: "POST",
             dataType: 'json',
-            url: constants.BASE_URL + constants.API_URLS.GET_APPLICATIONS_MODELS + "?brand=" + brand
+            data,
+            url: constants.BASE_URL + constants.API_URLS.GET_APPLICATIONS_MODELS
         });
 
         return models;
@@ -79,9 +80,10 @@ class Api {
 
     GET_FILTERED_PARTS_LIST = async (filter) => {
         return $.ajax({
-            method: "GET",
+            method: "POST",
             dataType: 'json',
-            url: constants.BASE_URL + constants.API_URLS.GET_FILTERED_PARTS_LIST + "?brand=" + filter.brand + '&model=' + filter.model + '&year=' + filter.year + '&inputFilterText=' + filter.inputFilterText
+            data: filter,
+            url: constants.BASE_URL + constants.API_URLS.GET_FILTERED_PARTS_LIST
         });
     }
 }
@@ -148,6 +150,14 @@ class ApiProcessMaker {
         })
     };
 
+    GET_CAR_BRAND_LIST_BY_YEAR = async (data) => {
+        return $.ajax({
+            method: "POST",
+            dataType: 'json',
+            data,
+            crossDomain: true,
+            url: constants.BASE_URL + constants.API_URLS.GET_APPLICATIONS_BRANDS_BY_YEAR
+        })
+    }
 
 }
-

@@ -22,6 +22,15 @@ $(document).ready(function () {
     $('#pagination-botton').html(pagination());
     $(document).on("updateState", updateState);
 
+    $("#select-region").change(() => {
+        console.log('sdsdssd', $('#select-region').val());
+        if ($('#select-region').val() == '') {
+            $('#products-list').hide();
+        } else {
+            $('#products-list').show();
+        }
+    });
+
     const addItemToOrder = (item) => {
 
         let foundItem;
@@ -93,6 +102,11 @@ $(document).ready(function () {
 
     }
 
+    const getBrandsbyYear = async (data) => {
+        const brandsByYear = await apiProcessMaker.GET_CAR_BRAND_LIST_BY_YEAR(data).then((res) => res);
+        return brandsByYear;
+    }
+
     api.loadInitialData().then((res) => {
 
         configGeneral = res.configGeneral[0];
@@ -100,10 +114,6 @@ $(document).ready(function () {
 
         res.regions[0].forEach(element => {
             $("#select-region").append('<option value="' + element.REGION_ID + '">' + element.REGION_NAME + '</option>')
-        });
-
-        res.brands[0].forEach(element => {
-            $("#select-brand").append('<option value="' + element + '">' + element + '</option>')
         });
 
         let modelYears = [];
@@ -125,10 +135,11 @@ $(document).ready(function () {
             brand: appState.brand,
             model: appState.model,
             year: appState.modelYears,
+            region: $('#select-region').val(),
             inputFilterText: appState.inputFilterText
         };
 
-        const filterValid = (filter.year && /^\d{4}$/.test(filter.year) && filter.brand != '' && filter.model != '') ? true : false;
+        const filterValid = (filter.year && /^\d{4}$/.test(filter.year) && filter.brand != '' && filter.model != '' && filter.region != '') ? true : false;
 
         if (filterValid) {
             api.GET_FILTERED_PARTS_LIST(filter).then((res) => {
@@ -143,8 +154,11 @@ $(document).ready(function () {
                     $('#btn-add-item-' + item.NUM_REG).on('click', () => {
                         item.qty = parseInt($('#qty-' + item.NUM_REG).val());
                         addItemToOrder(item);
-                    })
+                    });
+
+
                 });
+                spinner.stop();
                 if (callback) {
                     callback();
                 }
@@ -190,7 +204,14 @@ $(document).ready(function () {
         spinner.show();
         const brandSelected = $(this).val();
 
-        api.GET_MODELS(brandSelected).then((res) => {
+        const data = {
+            year: $("#model-year").val(),
+            region: $("#select-region").val(),
+            brand: brandSelected
+        }
+
+        api.GET_MODELS(data).then((res) => {
+            $("#select-model").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>');
             res.forEach(element => {
                 $("#select-model").append('<option value="' + element.model + '">' + element.model + '</option>')
             });
@@ -204,7 +225,27 @@ $(document).ready(function () {
     });
 
     $("#model-year").on("keyup blur change", function () {
-        reloadProductList();
+        //reloadProductList();
+    });
+
+    $("#model-year").on("blur change", function () {
+        const data = {
+            year: $("#model-year").val(),
+            region: $("#select-region").val(),
+        }
+
+        if (data.region) {
+            getBrandsbyYear(data).then((res) => {
+                $("#select-brand").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>')
+                res.forEach(element => {
+                    $("#select-brand").append('<option value="' + element.brand + '">' + element.brand + '</option>')
+                });
+            });
+            //reloadProductList();
+        } else {
+            alert('debe seleccionar una region')
+        }
+
     });
 
     let timeout = null
@@ -839,6 +880,18 @@ $(document).ready(function () {
     $("#emailReturn").change((e) => {
         emailChange(true);
     });
+
+    $("#select-region").change(() => {
+        $("#model-year").val('');
+
+        $("#select-brand").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>');
+        $("#select-model").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>');
+
+        $("#select-brand").val('');
+        $("#select-model").val('');
+
+        $('#products-list').empty();
+    })
 
 
 

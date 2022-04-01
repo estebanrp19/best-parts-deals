@@ -1,11 +1,12 @@
 const constants = {
-    BASE_URL: "http://bpd.dyndns-web.com:3355",
+    BASE_URL: "http://localhost:3355",
     API_URLS: {
         "GET_GENERAL_CONFIG": '/general-config',
         "GET_APPLICATIONS_YEAR_RANGE": "/applications-year-range",
         "GET_APPLICATIONS_YEAR_START": "/applications-year-start",
         "GET_APPLICATIONS_YEAR_END": "/applications-year-end",
         "GET_APPLICATIONS_BRANDS": "/applications-brands",
+        "GET_APPLICATIONS_BRANDS_BY_YEAR": "/brandsByYear",
         "GET_APPLICATIONS_MODELS": "/applications-models",
         "GET_PRODUCTS": "/products",
         "GET_REGIONS": "/regions",
