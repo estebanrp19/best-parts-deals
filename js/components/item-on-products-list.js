@@ -7,7 +7,7 @@ const itemOnProductsList = (data) => {
     }
 
     const template = ' <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 ">' +
-        '<div class="card">' +
+        '<div class="card mt-3">' +
         '<img class="card-img-top" src="' + BPD_IMAGES_URL + data.CODIGO + '.jpg" alt="">' +
         '<div class="card-body">' +
         '<h5 class="card-tittle">' + description + '</h5>' +

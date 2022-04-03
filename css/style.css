@@ -95,7 +95,6 @@ body{
     text-align: center;
 }
 .main .container-data-items-order{
-    /* position: absolute; */
     right: 100px;
     background: #f2f2f2;
     
@@ -108,14 +107,18 @@ body{
 }
 /* ---- ---- ---- CARD RESPONSIVE ---- ---- ---- */
 .main .card{
-    /* min-height: 425px;] */
+    /* min-height: 426px; */
     overflow: hidden;
 }
 .main .card .card-img-top {
     width: 200px;
     height: 200px;
     margin: auto;
+    padding-top: 5px;
 }
+.main .card .card-tittle{
+    min-height: 96px;
+} 
 .main .box-items-order{
     height: auto;
     border: 1px solid #777;
