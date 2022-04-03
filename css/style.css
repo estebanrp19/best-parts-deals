@@ -7,6 +7,7 @@
 body{
     font-family: 'Roboto', sans-serif;
 }
+
 /* ---- ---- HEADER ---- ---- */
 .cuadro-header{
     width: 102%;
@@ -48,7 +49,11 @@ body{
     color: white;
     padding: 2px;
 }
-
+.background-select{
+    margin-top: 10px;
+    padding: 10px 0px;
+    background: #fcfcfc;
+}
 /* ---- ---- MAIN ---- ---- */
 
 .main .select-idioma{
@@ -89,10 +94,27 @@ body{
     margin: auto;
     text-align: center;
 }
+.main .container-data-items-order{
+    /* position: absolute; */
+    right: 100px;
+    background: #f2f2f2;
+    
+}
+.main .data-items-order{
+    text-align: end;
+}
+.total-items-order{
+    width: 80px;
+}
 /* ---- ---- ---- CARD RESPONSIVE ---- ---- ---- */
 .main .card{
-    min-height: 512px;
+    /* min-height: 425px;] */
     overflow: hidden;
+}
+.main .card .card-img-top {
+    width: 200px;
+    height: 200px;
+    margin: auto;
 }
 .main .box-items-order{
     height: auto;
@@ -160,6 +182,7 @@ body{
     }
 }
 
+
 /* ---- ---- TABLE ---- ---- */
 
  .orden-number{
@@ -174,4 +197,8 @@ body{
 }
 .btn-case-return:hover{
     background: #0a58ca;
+}
+
+.main table {
+    overflow-x: auto;
 }

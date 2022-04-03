@@ -1,5 +1,5 @@
 const itemOnProductsList = (data) => {
-    const template = ' <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 d-none d-sm-none d-md-block">' +
+    const template = ' <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 ">' +
         '<div class="card">' +
         '<img class="card-img-top" src="' + BPD_IMAGES_URL + data.CODIGO + '.jpg" alt="">' +
         '<div class="card-body">' +
