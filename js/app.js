@@ -251,16 +251,25 @@ $(document).ready(function () {
         }
 
         api.GET_MODELS(data).then((res) => {
-            $("#select-model").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>');
-            res.forEach(element => {
-                $("#select-model").append('<option value="' + element.model + '">' + element.model + '</option>')
+
+            let modelsList = [];
+            for (let i = 0; i <= res.length - 1; i++) {
+                modelsList.push(res[i].model.toString())
+            }
+            $("#select-model").autocomplete({
+                source: modelsList
             });
+
+            $("#select-model").attr('disabled', false);
+
+
             reloadProductList();
         });
 
     });
 
     $("#select-model").on("change", function () {
+        spinner.show();
         reloadProductList();
     });
 
@@ -275,11 +284,19 @@ $(document).ready(function () {
         }
 
         if (data.region) {
+            spinner.show();
             getBrandsbyYear(data).then((res) => {
-                $("#select-brand").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>')
-                res.forEach(element => {
-                    $("#select-brand").append('<option value="' + element.brand + '">' + element.brand + '</option>')
+
+                let brandsList = [];
+                for (let i = 0; i <= res.length - 1; i++) {
+                    brandsList.push(res[i].brand.toString())
+                }
+                $("#select-brand").autocomplete({
+                    source: brandsList
                 });
+
+                $("#select-brand").attr('disabled', false);
+                spinner.stop();
             });
             //reloadProductList();
         } else {
@@ -924,9 +941,16 @@ $(document).ready(function () {
 
     $("#select-region").change(() => {
         $("#model-year").val('');
+        $("#select-brand").attr('disabled', true);
+        $("#select-model").attr('disabled', true);
 
-        $("#select-brand").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>');
-        $("#select-model").empty().append('<option value="" class="trn" data-trn-key="select_lbl">Seleccione</option>');
+        $("#select-brand").autocomplete({
+            source: []
+        });
+
+        $("#select-model").autocomplete({
+            source: []
+        });
 
         $("#select-brand").val('');
         $("#select-model").val('');
