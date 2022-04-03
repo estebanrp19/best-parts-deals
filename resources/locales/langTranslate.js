@@ -48,6 +48,7 @@ const langTranlate = {
         "return_item_btn": "Retornar articulo",
         "select_order_btn": "Seleccionar Orden",
         "cancel_return_btn": "Cancelar retorno",
+        "region-required-message": 'Debe seleccionar una región'
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -99,5 +100,6 @@ const langTranlate = {
         "return_item_btn": "Return item",
         "select_order_btn": "Select order",
         "cancel_return_btn": "Cancel return",
+        "region-required-message": 'You must select a region'
     }
 }

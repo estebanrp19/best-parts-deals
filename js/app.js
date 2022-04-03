@@ -283,7 +283,7 @@ $(document).ready(function () {
             });
             //reloadProductList();
         } else {
-            alert('debe seleccionar una region')
+            showToast('warning', translate('region-required-message'))
         }
 
     });

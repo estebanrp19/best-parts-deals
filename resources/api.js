@@ -54,7 +54,7 @@ class Api {
             if (x2.readyState != 4) {
                 x2.abort();
             }
-            alert('Either j1 or j2 failed!');
+            console.log('Either j1 or j2 failed!');
         });
 
     }
