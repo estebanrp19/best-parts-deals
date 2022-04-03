@@ -198,6 +198,7 @@ $(document).ready(function () {
 
 
                 });
+                $('#input-filter-text').attr('disabled', false)
                 spinner.stop();
                 if (callback) {
                     callback();
@@ -208,12 +209,12 @@ $(document).ready(function () {
         } else if (!(/^\d{4}$/.test(filter.year))) {
             spinner.stop();
             $('#products-list').empty();
-            $('#form-message').html('<span>Formato de año incorrecto - YYYY</span>');
+            $('#form-message').html('<span>' + translate('invalid_format_year_message', appState.langSelected) + '</span>'); //Formato de año incorrecto - YYYY
 
         } else {
             spinner.stop();
             $('#products-list').empty();
-            $('#form-message').html('<span>Los siguientes datos son requeridos, año, marca y modelo</span>');
+            $('#form-message').html('<span>' + translate('required_fields_search_message', appState.langSelected) + '</span>');//Los siguientes datos son requeridos, año, marca y modelo
         }
     };
 
@@ -232,16 +233,18 @@ $(document).ready(function () {
         $('#firstname').attr('placeholder', translate('firstname_placeholder', langSelected));
         $('#lastname').attr('placeholder', translate('lastname_placeholder', langSelected));
         $('#phone').attr('placeholder', translate('telephone_placeholder', langSelected));
+
+        $('#select-brand').attr('placeholder', translate('select_brand_placeholder', langSelected));
+        $('#select-model').attr('placeholder', translate('select_model_placeholder', langSelected));
+        $('#input-filter-text').attr('placeholder', translate('input_filter_text_placeholder', langSelected));
     });
 
     $("#select-brand").on("change", function () {
-        /* $('#select-model')
-            .find('option')
-            .remove()
-            .end()
-            .append('<option value="" class="trn" data-trn-key="carModel_lbl">Model</option>'); */
-
         spinner.show();
+        $('#select-model').attr('disabled', true)
+        $("#select-model").val('');
+        $('#input-filter-text').attr('disabled', true)
+        $('input-filter-text').val('');
         const brandSelected = $(this).val();
 
         const data = {
@@ -270,6 +273,8 @@ $(document).ready(function () {
 
     $("#select-model").on("change", function () {
         spinner.show();
+        $('#input-filter-text').attr('disabled', true)
+        $('input-filter-text').val('');
         reloadProductList();
     });
 
@@ -277,28 +282,43 @@ $(document).ready(function () {
         //reloadProductList();
     });
 
-    $("#model-year").on("blur change", function () {
+    $("#model-year").on("blur change", async function () {
         const data = {
-            year: $("#model-year").val(),
-            region: $("#select-region").val(),
+            year: await $("#model-year").val(),
+            region: await $("#select-region").val(),
         }
 
+        $('#input-filter-text').attr('disabled', true)
+        $('input-filter-text').val('');
+
+        await $('#select-brand').autocomplete({
+            source: []
+        })
+        $('#select-brand').attr('disabled', true)
+        $('select-brand').val('');
+
+
+        $('#select-model').attr('disabled', true)
+        $('select-model').val('');
+
+        $('#products-list').empty();
+
         if (data.region) {
-            spinner.show();
-            getBrandsbyYear(data).then((res) => {
+            if (/\b\d{4}\b/g.test(data.year)) {
+                getBrandsbyYear(data).then((res) => {
+                    let brandsList = [];
+                    for (let i = 0; i <= res.length - 1; i++) {
+                        brandsList.push(res[i].brand.toString())
+                    }
+                    $("#select-brand").autocomplete({
+                        source: brandsList
+                    });
 
-                let brandsList = [];
-                for (let i = 0; i <= res.length - 1; i++) {
-                    brandsList.push(res[i].brand.toString())
-                }
-                $("#select-brand").autocomplete({
-                    source: brandsList
+                    $('#select-brand').val('');
+                    $("#select-brand").attr('disabled', false);
+                    spinner.stop();
                 });
-
-                $("#select-brand").attr('disabled', false);
-                spinner.stop();
-            });
-            //reloadProductList();
+            }
         } else {
             showToast('warning', translate('region-required-message'))
         }

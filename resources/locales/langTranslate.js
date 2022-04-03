@@ -48,7 +48,12 @@ const langTranlate = {
         "return_item_btn": "Retornar articulo",
         "select_order_btn": "Seleccionar Orden",
         "cancel_return_btn": "Cancelar retorno",
-        "region-required-message": 'Debe seleccionar una región'
+        "region-required-message": 'Debe seleccionar una región',
+        "total_th": "Escriba su marca",
+        "total_th": "Escriba su modelo",
+        "total_th": "Escriba palabras para filtrar los resultados",
+        "invalid_format_year_message": "Formato de año incorrecto - YYYY",
+        "required_fields_search_message": "Los siguientes datos son requeridos, año, marca y modelo",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -100,6 +105,11 @@ const langTranlate = {
         "return_item_btn": "Return item",
         "select_order_btn": "Select order",
         "cancel_return_btn": "Cancel return",
-        "region-required-message": 'You must select a region'
+        "region-required-message": 'You must select a region',
+        "select_brand_placeholder": "Type your brand",
+        "select_model_placeholder": "Type your model",
+        "input_filter_text_placeholder": "Type words to filter the results",
+        "invalid_format_year_message": "Invalid format year - YYYY",
+        "required_fields_search_message": "Year, brand and model are required",
     }
 }
