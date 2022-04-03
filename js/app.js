@@ -1,5 +1,5 @@
 var configGeneral;
-const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [] };
+const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTotalOrdered: 0, totalAmountOrdered: 0 };
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
@@ -23,7 +23,6 @@ $(document).ready(function () {
     $(document).on("updateState", updateState);
 
     $("#select-region").change(() => {
-        console.log('sdsdssd', $('#select-region').val());
         if ($('#select-region').val() == '') {
             $('#products-list').hide();
         } else {
@@ -31,8 +30,43 @@ $(document).ready(function () {
         }
     });
 
+    const addAmountTotalAndQty = (product) => {
+        let auxAmount = 0;
+        let auxQty = 0;
+
+        appState.carShopList.forEach((elem) => {
+            auxAmount = Number(appState.totalAmountOrdered) + (Number(product.PRECIO1) * Number(product.qty));
+            auxQty = Number(appState.itemsTotalOrdered) + Number(product.qty);
+        })
+
+        appState.itemsTotalOrdered = auxQty;
+        appState.totalAmountOrdered = auxAmount;
+
+
+        $('#itemTotalOrdered').html(appState.itemsTotalOrdered);
+        $('#totalAmountOrdered').html(parseFloat(appState.totalAmountOrdered).toFixed(2));
+    }
+
+    const discountAmountTotalAndQty = (product) => {
+        let auxAmount = 0;
+        let auxQty = 0;
+
+        appState.carShopList.forEach((elem) => {
+            auxAmount = Number(appState.totalAmountOrdered) - (Number(product.PRECIO1) * Number(product.qty));
+            auxQty = Number(appState.itemsTotalOrdered) - Number(product.qty);
+        })
+
+        appState.itemsTotalOrdered = auxQty;
+        appState.totalAmountOrdered = auxAmount;
+
+
+        $('#itemTotalOrdered').html(appState.itemsTotalOrdered);
+        $('#totalAmountOrdered').html(parseFloat(appState.totalAmountOrdered).toFixed(2));
+    }
+
     const addItemToOrder = (item) => {
 
+        //debugger
         let foundItem;
 
         try {
@@ -57,7 +91,10 @@ $(document).ready(function () {
                     showHideTransition: 'slide',
                     icon: 'success',
                     position: 'top-right',
-                })
+                });
+
+                //debugger
+                addAmountTotalAndQty(item);
             } else {
                 $.toast({
                     heading: 'Error',
@@ -87,6 +124,9 @@ $(document).ready(function () {
                     const idItemToRemove = e.target.id.split('-')[4];
                     removeItemOnOrder(idItemToRemove);
                 });
+
+                //debugger
+                addAmountTotalAndQty(item);
 
             } else {
                 $.toast({
@@ -287,9 +327,12 @@ $(document).ready(function () {
             position: 'top-right',
         });
 
+        const item = appState.carShopList[foundItem];
         appState.carShopList.splice(foundItem, 1);
         $('#container-order-item-' + idItemToRemove).remove();
         $('#total-item-on-order').html(appState.carShopList.length);
+
+        discountAmountTotalAndQty(item);
 
     };
 
@@ -794,6 +837,12 @@ $(document).ready(function () {
     }
 
     const emailChange = async (isReturn) => {
+        const emailText = $('#email').val();
+        const emailReturnText = $('#emailReturn').val();
+
+        $('#email').val(emailText.toLowerCase());
+        $('#emailReturn').val(emailReturnText.toLowerCase());
+
         const res = await requestEmailValidate(isReturn).then(res => res);
         const clientName = res[1];
         const clientLastname = res[2];
@@ -802,7 +851,6 @@ $(document).ready(function () {
         const orderList = res[7];
         $('#order-selected').text('');
 
-        console.log('clientLang', res[4], clientLang)
         appState.userLang = clientLang;
 
         if (!isReturn) {

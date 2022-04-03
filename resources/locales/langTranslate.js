@@ -45,8 +45,8 @@ const langTranlate = {
         "unit_price_th": "Precio unitario",
         "qty_th": "Cantidad",
         "total_th": "Total",
-        "return_item_btn": "Seleccionar Orden",
-        "select_order_btn": "Retornar articulo",
+        "return_item_btn": "Retornar articulo",
+        "select_order_btn": "Seleccionar Orden",
         "cancel_return_btn": "Cancelar retorno",
     },
     "en": {
@@ -96,8 +96,8 @@ const langTranlate = {
         "unit_price_th": "Unit price",
         "qty_th": "Quantity",
         "total_th": "Total",
-        "return_item_btn": "Select order",
-        "select_order_btn": "Return item",
+        "return_item_btn": "Return item",
+        "select_order_btn": "Select order",
         "cancel_return_btn": "Cancel return",
     }
 }
