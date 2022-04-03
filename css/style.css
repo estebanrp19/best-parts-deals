@@ -32,6 +32,7 @@ body{
     margin-top: -95px;
     float: right;
     position: relative;
+    cursor: pointer;
 }
 .number-rounded-cart{
     position: absolute;

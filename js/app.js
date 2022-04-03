@@ -941,6 +941,10 @@ $(document).ready(function () {
         //return reStReturnItems;
     }
 
+    $('#imageShppingCart').click(() => {
+        document.getElementById("products-add-to-order").scrollIntoView();
+    })
+
     //requestReturnItems()
 
 });
