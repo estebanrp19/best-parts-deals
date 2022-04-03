@@ -278,15 +278,13 @@ $(document).ready(function () {
         reloadProductList();
     });
 
-    $("#model-year").on("keyup blur change", function () {
-        //reloadProductList();
-    });
-
-    $("#model-year").on("blur change", async function () {
+    $("#model-year").on("change", async function () {
         const data = {
             year: await $("#model-year").val(),
             region: await $("#select-region").val(),
         }
+
+        spinner.show();
 
         $('#input-filter-text').attr('disabled', true)
         $('input-filter-text').val('');
@@ -317,12 +315,15 @@ $(document).ready(function () {
                     $('#select-brand').val('');
                     $("#select-brand").attr('disabled', false);
                     spinner.stop();
+                }).catch((e) => {
+                    console.log(e)
+                    spinner.stop();
                 });
             }
         } else {
             showToast('warning', translate('region-required-message'))
         }
-
+        spinner.stop();
     });
 
     let timeout = null
