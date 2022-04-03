@@ -177,4 +177,14 @@ const dict = {
         en: "Order number selected:",
         es: "Número de orden seleccionada:"
     },
+
+    "region_lbl": {
+        en: "Region",
+        es: "Región"
+    },
+
+    "language_lbl": {
+        en: "Language/Idioma",
+        es: "Language/Idioma"
+    },
 }
