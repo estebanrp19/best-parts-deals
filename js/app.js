@@ -878,13 +878,6 @@ $(document).ready(function () {
             }
         } else {
             switch (res[0]) {
-                case 0:
-                    console.log(translate('OrdersNotLoaded', appState.userLang))
-                    showToast("warning", translate('OrdersNotLoaded', appState.userLang));
-
-                    clearReturnTables('all');
-
-                    break;
                 case 1:
                     showToast("success", translate('OrdersLoaded', appState.userLang));
 
