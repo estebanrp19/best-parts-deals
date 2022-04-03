@@ -837,11 +837,11 @@ $(document).ready(function () {
     }
 
     const emailChange = async (isReturn) => {
-        const emailText = $('#email').val();
-        const emailReturnText = $('#emailReturn').val();
+        const emailText = await $('#email').val();
+        const emailReturnText = await $('#emailReturn').val();
 
-        $('#email').val(emailText.toLowerCase());
-        $('#emailReturn').val(emailReturnText.toLowerCase());
+        $('#email').val(emailText);
+        $('#emailReturn').val(emailReturnText);
 
         const res = await requestEmailValidate(isReturn).then(res => res);
         const clientName = res[1];
