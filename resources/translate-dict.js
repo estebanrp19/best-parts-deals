@@ -104,7 +104,7 @@ const dict = {
     },
 
     "is_returnable_th": {
-        en: "is Returnable?",
+        en: "Is returnable?",
         es: "Es retornable?"
     },
 
@@ -156,5 +156,25 @@ const dict = {
     "send_return_btn": {
         en: "Request return",
         es: "Solicitar retorno"
+    },
+
+    "title_table_1": {
+        en: "Order list",
+        es: "Lista de ordenes"
+    },
+
+    "title_table_2": {
+        en: "Items list on order selected",
+        es: "Lista de artículos en la orden seleccionada"
+    },
+
+    "title_table_3": {
+        en: "Items list on order selected",
+        es: "Lista de artículos solicitados para retorno"
+    },
+
+    "order_number_lbl": {
+        en: "Order number selected:",
+        es: "Número de orden seleccionada:"
     },
 }

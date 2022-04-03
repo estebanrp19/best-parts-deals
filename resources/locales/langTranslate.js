@@ -89,7 +89,7 @@ const langTranlate = {
         "date_th": "Date",
         "number_item_th": "Number of items",
         "order_total_th": "Order total",
-        "is_returnable_th": "is Returnable?",
+        "is_returnable_th": "Is returnable?",
         "actions_th": "Actions",
         "description_th": "Description",
         "code_th": "Code",
