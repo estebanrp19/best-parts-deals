@@ -201,5 +201,15 @@ const dict = {
     "quantity_lbl": {
         en: "Quantity:",
         es: "Cantidad:"
+    },
+
+    "btn_add_item": {
+        en: "Add",
+        es: "Agregar"
+    },
+
+    "btn_delete_item": {
+        en: "Delete",
+        es: "Eliminar"
     }
 }

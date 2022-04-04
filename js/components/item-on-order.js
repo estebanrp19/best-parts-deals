@@ -13,7 +13,7 @@ const itemOnOrder = (data) => {
         '<p class="card-subtitle text-muted">$' + data.PRECIO1 + '</p>' +
         '<h6 class="text-secondary">Code: ' + data.CODIGO + '</h6>' +
         '<label>Quantity: <span id="order-item-' + data.NUM_REG + '">' + data.qty + '</span></label>' +
-        '<button class="trn btn btn-outline-danger btn-add-delete" id="btn-remove-item-order-' + data.NUM_REG + '">Delete</button>' +
+        '<button class="trn btn btn-outline-danger btn-add-delete" id="btn-remove-item-order-' + data.NUM_REG + '" data-trn-key="btn_delete_item">Delete</button>' +
         '</div>' +
         '</div>' +
         '</div>';
