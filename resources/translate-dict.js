@@ -211,5 +211,15 @@ const dict = {
     "btn_delete_item": {
         en: "Delete",
         es: "Eliminar"
+    },
+
+    "order_qty_items_lbl": {
+        en: "Quantity of items",
+        es: "Cantidad de artículos"
+    },
+
+    "order_amount_total_lbl": {
+        en: "Total amount",
+        es: "Monto total"
     }
 }
