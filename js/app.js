@@ -754,13 +754,15 @@ $(document).ready(function () {
                         text: confirmar,
                         action: async () => {
                             const clientType = await requestClientType();
+                            console.log(clientType)
                             if ($("#contactForm").valid()) {
                                 if (clientType[2] == 1) {
                                     const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
-                                    console.log(validated)
+
                                     if (validated) {
-                                        updatePreReserva().then((res) => {
+                                        const aux = await updatePreReserva().then((res) => {
                                             createOrderCase(res);
+                                            return res;
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
                                         $("#select-region").change();
                                         $("#email").val('').blur();
@@ -772,6 +774,8 @@ $(document).ready(function () {
                                             $('#container-order-item-' + item.NUM_REG).remove();
                                             discountAmountTotalAndQty(item);
                                         });
+                                        const windowObject = window.open("http://bpd.dyndns-web.com:8083/Order_Deatail.php?case=" + aux, "_blank");
+                                        windowObject.focus();
 
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
