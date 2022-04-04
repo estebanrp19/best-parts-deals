@@ -187,4 +187,19 @@ const dict = {
         en: "Language/Idioma",
         es: "Language/Idioma"
     },
+
+    "available_lbl": {
+        en: "Available:",
+        es: "Disponible:"
+    },
+
+    "item_code_lbl": {
+        en: "Code:",
+        es: "Código:"
+    },
+
+    "quantity_lbl": {
+        en: "Quantity:",
+        es: "Cantidad:"
+    }
 }

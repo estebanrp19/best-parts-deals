@@ -775,7 +775,7 @@ $(document).ready(function () {
                                             discountAmountTotalAndQty(item);
                                         });
 
-                                        window.open("http://bpd.dyndns-web.com:8083/Order_Deatail.php?case=" + aux, "_blank");
+                                        window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + aux.split('-')[1], "_blank");
 
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
