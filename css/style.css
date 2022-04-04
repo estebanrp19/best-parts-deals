@@ -205,3 +205,9 @@ body{
 .main table {
     overflow-x: auto;
 }
+
+.btn-non-existence-item{
+    background-color: #d00000;
+    border: #dc2f02;
+    color: #fff;
+}

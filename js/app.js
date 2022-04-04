@@ -504,18 +504,6 @@ $(document).ready(function () {
             }
         });
 
-
-        if (appState.carShopList.length == 0) {
-            /*$.toast({
-                heading: 'Warning',
-                text: 'La orden esta vacia',
-                showHideTransition: 'slide',
-                icon: 'warning',
-                position: 'top-right',
-            });*/
-            return false;
-        }
-
         if (itemInvalids.length > 0) {
             itemInvalids.forEach((item) => {
                 $("#item-order-card-" + item[0]).css("background-color", "red");
@@ -769,10 +757,11 @@ $(document).ready(function () {
                             if ($("#contactForm").valid()) {
                                 if (clientType[2] == 1) {
                                     const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
+                                    console.log(validated)
                                     if (validated) {
-                                        updatePreReserva().then((res) => {
+                                        /*updatePreReserva().then((res) => {
                                             createOrderCase(res);
-                                        }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
+                                        })*/// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
                                     }
