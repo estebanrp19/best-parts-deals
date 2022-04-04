@@ -237,19 +237,24 @@ $(document).ready(function () {
         $('#select-brand').attr('placeholder', translate('select_brand_placeholder', langSelected));
         $('#select-model').attr('placeholder', translate('select_model_placeholder', langSelected));
         $('#input-filter-text').attr('placeholder', translate('input_filter_text_placeholder', langSelected));
+
+        $("input[name*='btn-add-item-']").text('asaaasasasasas');
+        $("input[name*='btn-remove-item-order-']").text('asaaasasasasas');
+
     });
 
-    $("#select-brand").on("change", function () {
+    $("#select-brand").on("blur", async function () {
+        console.log('asasaa')
         spinner.show();
         $('#select-model').attr('disabled', true)
         $("#select-model").val('');
         $('#input-filter-text').attr('disabled', true)
         $('input-filter-text').val('');
-        const brandSelected = $(this).val();
+        const brandSelected = await $("#select-brand").val();
 
         const data = {
-            year: $("#model-year").val(),
-            region: $("#select-region").val(),
+            year: await $("#model-year").val(),
+            region: await $("#select-region").val(),
             brand: brandSelected
         }
 
@@ -271,7 +276,7 @@ $(document).ready(function () {
 
     });
 
-    $("#select-model").on("change", function () {
+    $("#select-model").on("blur", function () {
         spinner.show();
         $('#input-filter-text').attr('disabled', true)
         $('input-filter-text').val('');
@@ -279,6 +284,7 @@ $(document).ready(function () {
     });
 
     $("#model-year").on("change", async function () {
+        console.log('asasasaa model-year')
         const data = {
             year: await $("#model-year").val(),
             region: await $("#select-region").val(),
@@ -500,13 +506,13 @@ $(document).ready(function () {
 
 
         if (appState.carShopList.length == 0) {
-            $.toast({
+            /*$.toast({
                 heading: 'Warning',
                 text: 'La orden esta vacia',
                 showHideTransition: 'slide',
                 icon: 'warning',
                 position: 'top-right',
-            });
+            });*/
             return false;
         }
 
@@ -758,13 +764,13 @@ $(document).ready(function () {
                                         createOrderCase(res);
                                     }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
                                 } else {
-                                    showToast("warning", translate('insuficientExistence', appState.userLang))
+                                    showToast("warning", translate('insuficientExistence', appState.userLang));
                                 }
                             } else {
-                                showToast("warning", translate('mustConfirEmail', appState.userLang))
+                                showToast("warning", translate('mustConfirEmail', appState.userLang));
                             }
                         } else {
-                            showToast("warning", translate('invalidForm', appState.userLang))
+                            showToast("warning", translate('invalidForm', appState.userLang));
                         }
                     }
 

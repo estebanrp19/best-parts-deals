@@ -14,7 +14,7 @@ const langTranlate = {
             + ' cuenta por favor valide su cuenta de correo siguendo las instrucciones que le hemos enviado.',
         "mustConfirEmail": 'Ud debe validar su e-mail, hemos enviado un e-mail a esa cuenta por favor valide su cuenta de correo siguendo las instrucciones que le hemos enviado.',
         "invalidForm": 'El formulario de contacto debe ser completdo',
-        "insuficientExistence": 'Algunos de los productos seleccionados no posee suficiente existencia',
+        "insuficientExistence": 'Algunos de los productos seleccionados no posee suficiente existencia o la orden esta vacia',
         "preReturnSuccess": 'El caso de retorno ha sido enviado, traiga todos los items a nuestro deposito para finalizar el proceso',
         "preReturnAgree": 'Ud. esta a punto de inciar una solicitud de retorno, esta seguro de proceder?',
         "preReturnEmpty": 'Debe haber al menos un item seleccionado para iniciar un caso de retorno',
@@ -57,6 +57,8 @@ const langTranlate = {
         "input_filter_text_placeholder": "Palabras filtro de resultados",
         "invalid_format_year_message": "Formato de año incorrecto - YYYY",
         "required_fields_search_message": "Los siguientes datos son requeridos, año, marca y modelo",
+        "btn_add_item": "Añadir",
+        "btn_delete_item": "Eliminar"
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -74,7 +76,7 @@ const langTranlate = {
             + ' please go and validate your account following the instructions we have sent.',
         "mustConfirEmail": 'You must validate your e-mail, we have sent an e-mail to that account please go and validate your account following the instructions we have sent.',
         "invalidForm": 'Contact form must be complete',
-        "insuficientExistence": 'Any selected products dont have suficient existence',
+        "insuficientExistence": 'Any selected products dont have suficient existence or the orden is empty',
         "preReturnSuccess": 'The return case has been sent, bring all the items to our warehouse to finish the process',
         "preReturnAgree": 'You are about to start a return case request, do you want to proceed?',
         "preReturnEmpty": 'There must be at least one item selected to start a return case',
@@ -114,5 +116,7 @@ const langTranlate = {
         "input_filter_text_placeholder": "Type words to filter the results",
         "invalid_format_year_message": "Invalid format year - YYYY",
         "required_fields_search_message": "Year, brand and model are required",
+        "btn_add_item": "Add",
+        "btn_delete_item": "Delete"
     }
 }

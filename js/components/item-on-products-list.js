@@ -15,7 +15,7 @@ const itemOnProductsList = (data) => {
         '<h6 class="text-success">Available: ' + data.EXISTENCIA + '</h6>' +
         '<h6 class="text-secondary">Code: ' + data.CODIGO + '</h6>' +
         '<label class="quantity-text">Quantity:</label><input class="quantity-input" type="number" value="1" min="1" max="' + data.EXISTENCIA + '" id="qty-' + data.NUM_REG + '"/>' +
-        '<button class="btn btn-add-delete btn-outline-primary" id="btn-add-item-' + data.NUM_REG + '">Add</button>' +
+        '<button class="trn btn btn-add-delete btn-outline-primary" id="btn-add-item-' + data.NUM_REG + '">Add</button>' +
         '</div>' +
         '</div>' +
         '</div>';
