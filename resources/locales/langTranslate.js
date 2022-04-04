@@ -58,7 +58,8 @@ const langTranlate = {
         "invalid_format_year_message": "Formato de año incorrecto - YYYY",
         "required_fields_search_message": "Los siguientes datos son requeridos, año, marca y modelo",
         "btn_add_item": "Añadir",
-        "btn_delete_item": "Eliminar"
+        "btn_delete_item": "Eliminar",
+        "order_empty": "Ud debe seleccionar al menos un ítem antes de poner una orden.",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -117,6 +118,7 @@ const langTranlate = {
         "invalid_format_year_message": "Invalid format year - YYYY",
         "required_fields_search_message": "Year, brand and model are required",
         "btn_add_item": "Add",
-        "btn_delete_item": "Delete"
+        "btn_delete_item": "Delete",
+        "order_empty": "You must select at least one item before placing an order.",
     }
 }

@@ -748,36 +748,48 @@ $(document).ready(function () {
         const confirmar = translate('confirm', appState.userLang);
         const cancelar = translate('cancel', appState.userLang);
 
-        $.confirm({
-            title: translate('confirmOderTitle', appState.userLang),
-            content: translate('preOrderAgree', appState.userLang),
-            buttons: {
-                confirmar: {
-                    text: confirmar,
-                    action: async () => {
-                        const clientType = await requestClientType();
-                        if ($("#contactForm").valid()) {
-                            if (clientType[2] == 1) {
-                                const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
-                                if (validated) {
-                                    updatePreReserva().then((res) => {
-                                        createOrderCase(res);
-                                    }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
+        if (appState.carShopList.length == 0) {
+            $.toast({
+                heading: 'Warning',
+                text: translate('order_empty', appState.langSelected),
+                showHideTransition: 'slide',
+                icon: 'warning',
+                position: 'top-right',
+            });
+            return false;
+        } else {
+            $.confirm({
+                title: translate('confirmOderTitle', appState.userLang),
+                content: translate('preOrderAgree', appState.userLang),
+                buttons: {
+                    confirmar: {
+                        text: confirmar,
+                        action: async () => {
+                            const clientType = await requestClientType();
+                            if ($("#contactForm").valid()) {
+                                if (clientType[2] == 1) {
+                                    const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
+                                    if (validated) {
+                                        updatePreReserva().then((res) => {
+                                            createOrderCase(res);
+                                        }) // actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
+                                    } else {
+                                        showToast("warning", translate('insuficientExistence', appState.userLang));
+                                    }
                                 } else {
-                                    showToast("warning", translate('insuficientExistence', appState.userLang));
+                                    showToast("warning", translate('mustConfirEmail', appState.userLang));
                                 }
                             } else {
-                                showToast("warning", translate('mustConfirEmail', appState.userLang));
+                                showToast("warning", translate('invalidForm', appState.userLang));
                             }
-                        } else {
-                            showToast("warning", translate('invalidForm', appState.userLang));
                         }
-                    }
 
-                },
-                cancelar: { text: cancelar },
-            }
-        });
+                    },
+                    cancelar: { text: cancelar },
+                }
+            });
+        }
+
     });
 
     $("#sendReturn").click(async (e) => {
