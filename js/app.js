@@ -759,9 +759,20 @@ $(document).ready(function () {
                                     const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
                                     console.log(validated)
                                     if (validated) {
-                                        /*updatePreReserva().then((res) => {
+                                        updatePreReserva().then((res) => {
                                             createOrderCase(res);
-                                        })*/// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo 
+                                        })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
+                                        $("#select-region").change();
+                                        $("#email").val('').blur();
+                                        $("#firstname").val('').blur();
+                                        $("#lastname").val('').blur();
+                                        $("#phone").val('').blur();
+                                        $("#sendCase").attr('disabled', true);
+                                        appState.carShopList.forEach((item) => {
+                                            $('#container-order-item-' + item.NUM_REG).remove();
+                                            discountAmountTotalAndQty(item);
+                                        });
+
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
                                     }
