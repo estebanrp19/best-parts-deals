@@ -60,6 +60,7 @@ const langTranlate = {
         "btn_add_item": "Añadir",
         "btn_delete_item": "Eliminar",
         "order_empty": "Ud debe seleccionar al menos un ítem antes de poner una orden.",
+        "no_stock": "Hay al menos un item sin existencia suficiente",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -120,5 +121,6 @@ const langTranlate = {
         "btn_add_item": "Add",
         "btn_delete_item": "Delete",
         "order_empty": "You must select at least one item before placing an order.",
+        "no_stock": "There is at least one item with insuficient stock",
     }
 }

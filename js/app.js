@@ -754,8 +754,17 @@ $(document).ready(function () {
                         text: confirmar,
                         action: async () => {
                             const clientType = await requestClientType();
-                            console.log(clientType)
+
                             if ($("#contactForm").valid()) {
+
+                                if (Array.isArray(clientType[0]) && clientType[0].length > 0) {
+                                    clientType[0].forEach((elem) => {
+                                        $('#btn-remove-item-order-' + elem.NUM_REG).addClass("btn-non-existence-item");
+                                    });
+                                    showToast('error', translate('no_stock', appState.userLang));
+                                    return;
+                                }
+
                                 if (clientType[2] == 1) {
                                     const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
 
