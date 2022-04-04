@@ -761,7 +761,7 @@ $(document).ready(function () {
 
                                     if (validated) {
                                         const aux = await updatePreReserva().then((res) => {
-                                            createOrderCase(res);
+                                            //createOrderCase(res);
                                             return res;
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
                                         $("#select-region").change();
@@ -774,8 +774,8 @@ $(document).ready(function () {
                                             $('#container-order-item-' + item.NUM_REG).remove();
                                             discountAmountTotalAndQty(item);
                                         });
-                                        const windowObject = window.open("http://bpd.dyndns-web.com:8083/Order_Deatail.php?case=" + aux, "_blank");
-                                        windowObject.focus();
+
+                                        window.open("http://bpd.dyndns-web.com:8083/Order_Deatail.php?case=" + aux, "_blank");
 
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
