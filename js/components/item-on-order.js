@@ -11,8 +11,8 @@ const itemOnOrder = (data) => {
         '<div class="card-body">' +
         '<h5 class="card-tittle">' + description + '</h5>' +
         '<p class="card-subtitle text-muted">$' + data.PRECIO1 + '</p>' +
-        '<h6 class="text-secondary">Code: ' + data.CODIGO + '</h6>' +
-        '<label>Quantity: <span id="order-item-' + data.NUM_REG + '">' + data.qty + '</span></label>' +
+        '<h6 class="text-secondary"><span class="trn" data-trn-key="item_code_lbl">Code:</span> ' + data.CODIGO + '</h6>' +
+        '<label><span class="trn" data-trn-key="quantity_lbl">Quantity:</span> <span id="order-item-' + data.NUM_REG + '">' + data.qty + '</span></label>' +
         '<button class="trn btn btn-outline-danger btn-add-delete" id="btn-remove-item-order-' + data.NUM_REG + '" data-trn-key="btn_delete_item">Delete</button>' +
         '</div>' +
         '</div>' +
