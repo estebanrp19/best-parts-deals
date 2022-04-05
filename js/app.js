@@ -3,7 +3,7 @@ const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTo
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
-    $('.table').basictable();
+    /*$('.table').basictable();
 
     $('#table-breakpoint').basictable({
         breakpoint: 768
@@ -29,7 +29,7 @@ $(document).ready(function () {
 
     $('#table-max-height').basictable({
         tableWrap: true
-    });
+    });*/
 
     const translator = $('body').translate({ lang: "en", t: dict }); //English use by default
     const api = new Api();
@@ -865,7 +865,7 @@ $(document).ready(function () {
         switch (table) {
             case 'all':
                 $('#return-orders-list').empty();
-                $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) + '</th> ' +
+                $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) + 'ssssssss</th> ' +
                     '<th class="trn" scope="col" data-trn-key="date_th">' + translate('date_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="number_item_th">'
                     + translate('number_item_th', appState.langSelected) + '</th> ' +
                     '<th class="trn" scope="col" data-trn-key="order_total_th">' + translate('order_total_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">'
@@ -978,7 +978,7 @@ $(document).ready(function () {
                 case 1:
                     showToast("success", translate('OrdersLoaded', appState.userLang));
 
-                    clearReturnTables('return-orders-list');
+                    //clearReturnTables('return-orders-list');
 
                     orderList.forEach((element, index) => {
                         const data = {};
