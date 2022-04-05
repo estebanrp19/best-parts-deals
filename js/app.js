@@ -266,8 +266,55 @@ $(document).ready(function () {
         $('#select-model').attr('placeholder', translate('select_model_placeholder', langSelected));
         $('#input-filter-text').attr('placeholder', translate('input_filter_text_placeholder', langSelected));
 
-        $("input[name*='btn-add-item-']").text('asaaasasasasas');
-        $("input[name*='btn-remove-item-order-']").text('asaaasasasasas');
+
+        const emailError = $('#email-error').text();
+        if (emailError.search('introduzca') != -1 && emailError.search('enter') != -1) {
+            $('#email-error').text(translate("email_required", appState.langSelected));
+        } else {
+            $('#email-error').text(translate("email_format", appState.langSelected));
+        }
+
+        const firstnameError = $('#firstname-error').text();
+        if (firstnameError.search('introduzca') != -1 && firstnameError.search('enter') != -1) {
+            $('#firstname-error').text(translate("firstname_required", appState.langSelected));
+        } else {
+            $('#email-error').text(translate("letters_spaces", appState.langSelected));
+        }
+
+        const lastnameError = $('#lastname-error').text();
+        if (lastnameError.search('introduzca') != -1 && lastnameError.search('enter') != -1) {
+            $('#lastname-error').text(translate("lastname_required", appState.langSelected));
+        } else {
+            $('#lastname-error').text(translate("letters_spaces", appState.langSelected));
+        }
+
+        const phoneError = $('#phone-error').text();
+        if (phoneError.search('introduzca') != -1 && phoneError.search('enter') != -1) {
+            $('#phone-error').text(translate("phone_required", appState.langSelected));
+        } else {
+            $('#phone-error').text(translate("format_phone", appState.langSelected));
+        }
+
+
+
+
+        //$('#firstname-error').text(translate("firstname_required", appState.langSelected));
+        //$('#firstname-error').text(translate("firstname_required", appState.langSelected));
+        //$('#firstname-error').text(translate("firstname_required", appState.langSelected));
+
+        /* lettersAndSpace: translate("letters_spaces", appState.langSelected),
+     },
+     lastname: {
+         required: translate("lastname_required", appState.langSelected),
+         lettersAndSpace: translate("letters_spaces", appState.langSelected),
+     },
+     email: {
+         required: translate("email_required", appState.langSelected),
+         email: translate("email_format", appState.langSelected),
+     },
+     phone: {
+         required: translate("phone_required", appState.langSelected),
+         digits: translate("format_phone", appState.langSelected),*/
 
     });
 
@@ -439,20 +486,20 @@ $(document).ready(function () {
         // in 'messages' user have to specify message as per rules
         messages: {
             firstname: {
-                required: "Please enter your firstname",
-                lettersAndSpace: "Only letters and spaces"
+                required: translate("firstname_required", appState.langSelected),
+                lettersAndSpace: translate("letters_spaces", appState.langSelected),
             },
             lastname: {
-                required: "Please enter your firstname",
-                lettersAndSpace: "Only letters and spaces"
+                required: translate("lastname_required", appState.langSelected),
+                lettersAndSpace: translate("letters_spaces", appState.langSelected),
             },
             email: {
-                required: "Please enter your email",
-                email: "Email format invalid"
+                required: translate("email_required", appState.langSelected),
+                email: translate("email_format", appState.langSelected),
             },
             phone: {
-                required: "Please enter your phone",
-                digits: "Phone number invalid, Only numbers.",
+                required: translate("phone_required", appState.langSelected),
+                digits: translate("format_phone", appState.langSelected),
 
             }
         }, submitHandler: () => {
@@ -1048,7 +1095,5 @@ $(document).ready(function () {
     $('#imageShppingCart').click(() => {
         document.getElementById("products-add-to-order").scrollIntoView();
     })
-
-    //requestReturnItems()
 
 });

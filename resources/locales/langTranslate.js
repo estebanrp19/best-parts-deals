@@ -61,6 +61,13 @@ const langTranlate = {
         "btn_delete_item": "Eliminar",
         "order_empty": "Ud debe seleccionar al menos un ítem antes de poner una orden.",
         "no_stock": "Hay al menos un item sin existencia suficiente",
+        "firstname_required": "Por favor introduzca su primer nombre",
+        "letters_spaces": "Solo de admiten letras y espacios",
+        "lastname_required": "Por favor introduzca su apellido",
+        "email_required": "Por favor introduzca su correo electrónico",
+        "email_format": "Formato de correo electrónico inválido",
+        "phone_required": "Por favor introduzca su teléfono",
+        "format_phone": "Número de teléfono inválido, solo números",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -122,5 +129,12 @@ const langTranlate = {
         "btn_delete_item": "Delete",
         "order_empty": "You must select at least one item before placing an order.",
         "no_stock": "There is at least one item with insuficient stock",
+        "firstname_required": "Please enter your firstname",
+        "letters_spaces": "Only letters and spaces",
+        "lastname_required": "Please enter your lastname",
+        "email_required": "Please enter your email",
+        "email_format": "Email format invalid",
+        "phone_required": "Please enter your phone",
+        "format_phone": "Phone number invalid, Only numbers",
     }
 }
