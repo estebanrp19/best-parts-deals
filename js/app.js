@@ -3,6 +3,34 @@ const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTo
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
+    $('.table').basictable();
+
+    $('#table-breakpoint').basictable({
+        breakpoint: 768
+    });
+
+    $('#table-container-breakpoint').basictable({
+        containerBreakpoint: 485
+    });
+
+    $('#table-swap-axis').basictable({
+        swapAxis: true
+    });
+
+    $('#table-force-off').basictable({
+        forceResponsive: false
+    });
+
+    $('#table-no-resize').basictable({
+        noResize: true
+    });
+
+    $('#table-two-axis').basictable();
+
+    $('#table-max-height').basictable({
+        tableWrap: true
+    });
+
     const translator = $('body').translate({ lang: "en", t: dict }); //English use by default
     const api = new Api();
     const apiProcessMaker = new ApiProcessMaker();
@@ -770,7 +798,7 @@ $(document).ready(function () {
 
                                     if (validated) {
                                         const aux = await updatePreReserva().then((res) => {
-                                            //createOrderCase(res);
+                                            createOrderCase(res);
                                             return res;
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
                                         $("#select-region").change();
