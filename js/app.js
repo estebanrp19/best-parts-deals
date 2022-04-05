@@ -246,7 +246,49 @@ $(document).ready(function () {
         }
     };
 
-    $("#select-idioma").on("change", function () {
+    const errorMessages = {
+        en: {
+            firstname: {
+                required: translate("firstname_required", 'en'),
+                lettersAndSpace: translate("letters_spaces", 'en'),
+            },
+            lastname: {
+                required: translate("lastname_required", 'en'),
+                lettersAndSpace: translate("letters_spaces", 'en'),
+            },
+            email: {
+                required: translate("email_required", 'en'),
+                email: translate("email_format", 'en'),
+            },
+            phone: {
+                required: translate("phone_required", 'en'),
+                digits: translate("format_phone", 'en'),
+
+            }
+        },
+        es: {
+            firstname: {
+                required: translate("firstname_required", 'es'),
+                lettersAndSpace: translate("letters_spaces", 'es'),
+            },
+            lastname: {
+                required: translate("lastname_required", 'es'),
+                lettersAndSpace: translate("letters_spaces", 'es'),
+            },
+            email: {
+                required: translate("email_required", 'es'),
+                email: translate("email_format", 'es'),
+            },
+            phone: {
+                required: translate("phone_required", 'es'),
+                digits: translate("format_phone", 'es'),
+
+            }
+        }
+
+    }
+
+    $("#select-idioma").on("change", async function () {
         const langSelected = $(this).val();
         if (langSelected == "") {
             translator.lang("en"); //English use by default 
@@ -267,54 +309,53 @@ $(document).ready(function () {
         $('#input-filter-text').attr('placeholder', translate('input_filter_text_placeholder', langSelected));
 
 
-        const emailError = $('#email-error').text();
-        if (emailError.search('introduzca') != -1 && emailError.search('enter') != -1) {
-            $('#email-error').text(translate("email_required", appState.langSelected));
+        const displayEmail = await $('#email-error').css('display');
+        await $('#email-errorAux').css('display', displayEmail);
+
+        const emailError = await $('#email-error').text();
+        if (emailError == '') {
+            await $('#email-errorAux').text(emailError);
+        } else if (emailError.search('introduzca') != -1 || emailError.search('enter') != -1) {
+            await $('#email-errorAux').text(translate("email_required", appState.langSelected));
         } else {
-            $('#email-error').text(translate("email_format", appState.langSelected));
+            await $('#email-errorAux').text(translate("email_format", appState.langSelected));
         }
 
-        const firstnameError = $('#firstname-error').text();
-        if (firstnameError.search('introduzca') != -1 && firstnameError.search('enter') != -1) {
-            $('#firstname-error').text(translate("firstname_required", appState.langSelected));
+        const displayFirstname = await $('#firstname-error').css('display');
+        await $('#firstname-errorAux').css('display', displayFirstname);
+
+        const firstnameError = await $('#firstname-error').text();
+        if (firstnameError == '') {
+            await $('#firstname-errorAux').text(firstnameError);
+        } else if (firstnameError.search('introduzca') != -1 || firstnameError.search('enter') != -1) {
+            await $('#firstname-errorAux').text(translate("firstname_required", appState.langSelected));
         } else {
-            $('#email-error').text(translate("letters_spaces", appState.langSelected));
+            await $('#firstname-errorAux').text(translate("letters_spaces", appState.langSelected));
         }
 
-        const lastnameError = $('#lastname-error').text();
-        if (lastnameError.search('introduzca') != -1 && lastnameError.search('enter') != -1) {
-            $('#lastname-error').text(translate("lastname_required", appState.langSelected));
+        const displayLastname = await $('#lastname-error').css('display');
+        await $('#lastname-errorAux').css('display', displayLastname);
+
+        const lastnameError = await $('#lastname-error').text();
+        if (lastnameError == '') {
+            await $('#lastname-errorAux').text(lastnameError);
+        } else if (lastnameError.search('introduzca') != -1 || lastnameError.search('enter') != -1) {
+            await $('#lastname-errorAux').text(translate("lastname_required", appState.langSelected));
         } else {
-            $('#lastname-error').text(translate("letters_spaces", appState.langSelected));
+            await $('#lastname-errorAux').text(translate("letters_spaces", appState.langSelected));
         }
 
-        const phoneError = $('#phone-error').text();
-        if (phoneError.search('introduzca') != -1 && phoneError.search('enter') != -1) {
-            $('#phone-error').text(translate("phone_required", appState.langSelected));
+        const displayPhone = await $('#phone-error').css('display');
+        await $('#phone-errorAux').css('display', displayPhone);
+
+        const phoneError = await $('#phone-error').text();
+        if (phoneError == '') {
+            await $('#phone-errorAux').text(phoneError);
+        } else if (phoneError.search('introduzca') != -1 || phoneError.search('enter') != -1) {
+            await $('#phone-errorAux').text(translate("phone_required", appState.langSelected));
         } else {
-            $('#phone-error').text(translate("format_phone", appState.langSelected));
+            await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
         }
-
-
-
-
-        //$('#firstname-error').text(translate("firstname_required", appState.langSelected));
-        //$('#firstname-error').text(translate("firstname_required", appState.langSelected));
-        //$('#firstname-error').text(translate("firstname_required", appState.langSelected));
-
-        /* lettersAndSpace: translate("letters_spaces", appState.langSelected),
-     },
-     lastname: {
-         required: translate("lastname_required", appState.langSelected),
-         lettersAndSpace: translate("letters_spaces", appState.langSelected),
-     },
-     email: {
-         required: translate("email_required", appState.langSelected),
-         email: translate("email_format", appState.langSelected),
-     },
-     phone: {
-         required: translate("phone_required", appState.langSelected),
-         digits: translate("format_phone", appState.langSelected),*/
 
     });
 
@@ -807,6 +848,9 @@ $(document).ready(function () {
 
     }
 
+    /**
+    * Event click for validate and send order to create order case 
+    */
     $("#sendCase").click(async (e) => {
         const confirmar = translate('confirm', appState.userLang);
         const cancelar = translate('cancel', appState.userLang);
@@ -880,6 +924,9 @@ $(document).ready(function () {
 
     });
 
+    /**
+     * Event click for validate and send order to create return case 
+     */
     $("#sendReturn").click(async (e) => {
         const confirmar = translate('confirm', appState.userLang);
         const cancelar = translate('cancel', appState.userLang);
@@ -908,6 +955,7 @@ $(document).ready(function () {
 
     });
 
+    //clear tables and restore empty status
     const clearReturnTables = (table) => {
         switch (table) {
             case 'all':
@@ -980,6 +1028,7 @@ $(document).ready(function () {
         }
     }
 
+    //validate email status on db and load orders in case form is return
     const emailChange = async (isReturn) => {
         const emailText = await $('#email').val();
         const emailReturnText = await $('#emailReturn').val();
@@ -1000,7 +1049,7 @@ $(document).ready(function () {
         if (!isReturn) {
             switch (res[0]) {
                 case 0:
-                    showToast("warning", translate('Ubi0Res0', appState.userLang));
+                    //showToast("warning", translate('Ubi0Res0', appState.userLang));
                     $("#sendCase").attr('disabled', true);
                     break;
                 case 1:
@@ -1094,6 +1143,66 @@ $(document).ready(function () {
 
     $('#imageShppingCart').click(() => {
         document.getElementById("products-add-to-order").scrollIntoView();
-    })
+    });
+
+    //Listener event change labels errors form
+    $('body').on('DOMSubtreeModified', '#email-error, #firstname-error, #lastname-error, #phone-error', async function (e) {
+        if (e.target.id == 'email-error') {
+            const displayEmail = await $('#email-error').css('display');
+            await $('#email-errorAux').css('display', displayEmail);
+
+            const emailError = await $('#email-error').text();
+            if (emailError == '') {
+                await $('#email-errorAux').text(emailError);
+            } else if (emailError.search('introduzca') != -1 || emailError.search('enter') != -1) {
+                await $('#email-errorAux').text(translate("email_required", appState.langSelected));
+            } else {
+                await $('#email-errorAux').text(translate("email_format", appState.langSelected));
+            }
+        }
+
+        if (e.target.id == 'firstname-error') {
+            const displayFirstname = await $('#firstname-error').css('display');
+            await $('#firstname-errorAux').css('display', displayFirstname);
+
+            const firstnameError = await $('#firstname-error').text();
+            if (firstnameError == '') {
+                await $('#firstname-errorAux').text(firstnameError);
+            } else if (firstnameError.search('introduzca') != -1 || firstnameError.search('enter') != -1) {
+                await $('#firstname-errorAux').text(translate("firstname_required", appState.langSelected));
+            } else {
+                await $('#firstname-errorAux').text(translate("letters_spaces", appState.langSelected));
+            }
+        }
+
+        if (e.target.id == 'lastname-error') {
+            const displayLastname = await $('#lastname-error').css('display');
+            await $('#lastname-errorAux').css('display', displayLastname);
+
+            const lastnameError = await $('#lastname-error').text();
+            if (lastnameError == '') {
+                await $('#lastname-errorAux').text(lastnameError);
+            } else if (lastnameError.search('introduzca') != -1 || lastnameError.search('enter') != -1) {
+                await $('#lastname-errorAux').text(translate("lastname_required", appState.langSelected));
+            } else {
+                await $('#lastname-errorAux').text(translate("letters_spaces", appState.langSelected));
+            }
+        }
+
+        if (e.target.id == 'phone-error') {
+            const displayPhone = await $('#phone-error').css('display');
+            await $('#phone-errorAux').css('display', displayPhone);
+
+            const phoneError = await $('#phone-error').text();
+            if (phoneError == '') {
+                await $('#phone-errorAux').text(phoneError);
+            } else if (phoneError.search('introduzca') != -1 || phoneError.search('enter') != -1) {
+                await $('#phone-errorAux').text(translate("phone_required", appState.langSelected));
+            } else {
+                await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
+            }
+        }
+
+    });
 
 });
