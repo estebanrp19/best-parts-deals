@@ -903,7 +903,7 @@ $(document).ready(function () {
                                             discountAmountTotalAndQty(item);
                                         });
 
-                                        window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + aux.split('-')[1], "_blank");
+                                        window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + aux.split('-')[1], "_self");
 
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
