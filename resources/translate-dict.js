@@ -65,7 +65,7 @@ const dict = {
     },
     "load_contact_info_lbl": {
         en: "Load your contact info",
-        es: "Cargue su informaciòn de contacto"
+        es: "Carga tu información de contacto"
     },
     "save_data_lbl": {
         en: "Save data?",
