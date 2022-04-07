@@ -72,7 +72,7 @@ $(document).ready(function () {
 
 
         $('#itemTotalOrdered').html(appState.itemsTotalOrdered);
-        $('#totalAmountOrdered').html(parseFloat(appState.totalAmountOrdered).toFixed(2));
+        $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
     }
 
     const discountAmountTotalAndQty = (product) => {
@@ -89,7 +89,7 @@ $(document).ready(function () {
 
 
         $('#itemTotalOrdered').html(appState.itemsTotalOrdered);
-        $('#totalAmountOrdered').html(parseFloat(appState.totalAmountOrdered).toFixed(2));
+        $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
     }
 
     const addItemToOrder = (item) => {

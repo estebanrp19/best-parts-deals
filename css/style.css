@@ -104,6 +104,7 @@ body{
 }
 .total-items-order{
     width: 80px;
+    text-align: left;
 }
 /* ---- ---- ---- CARD RESPONSIVE ---- ---- ---- */
 .main .card{
