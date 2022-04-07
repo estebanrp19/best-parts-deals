@@ -246,48 +246,6 @@ $(document).ready(function () {
         }
     };
 
-    const errorMessages = {
-        en: {
-            firstname: {
-                required: translate("firstname_required", 'en'),
-                lettersAndSpace: translate("letters_spaces", 'en'),
-            },
-            lastname: {
-                required: translate("lastname_required", 'en'),
-                lettersAndSpace: translate("letters_spaces", 'en'),
-            },
-            email: {
-                required: translate("email_required", 'en'),
-                email: translate("email_format", 'en'),
-            },
-            phone: {
-                required: translate("phone_required", 'en'),
-                digits: translate("format_phone", 'en'),
-
-            }
-        },
-        es: {
-            firstname: {
-                required: translate("firstname_required", 'es'),
-                lettersAndSpace: translate("letters_spaces", 'es'),
-            },
-            lastname: {
-                required: translate("lastname_required", 'es'),
-                lettersAndSpace: translate("letters_spaces", 'es'),
-            },
-            email: {
-                required: translate("email_required", 'es'),
-                email: translate("email_format", 'es'),
-            },
-            phone: {
-                required: translate("phone_required", 'es'),
-                digits: translate("format_phone", 'es'),
-
-            }
-        }
-
-    }
-
     $("#select-idioma").on("change", async function () {
         const langSelected = $(this).val();
         if (langSelected == "") {
@@ -548,32 +506,68 @@ $(document).ready(function () {
         }
     });
 
+    $('#saveClient').click(() => {
+        console.log($("#contactForm").validate())
+
+    })
+
     const requestEmailValidate = async (isReturn) => {
         const ubicador = isReturn ? 3 : 0;
-        const data = {
-            correo: isReturn ? $("#emailReturn").val() : $("#email").val(),
-            region: $("#select-region").val(),
-            ubicador: ubicador,
-            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+        if ($("#select-region").val() != '') {
+            const data = {
+                correo: isReturn ? $("#emailReturn").val() : $("#email").val(),
+                region: $("#select-region").val(),
+                ubicador: ubicador,
+                lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+            }
+
+            const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+            return requestEmailValidate;
+        } else {
+            $("#email").val('')
+            showToast("warning", translate('SelectRegionSaveData', appState.userLang));
         }
 
-        const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
-        return requestEmailValidate;
     };
 
     const requestSaveClient = async () => {
-        const data = {
-            correo: $("#email").val(),
-            region: $("#select-region").val(),
-            ubicador: 1,
-            nmb: $("#firstname").val(),
-            apell: $("#lastname").val(),
-            tlf: $("#phone").val(),
-            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+
+        if ($("#select-region").val() != '') {
+            const data = {
+                correo: $("#email").val(),
+                region: $("#select-region").val(),
+                ubicador: 1,
+                nmb: $("#firstname").val(),
+                apell: $("#lastname").val(),
+                tlf: $("#phone").val(),
+                lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
+            }
+
+            const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+
+            switch (resSaveClient[0]) {
+                case 0:
+                    showToast("warning", translate('Ubi0Res0', appState.userLang));
+                    break;
+                case 1:
+                    showToast("warning", translate('Ubi0Res1', appState.userLang, [$("#firstname").val(), $("#lastname").val()]));
+                    break;
+                case 2:
+                    showToast("warning", translate('Ubi0Res2', appState.userLang, [$("#firstname").val(), $("#lastname").val()]));
+                    break;
+                case 3:
+                    showToast("warning", translate('Ubi0Res3', appState.userLang));
+                    break;
+                case 4:
+                    showToast("warning", translate('Ubi0Res4', appState.userLang));
+                    break;
+            }
+            return resSaveClient;
+        } else {
+            $("#email").val('')
+            showToast("warning", translate('SelectRegionSaveData', appState.userLang));
         }
 
-        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
-        return resSaveClient;
     }
 
     const requestClientType = async () => {
@@ -1049,7 +1043,6 @@ $(document).ready(function () {
         if (!isReturn) {
             switch (res[0]) {
                 case 0:
-                    //showToast("warning", translate('Ubi0Res0', appState.userLang));
                     $("#sendCase").attr('disabled', true);
                     break;
                 case 1:

@@ -68,6 +68,7 @@ const langTranlate = {
         "email_format": "Formato de correo electrónico inválido",
         "phone_required": "Por favor introduzca su teléfono",
         "format_phone": "Número de teléfono inválido, solo números",
+        "SelectRegionSaveData": "Debe seleccionar una región",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -136,5 +137,6 @@ const langTranlate = {
         "email_format": "Email format invalid",
         "phone_required": "Please enter your phone",
         "format_phone": "Phone number invalid, Only numbers",
+        "SelectRegionSaveData": "You must select region",
     }
 }
