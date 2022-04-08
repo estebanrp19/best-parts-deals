@@ -208,10 +208,23 @@ body{
 }
 
 .btn-non-existence-item{
-    background-color: #e7becf;
-    border: #dc2f02;
-    color: #dc2f02;
+    background-color: #ffdfdf;
+    border-color: red !important;
+    color: red;
+
+
 }
+.btn-non-existence-item .card-body .text-muted{
+    color: red !important;
+}
+
+.btn-non-existence-item .card-body .text-secondary span{
+    color: red !important;
+}
+.btn-non-existence-item .card-body .text-secondary{
+    color: red !important;
+}
+
 
 .resume-order{
     margin-right: 30px;

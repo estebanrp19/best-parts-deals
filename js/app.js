@@ -265,6 +265,7 @@ $(document).ready(function () {
         $('#select-brand').attr('placeholder', translate('select_brand_placeholder', langSelected));
         $('#select-model').attr('placeholder', translate('select_model_placeholder', langSelected));
         $('#input-filter-text').attr('placeholder', translate('input_filter_text_placeholder', langSelected));
+        $('#email-not-confirmed').text(translate('emailNotConfirmed', langSelected));
 
 
         const displayEmail = await $('#email-error').css('display');
@@ -318,7 +319,6 @@ $(document).ready(function () {
     });
 
     $("#select-brand").on("blur", async function () {
-        console.log('asasaa')
         spinner.show();
         $('#select-model').attr('disabled', true)
         $("#select-model").val('');
@@ -502,6 +502,11 @@ $(document).ready(function () {
 
             }
         }, submitHandler: () => {
+            if ($("#select-region").val() == '') {
+                $("#email").val('')
+                showToast("warning", translate('SelectRegionSaveData', appState.userLang));
+                return;
+            }
             requestSaveClient();
         }
     });
@@ -513,60 +518,48 @@ $(document).ready(function () {
 
     const requestEmailValidate = async (isReturn) => {
         const ubicador = isReturn ? 3 : 0;
-        if ($("#select-region").val() != '') {
-            const data = {
-                correo: isReturn ? $("#emailReturn").val() : $("#email").val(),
-                region: $("#select-region").val(),
-                ubicador: ubicador,
-                lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
-            }
-
-            const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
-            return requestEmailValidate;
-        } else {
-            $("#email").val('')
-            showToast("warning", translate('SelectRegionSaveData', appState.userLang));
+        const data = {
+            correo: isReturn ? $("#emailReturn").val() : $("#email").val(),
+            region: $("#select-region").val(),
+            ubicador: ubicador,
+            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
         }
+
+        const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        return requestEmailValidate;
 
     };
 
     const requestSaveClient = async () => {
 
-        if ($("#select-region").val() != '') {
-            const data = {
-                correo: $("#email").val(),
-                region: $("#select-region").val(),
-                ubicador: 1,
-                nmb: $("#firstname").val(),
-                apell: $("#lastname").val(),
-                tlf: $("#phone").val(),
-                lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
-            }
-
-            const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
-
-            switch (resSaveClient[0]) {
-                case 0:
-                    showToast("warning", translate('Ubi0Res0', appState.userLang));
-                    break;
-                case 1:
-                    showToast("warning", translate('Ubi0Res1', appState.userLang, [$("#firstname").val(), $("#lastname").val()]));
-                    break;
-                case 2:
-                    showToast("warning", translate('Ubi0Res2', appState.userLang, [$("#firstname").val(), $("#lastname").val()]));
-                    break;
-                case 3:
-                    showToast("warning", translate('Ubi0Res3', appState.userLang));
-                    break;
-                case 4:
-                    showToast("warning", translate('Ubi0Res4', appState.userLang));
-                    break;
-            }
-            return resSaveClient;
-        } else {
-            $("#email").val('')
-            showToast("warning", translate('SelectRegionSaveData', appState.userLang));
+        const data = {
+            correo: $("#email").val(),
+            region: $("#select-region").val(),
+            ubicador: 1,
+            nmb: $("#firstname").val(),
+            apell: $("#lastname").val(),
+            tlf: $("#phone").val(),
+            lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
         }
+
+        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        const clientLang = (resSaveClient[1] == 'sp-001') ? 'es' : 'en';
+
+        appState.userLang = clientLang;
+
+        switch (resSaveClient[0]) {
+            case 0:
+                showToast("warning", translate('userInfoSave0', appState.userLang));
+                break;
+            case 1:
+                showToast("warning", translate('userInfoSave1', appState.userLang));
+                break;
+            case 2:
+                showToast("warning", translate('userInfoSave2', appState.userLang));
+                break;
+        }
+        return resSaveClient;
+
 
     }
 
@@ -616,7 +609,7 @@ $(document).ready(function () {
 
         if (itemInvalids.length > 0) {
             itemInvalids.forEach((item) => {
-                $("#item-order-card-" + item[0]).css("background-color", "red");
+                $("#item-order-card-" + item[0]).addClass("btn-non-existence-item");
                 $.toast({
                     heading: 'Error',
                     text: 'La referencia ' + item[0] + ' no tiene suficiente exitencia disponible',
@@ -1030,6 +1023,28 @@ $(document).ready(function () {
         $('#email').val(emailText);
         $('#emailReturn').val(emailReturnText);
 
+        if (!isReturn && emailText == '') {
+            $("#firstname").val('').blur();
+            $("#lastname").val('').blur();
+            $("#phone").val('').blur();
+            $('#email-not-confirmed').text('');
+            return;
+        }
+
+        if (isReturn && emailReturnText == '') {
+            $("#firstname").val('').blur();
+            $("#lastname").val('').blur();
+            $("#phone").val('').blur();
+            return;
+        }
+
+        if ($("#select-region").val() == '') {
+            $("#email").val('');
+            $('#email-not-confirmed').text('');
+            showToast("warning", translate('SelectRegionSaveData', appState.userLang));
+            return;
+        }
+
         const res = await requestEmailValidate(isReturn).then(res => res);
         const clientName = res[1];
         const clientLastname = res[2];
@@ -1044,22 +1059,27 @@ $(document).ready(function () {
             switch (res[0]) {
                 case 0:
                     $("#sendCase").attr('disabled', true);
+                    $('#email-not-confirmed').text('');
                     break;
                 case 1:
                     showToast("warning", translate('Ubi0Res1', appState.userLang, [clientName, clientLastname]));
                     $("#sendCase").attr('disabled', false);
+                    $('#email-not-confirmed').text('');
                     break;
                 case 2:
                     showToast("warning", translate('Ubi0Res2', appState.userLang, [clientName, clientLastname]));
                     $("#sendCase").attr('disabled', false);
+                    $('#email-not-confirmed').text('');
                     break;
                 case 3:
-                    showToast("warning", translate('Ubi0Res3', appState.userLang));
+                    showToast("success", translate('Ubi0Res3', appState.userLang));
                     $("#sendCase").attr('disabled', true);
+                    $('#email-not-confirmed').text(translate('emailNotConfirmed', appState.langSelected));
                     break;
                 case 4:
                     showToast("warning", translate('Ubi0Res4', appState.userLang));
                     $("#sendCase").attr('disabled', true);
+                    $('#email-not-confirmed').text('');
                     break;
             }
         } else {

@@ -69,6 +69,14 @@ const langTranlate = {
         "phone_required": "Por favor introduzca su teléfono",
         "format_phone": "Número de teléfono inválido, solo números",
         "SelectRegionSaveData": "Debe seleccionar una región",
+        "userInfoSave0": "Sus datos han sido guardados exitosamente, hemos enviado un correo a su cuenta" +
+            " por favor busque nuestro correo y siga las instrucciones para validar su cuenta",
+        "userInfoSave1": "Sus datos han sido actualizados exitosamente",
+        "userInfoSave2": "Sus datos han sido actualizados exitosamente, sin embargo su " +
+            "cuenta de correo aun no ha sido confirmada, hemos enviado un e-mail a " +
+            "esa cuenta por favor valide su cuenta de correo siguendo las " +
+            "instrucciones que le hemos enviado",
+        "emailNotConfirmed": "Es necesario confirmar su email para poner ordenes",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -138,5 +146,14 @@ const langTranlate = {
         "phone_required": "Please enter your phone",
         "format_phone": "Phone number invalid, Only numbers",
         "SelectRegionSaveData": "You must select region",
+        "userInfoSave0": "Your data has been successfully saved, we have sent an e-mail" +
+            " to your account, please go and search for our e-mail and follow the" +
+            " instructions to validate your e-mail account.",
+        "userInfoSave1": "Your data has been successfully updated",
+        "userInfoSave2": "Your data has been successfully updated, however your email " +
+            "account has not been validated yet, we have sent an e-mail to that " +
+            "account please go and validate your account following the instructions " +
+            "we have sent",
+        "emailNotConfirmed": "Is must email confirm for put orders",
     }
 }
