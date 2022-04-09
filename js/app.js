@@ -3,6 +3,10 @@ const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTo
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
+
+    $('#tableOrders').stacktable();
+    $('#tableOrderItems').stacktable();
+    $('#tableOrderItemsReturned').stacktable();
     /*$('.table').basictable();
 
     $('#table-breakpoint').basictable({
@@ -778,15 +782,7 @@ $(document).ready(function () {
     const selectReturnOrder = async (data) => {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
-        $('#return-order-items').empty().append(
-            '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
-            '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
-            '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
-            '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
-            '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
-            '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
-            '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
-        );
+        $('#return-order-items').empty();
 
         appState.returnOrderSelected = data;
 
@@ -809,29 +805,44 @@ $(document).ready(function () {
         });
 
         $('#order-selected').text(data.id)
+        loadItemsByReturnOrder();
 
+
+    }
+
+    const loadItemsByReturnOrder = () => {
         appState.itemsByOrder.forEach((item) => {
             $('#return-order-items').append(returnOrderItem(item));
             $('#btn-return-item-' + item.orderId + '-' + item.itemCode).click(() => {
+                console.log('btn-return-item-', item, appState.itemsByOrder, appState.itemsReturned)
                 selectReturnItem(item);
+                const itemFound = appState.itemsByOrder.findIndex((element) => (element.orderId == item.orderId && element.itemCode == item.itemCode));
+                appState.itemsByOrder.splice(itemFound, 1);
                 $('#tr-return-item-' + item.orderId + '-' + item.itemCode).remove()
             });
             $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
-        })
-
+        });
+        $('#tableOrderItems').stacktable();
     }
 
     const selectReturnItem = (data) => {
 
         appState.itemsReturned.push(data);
+
         $('#items-returned-list').append(itemsReturnedList(data));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', $("#select-idioma").val()));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).click(() => {
+            console.log('btn-remove-item-returned-', data, appState.itemsByOrder, appState.itemsReturned)
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
+            appState.itemsByOrder.push(data);
             appState.itemsReturned.splice(itemFound, 1);
+
+            loadItemsByReturnOrder();
             $('#tr-remove-item-returned-' + data.orderId + '-' + data.itemCode).remove();
             selectReturnOrder(appState.returnOrderSelected);
+            console.log('btn-remove-item-returned-', data, appState.itemsByOrder, appState.itemsReturned)
         });
+        $('#tableOrderItemsReturned').stacktable();
 
     }
 
@@ -947,70 +958,19 @@ $(document).ready(function () {
         switch (table) {
             case 'all':
                 $('#return-orders-list').empty();
-                $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) + 'ssssssss</th> ' +
-                    '<th class="trn" scope="col" data-trn-key="date_th">' + translate('date_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="number_item_th">'
-                    + translate('number_item_th', appState.langSelected) + '</th> ' +
-                    '<th class="trn" scope="col" data-trn-key="order_total_th">' + translate('order_total_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">'
-                    + translate('is_returnable_th', appState.langSelected) + '</th> ' +
-                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>');
-
                 $('#return-order-items').empty();
-                $('#return-order-items').empty().append(
-                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
-                );
-
                 $('#items-returned-list').empty();
-                $('#items-returned-list').empty().append(
-                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
-                );
                 break;
             case 'return-orders-list':
                 $('#return-orders-list').empty();
-                $('#return-orders-list').append('<tr> <th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) + '</th> ' +
-                    '<th class="trn" scope="col" data-trn-key="date_th">' + translate('date_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="number_item_th">'
-                    + translate('number_item_th', appState.langSelected) + '</th> ' +
-                    '<th class="trn" scope="col" data-trn-key="order_total_th">' + translate('order_total_th', appState.langSelected) + '</th> <th class="trn" scope="col" data-trn-key="is_returnable_th">'
-                    + translate('is_returnable_th', appState.langSelected) + '</th> ' +
-                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>');
-
                 break;
 
             case 'return-order-items':
                 $('#return-order-items').empty();
-                $('#return-order-items').empty().append(
-                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
-                );
                 break;
 
             case 'items-returned-list':
                 $('#items-returned-list').empty();
-                $('#items-returned-list').empty().append(
-                    '<tr> <th class="trn" scope="col" data-trn-key="description_th">' + translate('description_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="code_th">' + translate('code_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="order_th">' + translate('order_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="unit_price_th">' + translate('unit_price_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="qty_th">' + translate('qty_th', appState.langSelected) +
-                    '</th> <th class="trn" scope="col" data-trn-key="total_th">' + translate('total_th', appState.langSelected) + '</th>' +
-                    '<th class="trn" scope="col" data-trn-key="actions_th">' + translate('actions_th', appState.langSelected) + '</th> </tr>'
-                );
                 break;
         }
     }
@@ -1054,6 +1014,8 @@ $(document).ready(function () {
         $('#order-selected').text('');
 
         appState.userLang = clientLang;
+        appState.langSelected = clientLang;
+        $("#select-idioma").val(clientLang).change();
 
         if (!isReturn) {
             switch (res[0]) {
@@ -1105,11 +1067,13 @@ $(document).ready(function () {
                         }
 
                         $('#btn-select-return-order-' + data.id).click(() => {
+                            console.log('btn-select-return-order-', data);
                             selectReturnOrder(data);
                         });
 
                         $('#btn-select-return-order-' + data.id).text(translate('select_order_btn', $("#select-idioma").val()))
-                    })
+                    });
+                    $('#tableOrders').stacktable();
                     break;
             }
         }

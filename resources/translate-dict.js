@@ -169,7 +169,7 @@ const dict = {
     },
 
     "title_table_3": {
-        en: "Items list on order selected",
+        en: "List of items requested for return",
         es: "Lista de artículos solicitados para retorno"
     },
 

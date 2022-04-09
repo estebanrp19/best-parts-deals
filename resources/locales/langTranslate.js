@@ -40,7 +40,7 @@ const langTranlate = {
         "order_total_th": "Total de la orden",
         "is_returnable_th": "Es retornable?",
         "actions_th": "Acciones",
-        "description_th": "Descripciòn",
+        "description_th": "Descripción",
         "code_th": "Código",
         "unit_price_th": "Precio unitario",
         "qty_th": "Cantidad",
@@ -76,7 +76,7 @@ const langTranlate = {
             "cuenta de correo aun no ha sido confirmada, hemos enviado un e-mail a " +
             "esa cuenta por favor valide su cuenta de correo siguendo las " +
             "instrucciones que le hemos enviado",
-        "emailNotConfirmed": "Es necesario confirmar su email para poner ordenes",
+        "emailNotConfirmed": "Debes confirmar tu email para poner una orden",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -154,6 +154,6 @@ const langTranlate = {
             "account has not been validated yet, we have sent an e-mail to that " +
             "account please go and validate your account following the instructions " +
             "we have sent",
-        "emailNotConfirmed": "Is must email confirm for put orders",
+        "emailNotConfirmed": "You must confirm your email to place an order",
     }
 }

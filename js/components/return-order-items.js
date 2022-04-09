@@ -1,6 +1,7 @@
 const returnOrderItem = (data) => {
     const template =
         '<tr id="tr-return-item-' + data.orderId + '-' + data.itemCode + '">' +
+        '<td></td>' +
         '<td id="description">' + data.description + '</td>' +
         '<td id="itemCode">' + data.itemCode + '</td>' +
         '<td id="orderId">' + data.orderId + '</td>' +
