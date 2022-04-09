@@ -1022,6 +1022,7 @@ $(document).ready(function () {
                 case 0:
                     $("#sendCase").attr('disabled', true);
                     $('#email-not-confirmed').text('');
+                    $("#select-idioma").val('en').change();
                     break;
                 case 1:
                     showToast("warning", translate('Ubi0Res1', appState.userLang, [clientName, clientLastname]));
