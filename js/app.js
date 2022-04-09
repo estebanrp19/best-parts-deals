@@ -1009,7 +1009,7 @@ $(document).ready(function () {
         const clientName = res[1];
         const clientLastname = res[2];
         const clientPhone = res[3];
-        const clientLang = res[4] == null ? $('#select-idioma').val() : 'sp-001' ? 'es' : 'en';
+        const clientLang = (res[6] == null) ? 'en' : (res[6] == 'sp-001') ? 'es' : 'en';
         const orderList = res[7];
         $('#order-selected').text('');
 
