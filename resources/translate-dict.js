@@ -139,8 +139,8 @@ const dict = {
     },
 
     "return_item_btn": {
-        en: "Return item",
-        es: "Retornar articulo"
+        en: "Remove item",
+        es: "Remover item"
     },
 
     "select_order_btn": {
@@ -149,8 +149,8 @@ const dict = {
     },
 
     "cancel_return_btn": {
-        en: "Cancel return",
-        es: "Cancelar retorno"
+        en: "Remove item",
+        es: "Remover item"
     },
 
     "send_return_btn": {
