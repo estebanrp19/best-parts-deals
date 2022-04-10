@@ -27,7 +27,7 @@ const langTranlate = {
         "firstname_placeholder": 'Primer Nombre',
         "lastname_placeholder": 'Apellido',
         "telephone_placeholder": 'Teléfono',
-        "start_return_case": 'Iniciar una orden de retorno',
+        "start_return_case": 'Iniciar un caso de retorno',
         "order_lbl": 'Orden',
         "cancel_return_btn": 'Remover Item',
         "select_order_btn": 'Seleccionar Orden',
