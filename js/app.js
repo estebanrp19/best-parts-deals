@@ -725,7 +725,7 @@ $(document).ready(function () {
 
     }
 
-    const createReturnCase = (APP_NUMBER) => {
+    const createReturnCase = async (APP_NUMBER) => {
         const data = {
             tas_uid: constants.TASK_UID_DIRECT_SEARCH,
             variables: [{}]
@@ -751,7 +751,7 @@ $(document).ready(function () {
 
         //appState.carShopList = [];
         //$('#products-add-to-order').empty();
-        const response = apiProcessMaker.CREATE_CASE(data);
+        const response = await apiProcessMaker.CREATE_CASE(data);
         return response;
 
     }
@@ -962,11 +962,19 @@ $(document).ready(function () {
                         action: async () => {
                             const resPreReturn = await requestPreReturn().then((res) => res);
                             if (resPreReturn) {
-                                createReturnCase().then((res) => {
+                                await createReturnCase().then((res) => {
                                     showToast('success', translate('preReturnSuccess', appState.userLang));
                                     clearReturnTables('all');
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
+
+                                $("#select-region").change();
+                                $("#emailReturn").val('').blur();
+                                $("#firstname").val('').blur();
+                                $("#lastname").val('').blur();
+                                $("#phone").val('').blur();
+
+                                //window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + aux.split('-')[1], "_self");
                             }
                         }
 
