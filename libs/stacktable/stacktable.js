@@ -11,20 +11,20 @@
  * Requires jQuery version 1.7 or above
  *
  */
-;(function($) {
-  $.fn.cardtable = function(options) {
+; (function ($) {
+  $.fn.cardtable = function (options) {
     var $tables = this,
-        defaults = {headIndex:0},
-        settings = $.extend({}, defaults, options),
-        headIndex;
+      defaults = { headIndex: 0 },
+      settings = $.extend({}, defaults, options),
+      headIndex;
 
     // checking the "headIndex" option presence... or defaults it to 0
-    if(options && options.headIndex)
+    if (options && options.headIndex)
       headIndex = options.headIndex;
     else
       headIndex = 0;
 
-    return $tables.each(function() {
+    return $tables.each(function () {
       var $table = $(this);
       if ($table.hasClass('stacktable')) {
         return;
@@ -44,7 +44,7 @@
       $table.siblings().filter('.small-only').remove();
 
       // using rowIndex and cellIndex in order to reduce ambiguity
-      $table.find('>tbody>tr').each(function() {
+      $table.find('>tbody>tr').each(function () {
 
         // declaring headMarkup and bodyMarkup, to be used for separately head and body of single records
         headMarkup = '';
@@ -53,25 +53,25 @@
         // for the first row, "headIndex" cell is the head of the table
         // for the other rows, put the "headIndex" cell as the head for that row
         // then iterate through the key/values
-        $(this).find('>td,>th').each(function(cellIndex) {
-          if ($(this).html() !== ''){
-            bodyMarkup += '<tr class="' + tr_class +'">';
-            if ($topRow.find('>td,>th').eq(cellIndex).html()){
-              bodyMarkup += '<td class="st-key">'+$topRow.find('>td,>th').eq(cellIndex).html()+'</td>';
+        $(this).find('>td,>th').each(function (cellIndex) {
+          if ($(this).html() !== '') {
+            bodyMarkup += '<tr class="' + tr_class + '">';
+            if ($topRow.find('>td,>th').eq(cellIndex).html()) {
+              bodyMarkup += '<td class="st-key">' + $topRow.find('>td,>th').eq(cellIndex).html() + '</td>';
             } else {
               bodyMarkup += '<td class="st-key"></td>';
             }
-            bodyMarkup += '<td class="st-val '+$(this).prop('class')  +'">'+$(this).html()+'</td>';
+            bodyMarkup += '<td class="st-val ' + $(this).prop('class') + '">' + $(this).html() + '</td>';
             bodyMarkup += '</tr>';
           }
         });
 
-        markup += '<table class=" '+ table_css +' stacktable small-only"><tbody>' + headMarkup + bodyMarkup + '</tbody></table>';
+        markup += '<table class=" ' + table_css + ' stacktable small-only"><tbody>' + headMarkup + bodyMarkup + '</tbody></table>';
       });
 
-      $table.find('>tfoot>tr>td').each(function(rowIndex,value) {
+      $table.find('>tfoot>tr>td').each(function (rowIndex, value) {
         if ($.trim($(value).text()) !== '') {
-          markup += '<table class="'+ table_css + ' stacktable small-only"><tbody><tr><td>' + $(value).html() + '</td></tr></tbody></table>';
+          markup += '<table class="' + table_css + ' stacktable small-only"><tbody><tr><td>' + $(value).html() + '</td></tr></tbody></table>';
         }
       });
 
@@ -81,26 +81,30 @@
     });
   };
 
-  $.fn.stacktable = function(options) {
+  $.fn.stacktable = function (options) {
     var $tables = this,
-        defaults = {headIndex:0,displayHeader:true},
-        settings = $.extend({}, defaults, options),
-        headIndex;
+      defaults = { headIndex: 0, displayHeader: true },
+      settings = $.extend({}, defaults, options),
+      headIndex;
 
     // checking the "headIndex" option presence... or defaults it to 0
-    if(options && options.headIndex)
+    if (options && options.headIndex)
       headIndex = options.headIndex;
     else
       headIndex = 0;
 
-    return $tables.each(function() {
+    return $tables.each(function (index, value) {
       var table_css = $(this).prop('class');
-      var $stacktable = $('<table class="'+ table_css +' stacktable small-only"><tbody></tbody></table>');
+      var idParentTable = "small-" + $(this).attr('id');
+
+      var $stacktable = $('<table class="' + table_css + ' stacktable small-only needRemoved"><tbody></tbody></table>');
+
       if (typeof settings.myClass !== 'undefined') $stacktable.addClass(settings.myClass);
       var markup = '';
       var $table, $caption, $topRow, headMarkup, bodyMarkup, tr_class, displayHeader;
 
       $table = $(this);
+
       $table.addClass('stacktable large-only');
       $caption = $table.find(">caption").clone();
       $topRow = $table.find('>thead>tr,>tbody>tr,>tfoot>tr').eq(0);
@@ -108,7 +112,7 @@
       displayHeader = $table.data('display-header') === undefined ? settings.displayHeader : $table.data('display-header');
 
       // using rowIndex and cellIndex in order to reduce ambiguity
-      $table.find('>tbody>tr, >thead>tr').each(function(rowIndex) {
+      $table.find('>tbody>tr, >thead>tr').each(function (rowIndex) {
 
         // declaring headMarkup and bodyMarkup, to be used for separately head and body of single records
         headMarkup = '';
@@ -119,29 +123,41 @@
         if (rowIndex === 0) {
           // the main heading goes into the markup variable
           if (displayHeader) {
-            markup += '<tr class=" '+tr_class +' "><th class="st-head-row st-head-row-main" colspan="2">'+$(this).find('>th,>td').eq(headIndex).html()+'</th></tr>';
+            markup += '<tr class=" ' + tr_class + ' "><th class="st-head-row st-head-row-main" colspan="2">' + $(this).find('>th,>td').eq(headIndex).html() + '</th></tr>';
           }
         } else {
           // for the other rows, put the "headIndex" cell as the head for that row
           // then iterate through the key/values
-          $(this).find('>td,>th').each(function(cellIndex) {
+          var codeItemOrder = '';
+          $(this).find('>td,>th').each(function (cellIndex) {
             if (cellIndex === headIndex) {
-              headMarkup = '<tr class="'+ tr_class+'"><th class="st-head-row" colspan="2">'+$(this).html()+'</th></tr>';
+              headMarkup = '<tr class="' + tr_class + '"><th class="st-head-row" colspan="2">' + $(this).html() + '</th></tr>';
             } else {
-              if ($(this).html() !== ''){
-                bodyMarkup += '<tr class="' + tr_class +'">';
-                if ($topRow.find('>td,>th').eq(cellIndex).html()){
-                  bodyMarkup += '<td class="st-key">'+$topRow.find('>td,>th').eq(cellIndex).html()+'</td>';
+              if ($(this).html() !== '') {
+                bodyMarkup += '<tr class="' + tr_class + '">';
+                if ($topRow.find('>td,>th').eq(cellIndex).html()) {
+                  bodyMarkup += '<td class="st-key">' + $topRow.find('>td,>th').eq(cellIndex).html() + '</td>';
                 } else {
                   bodyMarkup += '<td class="st-key"></td>';
                 }
-                bodyMarkup += '<td class="st-val '+$(this).prop('class')  +'">'+$(this).html()+'</td>';
+                bodyMarkup += '<td class="st-val ' + $(this).prop('class') + '">' + $(this).html() + '</td>';
+
+                console.log()
+                if ((idParentTable == 'small-tableOrderItems' || idParentTable == 'small-tableOrderItemsReturned') && (cellIndex == 2 || cellIndex == 3)) {
+                  codeItemOrder += '-' + $(this).html();
+                }
+
+                //azlain.saavedra@gmail.com
                 bodyMarkup += '</tr>';
               }
             }
+
           });
 
+          idParentTable += codeItemOrder;
           markup += headMarkup + bodyMarkup;
+
+          $stacktable.attr('id', idParentTable)
         }
       });
 
@@ -151,16 +167,16 @@
     });
   };
 
- $.fn.stackcolumns = function(options) {
+  $.fn.stackcolumns = function (options) {
     var $tables = this,
-        defaults = {},
-        settings = $.extend({}, defaults, options);
+      defaults = {},
+      settings = $.extend({}, defaults, options);
 
-    return $tables.each(function() {
+    return $tables.each(function () {
       var $table = $(this);
       var $caption = $table.find(">caption").clone();
       var num_cols = $table.find('>thead>tr,>tbody>tr,>tfoot>tr').eq(0).find('>td,>th').length; //first table <tr> must not contain colspans, or add sum(colspan-1) here.
-      if(num_cols<3) //stackcolumns has no effect on tables with less than 3 columns
+      if (num_cols < 3) //stackcolumns has no effect on tables with less than 3 columns
         return;
 
       var $stackcolumns = $('<table class="stacktable small-only"></table>');
@@ -170,28 +186,28 @@
       var col_i = 1; //col index starts at 0 -> start copy at second column.
 
       while (col_i < num_cols) {
-        $table.find('>thead>tr,>tbody>tr,>tfoot>tr').each(function(index) {
+        $table.find('>thead>tr,>tbody>tr,>tfoot>tr').each(function (index) {
           var tem = $('<tr></tr>'); // todo opt. copy styles of $this; todo check if parent is thead or tfoot to handle accordingly
-          if(index === 0) tem.addClass("st-head-row st-head-row-main");
+          if (index === 0) tem.addClass("st-head-row st-head-row-main");
           var first = $(this).find('>td,>th').eq(0).clone().addClass("st-key");
           var target = col_i;
           // if colspan apply, recompute target for second cell.
           if ($(this).find("*[colspan]").length) {
-            var i =0;
-            $(this).find('>td,>th').each(function() {
-                var cs = $(this).attr("colspan");
-                if (cs) {
-                  cs = parseInt(cs, 10);
-                  target -= cs-1;
-                  if ((i+cs) > (col_i)) //out of current bounds
-                    target += i + cs - col_i -1;
-                  i += cs;
-                } else {
-                  i++;
-                }
+            var i = 0;
+            $(this).find('>td,>th').each(function () {
+              var cs = $(this).attr("colspan");
+              if (cs) {
+                cs = parseInt(cs, 10);
+                target -= cs - 1;
+                if ((i + cs) > (col_i)) //out of current bounds
+                  target += i + cs - col_i - 1;
+                i += cs;
+              } else {
+                i++;
+              }
 
-                if (i > col_i)
-                  return false; //target is set; break.
+              if (i > col_i)
+                return false; //target is set; break.
             });
           }
           var second = $(this).find('>td,>th').eq(target).clone().addClass("st-val").removeAttr("colspan");

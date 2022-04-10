@@ -231,9 +231,15 @@ body{
     margin-right: 30px;
 }
 
-.stacktable.large-only { display: table; }
-.stacktable.small-only { display: none; }
+.big-table-return { display: table; }
+.small-table-return { display: none; }
 @media (max-width: 800px) {
-    .stacktable.large-only { display: none; }
-    .stacktable.small-only { display: table; }
+    .big-table-return { display: none; }
+    .small-table-return { display: table; }
+  }
+
+  .table-tittle{
+    background-color: cadetblue;
+    color: white;
+    padding: 5px;
   }

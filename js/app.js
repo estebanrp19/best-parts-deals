@@ -1,12 +1,12 @@
 var configGeneral;
-const appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTotalOrdered: 0, totalAmountOrdered: 0 };
+var appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTotalOrdered: 0, totalAmountOrdered: 0 };
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
 
-    $('#tableOrders').stacktable();
-    $('#tableOrderItems').stacktable();
-    $('#tableOrderItemsReturned').stacktable();
+    //$('#tableOrders').stacktable();
+    //$('#tableOrderItems').stacktable();
+    //$('#tableOrderItemsReturned').stacktable();
     /*$('.table').basictable();
 
     $('#table-breakpoint').basictable({
@@ -152,7 +152,7 @@ $(document).ready(function () {
                     position: 'top-right',
                 });
 
-                $('#btn-remove-item-order-' + item.NUM_REG).on('click', (e) => {
+                $('body').on('click', '#btn-remove-item-order-' + item.NUM_REG, (e) => {
                     const idItemToRemove = e.target.id.split('-')[4];
                     removeItemOnOrder(idItemToRemove);
                 });
@@ -223,7 +223,7 @@ $(document).ready(function () {
                     $('#products-list')
                         .append(itemOnProductsList(item));
 
-                    $('#btn-add-item-' + item.NUM_REG).on('click', () => {
+                    $('body').on('click', '#btn-add-item-' + item.NUM_REG, () => {
                         item.qty = parseInt($('#qty-' + item.NUM_REG).val());
                         addItemToOrder(item);
                     });
@@ -362,7 +362,6 @@ $(document).ready(function () {
     });
 
     $("#model-year").on("change", async function () {
-        console.log('asasasaa model-year')
         const data = {
             year: await $("#model-year").val(),
             region: await $("#select-region").val(),
@@ -514,11 +513,6 @@ $(document).ready(function () {
             requestSaveClient();
         }
     });
-
-    $('#saveClient').click(() => {
-        console.log($("#contactForm").validate())
-
-    })
 
     const requestEmailValidate = async (isReturn) => {
         const ubicador = isReturn ? 3 : 0;
@@ -683,36 +677,29 @@ $(document).ready(function () {
         returnOrderTotal = 0;
         itemQtyTotal = 0;
 
-        if (!appState.itemsReturned.length) {
-            showToast('success', translate('preReturnEmpty', appState.userLang));
-        } else {
+        appState.itemsReturned.forEach((item, index) => {
+            itemQtyTotal += parseInt(item.qty);
+
+            let objGrille = [
+                item.itemCode,
+                item.itemPrice,
+                item.qty,
+                itemQtyTotal,
+                item.orderId,
+                item.description
+            ]
 
 
-            appState.itemsReturned.forEach((item, index) => {
-                itemQtyTotal += parseInt(item.qty);
+            returnOrderTotal += parseFloat(item.itemPrice) * parseInt(item.qty);
 
-                let objGrille = [
-                    item.itemCode,
-                    item.itemPrice,
-                    item.qty,
-                    itemQtyTotal,
-                    item.orderId,
-                    item.description
-                ]
+            arrDataRequest.push(objGrille);
+        });
 
+        data.datos = arrDataRequest;
+        data.total_price_ret = returnOrderTotal;
+        data.total_qty_ret = itemQtyTotal;
 
-                returnOrderTotal += parseFloat(item.itemPrice) * parseInt(item.qty);
-
-                arrDataRequest.push(objGrille);
-            });
-
-            data.datos = arrDataRequest;
-            data.total_price_ret = returnOrderTotal;
-            data.total_qty_ret = itemQtyTotal;
-
-            resPreReturn = await apiProcessMaker.PRE_RETURN(data).then((res) => res);
-        }
-
+        resPreReturn = await apiProcessMaker.PRE_RETURN(data).then((res) => res);
         return resPreReturn;
     }
 
@@ -783,6 +770,7 @@ $(document).ready(function () {
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty();
+        $('[id*="small-tableOrderItems"]').remove();
 
         appState.returnOrderSelected = data;
 
@@ -811,18 +799,23 @@ $(document).ready(function () {
     }
 
     const loadItemsByReturnOrder = () => {
+        $('#return-order-items').empty();
+        $('[id*="btn-return-item-"]').off('click');
         appState.itemsByOrder.forEach((item) => {
             $('#return-order-items').append(returnOrderItem(item));
-            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).click(() => {
-                console.log('btn-return-item-', item, appState.itemsByOrder, appState.itemsReturned)
+            $('#small-return-order-items').append(smallReturnOrderItem(item));
+            $('body').on('click', '#btn-return-item-' + item.orderId + '-' + item.itemCode, (e) => {
                 selectReturnItem(item);
                 const itemFound = appState.itemsByOrder.findIndex((element) => (element.orderId == item.orderId && element.itemCode == item.itemCode));
                 appState.itemsByOrder.splice(itemFound, 1);
-                $('#tr-return-item-' + item.orderId + '-' + item.itemCode).remove()
+                $('#tr-return-item-' + item.orderId + '-' + item.itemCode).remove();
+                $('#small-tr-return-item-' + item.orderId + '-' + item.itemCode).remove();
+                e.stopImmediatePropagation();
+                e.preventDefault();
             });
             $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
         });
-        $('#tableOrderItems').stacktable();
+        //$('#tableOrderItems').stacktable();
     }
 
     const selectReturnItem = (data) => {
@@ -830,26 +823,53 @@ $(document).ready(function () {
         appState.itemsReturned.push(data);
 
         $('#items-returned-list').append(itemsReturnedList(data));
+        $('#small-items-returned-list').append(smallItemsReturnedList(data));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', $("#select-idioma").val()));
-        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).click(() => {
-            console.log('btn-remove-item-returned-', data, appState.itemsByOrder, appState.itemsReturned)
+        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).off('click');
+        $('body').on('click', '#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode, (e) => {
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
-            appState.itemsByOrder.push(data);
-            appState.itemsReturned.splice(itemFound, 1);
+            if (itemFound != -1) {
+                const itemDeleted = appState.itemsReturned[itemFound];
+                appState.itemsByOrder.push(itemDeleted);
 
-            loadItemsByReturnOrder();
-            $('#tr-remove-item-returned-' + data.orderId + '-' + data.itemCode).remove();
-            selectReturnOrder(appState.returnOrderSelected);
-            console.log('btn-remove-item-returned-', data, appState.itemsByOrder, appState.itemsReturned)
+                $('#tr-remove-item-returned-' + data.orderId + '-' + data.itemCode).remove();
+                $('#small-tr-remove-item-returned-' + data.orderId + '-' + data.itemCode).remove();
+
+                $('#small-tableOrderItemsReturned-' + itemDeleted.itemCode + '-' + itemDeleted.orderId).remove();
+
+                $('#return-order-items').append(returnOrderItem(itemDeleted));
+                $('#small-return-order-items').append(smallReturnOrderItem(itemDeleted));
+                $('#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).off('click');
+                $('body').on('click', '#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode, (e) => {
+                    debugger
+                    const itemFound = appState.itemsByOrder.findIndex((element) => (element.orderId == itemDeleted.orderId && element.itemCode == itemDeleted.itemCode));
+                    if (itemFound != -1) {
+                        appState.itemsByOrder.splice(itemFound, 1);
+                        $('#tr-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).remove();
+                        $('#small-tr-return-item-' + item.orderId + '-' + item.itemCode).remove();
+
+
+                        $('#small-tableOrderItems-' + itemDeleted.itemCode + '-' + itemDeleted.orderId).remove();
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
+                    }
+                });
+
+                appState.itemsReturned.splice(itemFound, 1);
+                $('#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).text(translate('return_item_btn', $("#select-idioma").val()));
+            }
+
+            e.stopImmediatePropagation();
+            e.preventDefault();
         });
-        $('#tableOrderItemsReturned').stacktable();
 
+        //$('#tableOrderItemsReturned').stacktable();
     }
 
     /**
     * Event click for validate and send order to create order case 
     */
-    $("#sendCase").click(async (e) => {
+    $('body').on('click', "#sendCase", async (e) => {
         const confirmar = translate('confirm', appState.userLang);
         const cancelar = translate('cancel', appState.userLang);
 
@@ -925,31 +945,35 @@ $(document).ready(function () {
     /**
      * Event click for validate and send order to create return case 
      */
-    $("#sendReturn").click(async (e) => {
+    $('body').on('click', "#sendReturn", async (e) => {
         const confirmar = translate('confirm', appState.userLang);
         const cancelar = translate('cancel', appState.userLang);
 
-        $.confirm({
-            title: translate('confirmReturnTitle', appState.userLang),
-            content: translate('preReturnAgree', appState.userLang),
-            buttons: {
-                confirmar: {
-                    text: confirmar,
-                    action: async () => {
-                        const resPreReturn = await requestPreReturn().then((res) => res);
-                        if (resPreReturn) {
-                            createReturnCase().then((res) => {
-                                showToast('success', translate('preReturnSuccess', appState.userLang));
-                                clearReturnTables('all');
-                            });
-                            //showToast('success', translate('preReturnSuccess', appState.userLang));
+        if (!appState.itemsReturned.length) {
+            showToast('success', translate('preReturnEmpty', appState.userLang));
+        } else {
+            $.confirm({
+                title: translate('confirmReturnTitle', appState.userLang),
+                content: translate('preReturnAgree', appState.userLang),
+                buttons: {
+                    confirmar: {
+                        text: confirmar,
+                        action: async () => {
+                            const resPreReturn = await requestPreReturn().then((res) => res);
+                            if (resPreReturn) {
+                                createReturnCase().then((res) => {
+                                    showToast('success', translate('preReturnSuccess', appState.userLang));
+                                    clearReturnTables('all');
+                                });
+                                //showToast('success', translate('preReturnSuccess', appState.userLang));
+                            }
                         }
-                    }
 
-                },
-                cancelar: { text: cancelar },
-            }
-        });
+                    },
+                    cancelar: { text: cancelar },
+                }
+            });
+        }
 
     });
 
@@ -958,19 +982,27 @@ $(document).ready(function () {
         switch (table) {
             case 'all':
                 $('#return-orders-list').empty();
+                $('#small-return-orders-list').empty();
+
                 $('#return-order-items').empty();
+                $('#small-return-order-items').empty();
+
                 $('#items-returned-list').empty();
+                $('#small-items-returned-list').empty();
                 break;
             case 'return-orders-list':
                 $('#return-orders-list').empty();
+                $('#small-return-orders-list').empty();
                 break;
 
             case 'return-order-items':
                 $('#return-order-items').empty();
+                $('#small-return-order-items').empty();
                 break;
 
             case 'items-returned-list':
                 $('#items-returned-list').empty();
+                $('#small-items-returned-list').empty();
                 break;
         }
     }
@@ -1011,7 +1043,7 @@ $(document).ready(function () {
         const clientPhone = res[3];
         const clientLang = (res[6] == null) ? $("#select-idioma").val() : (res[6] == 'sp-001') ? 'es' : 'en';
         const orderList = res[7];
-        $('#order-selected').text('');
+        //$('#order-selected').text('');
 
         appState.userLang = clientLang;
         appState.langSelected = clientLang;
@@ -1061,19 +1093,19 @@ $(document).ready(function () {
 
                         $('#return-orders-list')
                             .append(returnOrders(data, data.isReturnable));
+                        $('#small-return-orders-list').append(smallReturnOrders(data, data.isReturnable));
 
                         if (!element[4]) {
                             $('#btn-select-return-order-' + data.id).attr('disabled', true)
                         }
 
-                        $('#btn-select-return-order-' + data.id).click(() => {
-                            console.log('btn-select-return-order-', data);
+                        $('body').on('click', '#btn-select-return-order-' + data.id, () => {
                             selectReturnOrder(data);
                         });
 
                         $('#btn-select-return-order-' + data.id).text(translate('select_order_btn', $("#select-idioma").val()))
                     });
-                    $('#tableOrders').stacktable();
+                    // $('#tableOrders').stacktable();
                     break;
             }
         }
@@ -1118,7 +1150,7 @@ $(document).ready(function () {
         //return reStReturnItems;
     }
 
-    $('#imageShppingCart').click(() => {
+    $('body').on('click', '#imageShppingCart', () => {
         document.getElementById("products-add-to-order").scrollIntoView();
     });
 

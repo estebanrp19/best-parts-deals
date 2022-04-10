@@ -84,12 +84,9 @@
                     </div>
                 </form>
             </div>
-
             <div>
-                <div style="background-color: cadetblue;" for="" class="trn" data-trn-key="title_table_1">
-                    Order list
-                </div>
-                <table class="table table-striped " id="tableOrders">
+                <div for="" class="trn table-tittle" data-trn-key="title_table_1">Order list</div>
+                <table class="table table-striped big-table-return" id="big-tableOrders">
                     <thead>
                         <tr>
                             <th class="pin"></th>
@@ -101,26 +98,25 @@
                             <th class="trn" scope="col" data-trn-key="actions_th">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="return-orders-list">
-
-                    </tbody>
+                    <tbody id="return-orders-list"></tbody>
                 </table>
+                <div id="small-return-orders-list"></div>
             </div>
 
             <br><br>
 
             <Label class="trn orden-number" data-trn-key="order_number_lbl">
                 Order number selected:
-                <span id="order-selected"></span>
+                <div id="order-selected"></div>
             </Label>
 
             <br><br>
 
             <div class="row">
-                <div style="background-color: cadetblue;" for="" class="trn" data-trn-key="title_table_2">
+                <div for="" class="trn table-tittle" data-trn-key="title_table_2">
                     Items list on order selected
                 </div>
-                <table class="table table-striped" id="tableOrderItems">
+                <table class="table table-striped big-table-return" id="tableOrderItems">
                     <thead>
                         <tr>
                             <th class="pin"></th>
@@ -133,20 +129,19 @@
                             <th class="trn" scope="col" data-trn-key="actions_th">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="return-order-items">
-
-                    </tbody>
+                    <tbody id="return-order-items"></tbody>
 
                 </table>
+                <div id="small-return-order-items"></div>
             </div>
 
             <br><br>
 
             <div class="row">
-                <div style="background-color: cadetblue;" for="" class="trn" data-trn-key="title_table_3">
+                <div for="" class="trn table-tittle" data-trn-key="title_table_3">
                     List of items requested for return
                 </div>
-                <table class="table table-striped" id="tableOrderItemsReturned">
+                <table class="table table-striped big-table-return" id="tableOrderItemsReturned">
                     <thead>
                         <tr>
                             <th class="pin"></th>
@@ -164,6 +159,7 @@
                     </tbody>
 
                 </table>
+                <div id="small-items-returned-list"></div>
             </div>
 
             <br>
@@ -199,7 +195,7 @@
     <script src="libs/Basic-Responsive-Table-Plugin-For-jQuery-Basic-Table/dist/js/basictable.min.js"></script>
     <script src="libs/Basic-Responsive-Table-Plugin-For-jQuery-Basic-Table/dist/js/jquery.basictable.min.js"></script>
     <script src="libs/client-side-translator/jquery.translate.js"></script>
-    <script src="libs/stacktable/stacktable.js"></script>
+
 
     <script src="./resources/constants.js"></script>
     <script src="./resources/create-case-template.js"></script>
@@ -208,8 +204,11 @@
     <script src="./js/components/item-on-products-list.js"></script>
     <script src="./js/components/item-on-order.js"></script>
     <script src="./js/components/return-orders.js"></script>
+    <script src="./js/components/small-return-orders.js"></script>
     <script src="./js/components/return-order-items.js"></script>
+    <script src="./js/components/small-return-order-items.js"></script>
     <script src="./js/components/items-returned-list.js"></script>
+    <script src="./js/components/small-items-returned-list.js"></script>
     <script src="./js/components/pagination.js"></script>
     <script src="./js/app.js"></script>
     <script src="./utils/spinner.js"></script>
