@@ -24,7 +24,7 @@ const smallReturnOrders = (data) => {
         '</tr>' +
         '<tr class="">' +
         '<td class="trn st-key" data-trn-key="actions_th">Actions</td>' +
-        '<td class="trn st-val "><button class="trn btn btn-add-delete btn-outline-primary"' +
+        '<td class="st-val "><button class="trn btn btn-add-delete btn-outline-primary"' +
         'data-trn-key="select_order_btn" id="btn-select-return-order-' + data.id + '">Select order</button></td>' +
         '</tr>' +
         '</tbody>' +

@@ -347,6 +347,9 @@ $(document).ready(function () {
             await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
         }
 
+
+        $('body').translate({ lang: appState.langSelected, t: dict });
+
     });
 
     $("#select-brand").on("blur", async function () {
@@ -831,6 +834,7 @@ $(document).ready(function () {
         loadItemsByReturnOrder();
         addAmountTotalAndQtyTable2();
         showToast('success', translate('orderSelected', appState.langSelected, [data.id]));
+        $('body').translate({ lang: appState.langSelected, t: dict });
 
 
     }
@@ -852,10 +856,14 @@ $(document).ready(function () {
                 addAmountTotalAndQtyTable2();
                 addAmountTotalAndQtyTable3();
                 showToast('success', translate('itemOrderSelected', appState.langSelected, [item.itemCode, item.orderId]));
+                $('body').translate({ lang: appState.langSelected, t: dict });
             });
 
-            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
+            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()));
+            $('body').translate({ lang: appState.langSelected, t: dict });
         });
+
+        $('body').translate({ lang: appState.langSelected, t: dict });
 
         //$('#tableOrderItems').stacktable();
     }
@@ -866,7 +874,7 @@ $(document).ready(function () {
 
         $('#items-returned-list').append(itemsReturnedList(data));
         $('#small-items-returned-list').append(smallItemsReturnedList(data));
-        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', $("#select-idioma").val()));
+        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', appState.langSelected));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).off('click');
         $('body').on('click', '#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode, (e) => {
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
@@ -897,6 +905,7 @@ $(document).ready(function () {
                         addAmountTotalAndQtyTable2();
                         addAmountTotalAndQtyTable3();
                         showToast('success', translate('itemOrderSelected', appState.langSelected, [item.itemCode, item.orderId]));
+                        $('body').translate({ lang: appState.langSelected, t: dict });
 
                     }
                 });
@@ -906,6 +915,7 @@ $(document).ready(function () {
                 addAmountTotalAndQtyTable2();
                 addAmountTotalAndQtyTable3();
                 showToast('warning', translate('itemReturnedSelected', appState.langSelected, [itemDeleted.itemCode, itemDeleted.orderId]));
+                $('body').translate({ lang: appState.langSelected, t: dict });
             }
 
             e.stopImmediatePropagation();

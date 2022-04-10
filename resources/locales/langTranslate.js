@@ -44,7 +44,7 @@ const langTranlate = {
         "unit_price_th": "Precio unitario",
         "qty_th": "Cantidad",
         "total_th": "Total",
-        "return_item_btn": "Retornar articulo",
+        "return_item_btn": "Retornar item",
         "select_order_btn": "Seleccionar Orden",
         "region-required-message": 'Debe seleccionar una región',
         "total_th": "Escriba su marca",
