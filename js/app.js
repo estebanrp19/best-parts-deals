@@ -1013,16 +1013,17 @@ $(document).ready(function () {
                                 await createReturnCase().then((res) => {
                                     showToast('success', translate('preReturnSuccess', appState.userLang));
                                     clearReturnTables('all');
+                                    $("#select-region").change();
+                                    $("#emailReturn").val('').blur();
+                                    $("#firstname").val('').blur();
+                                    $("#lastname").val('').blur();
+                                    $("#phone").val('').blur();
+
+                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
 
-                                $("#select-region").change();
-                                $("#emailReturn").val('').blur();
-                                $("#firstname").val('').blur();
-                                $("#lastname").val('').blur();
-                                $("#phone").val('').blur();
 
-                                window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + aux.split('-')[1], "_self");
                             }
                         }
 
