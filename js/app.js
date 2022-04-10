@@ -792,6 +792,7 @@ $(document).ready(function () {
 
         });
 
+        debugger
         $('#order-selected').text(data.id)
         loadItemsByReturnOrder();
 
