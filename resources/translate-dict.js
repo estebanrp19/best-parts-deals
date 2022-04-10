@@ -81,7 +81,7 @@ const dict = {
     },
     "start_return_case": {
         en: "Start a return case",
-        es: "Iniciar una orden de retorno"
+        es: "Iniciar un caso de retorno"
     },
     "order_th": {
         en: "Order",
