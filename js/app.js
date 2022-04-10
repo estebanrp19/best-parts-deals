@@ -805,14 +805,16 @@ $(document).ready(function () {
     };
 
     const selectReturnOrder = async (data) => {
+        //debugger
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty();
-        $('[id*="small-tableOrderItems"]').remove();
+        $('#small-return-order-items').empty();
 
         appState.returnOrderSelected = data;
 
-        await resGetOrder.forEach((item) => {
+
+        resGetOrder.forEach((item) => {
             const params = {
                 description: item[1],
                 itemCode: item[0],
@@ -916,6 +918,7 @@ $(document).ready(function () {
                 addAmountTotalAndQtyTable3();
                 showToast('warning', translate('itemReturnedSelected', appState.langSelected, [itemDeleted.itemCode, itemDeleted.orderId]));
                 $('body').translate({ lang: appState.langSelected, t: dict });
+                selectReturnOrder({ id: itemDeleted.orderId });
             }
 
             e.stopImmediatePropagation();
