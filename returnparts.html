@@ -46,35 +46,47 @@
     <section class="main">
         <div class="container contenedor-formulario">
             <div class="row">
-                <div class="col d-flex justify-content-center">
-                    <label for="select-idioma"></label>
-                    <select class="form-select select-idioma mt-3" id="select-idioma">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
                 <form class="formulario cmxform" action="" id="contactForm" method="get" autocomplete="off">
                     <div class="col">
+                        <div class="mb-3 d-flex justify-content-center">
+                            <select class="form-select select-idioma mt-3 input-element" id="select-idioma"
+                                style="max-width: 300px;">
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
                         <div class="mb-3 d-flex justify-content-center">
                             <input id="emailReturn" name="emailreturn" type="email"
                                 class="trn form-control mt-3 input-element" placeholder="E-mail"
                                 style="max-width: 300px;">
+                            <label id="email-errorAux" class="error"></label>
+                            <div style="display: none;">
+                                <label id="email-error" class="error" for="email"></label>
+                            </div>
                         </div>
                         <div class="mb-3 d-flex justify-content-center ">
                             <input id="firstname" name="firstname" type="text" class="form-control input-element"
                                 placeholder="First Name" style="max-width: 300px;">
-                            <!-- error -->
+                            <label id="firstname-errorAux" class="error"></label>
+                            <div style="display: none;">
+                                <label id="firstname-error" class="error" for="firstname"></label>
+                            </div>
                         </div>
                         <div class="mb-3 d-flex justify-content-center">
                             <input id="lastname" name="lastname" type="text" class="form-control input-element"
                                 placeholder="Last Name" style="max-width: 300px;">
+                            <label id="lastname-errorAux" class="error"></label>
+                            <div style="display: none;">
+                                <label id="lastname-error" class="error" for="lastname"></label>
+                            </div>
                         </div>
                         <div class="mb-3 d-flex justify-content-center ">
                             <input id="phone" name="phone" type="text" class="form-control input-element"
                                 placeholder="Telephone" style="max-width: 300px;">
+                            <label id="phone-errorAux" class="error"></label>
+                            <div style="display: none;">
+                                <label id="phone-error" class="error" for="phone"></label>
+                            </div>
                         </div>
                         <div class="mb-3 d-flex justify-content-center">
                             <button type="submit" value="submit" class="trn btn btn-secondary submit" id="saveClient"
