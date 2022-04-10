@@ -480,6 +480,10 @@ $(document).ready(function () {
                 required: true,
                 email: true
             },
+            emailReturn: {
+                required: true,
+                email: true
+            },
             phone: {
                 required: true,
                 digits: true,
@@ -496,6 +500,10 @@ $(document).ready(function () {
                 lettersAndSpace: translate("letters_spaces", appState.langSelected),
             },
             email: {
+                required: translate("email_required", appState.langSelected),
+                email: translate("email_format", appState.langSelected),
+            },
+            emailReturn: {
                 required: translate("email_required", appState.langSelected),
                 email: translate("email_format", appState.langSelected),
             },
