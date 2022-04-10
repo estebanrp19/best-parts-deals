@@ -176,6 +176,13 @@ body{
     margin-top: 5px;
     text-align: center;
 }
+.error-returnparts{
+    width: 100%;
+    color: #ff3333;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
 .line-order{
     height: 3px;
     background: #777;
