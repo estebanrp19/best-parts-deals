@@ -55,51 +55,46 @@
                                 <option value="es">Español</option>
                             </select>
                         </div>
-                        <div class="mb-3 justify-content-center">
+                        <div class="mb-3 justify-content-center" style="margin-bottom: 0px !important;">
 
                             <input id="emailReturn" name="emailReturn" type="email"
                                 class="trn form-control mt-3 input-element" placeholder="E-mail"
-                                style="max-width: 300px;">
+                                style="max-width: 300px; margin-top: 0px !important;">
                             <label id="email-errorAux" class="error"></label>
                             <div style="display: none;">
                                 <label id="email-error" class="error" for="emailReturn"></label>
                             </div>
 
                         </div>
-                        <div class="mb-3 justify-content-center ">
+                        <div class="mb-3 justify-content-center">
 
                             <input id="firstname" name="firstname" type="text" class="form-control input-element"
-                                placeholder="First Name" style="max-width: 300px;">
-                            <label id="firstname-errorAux" class="error"></label>
+                                placeholder="First Name" style="max-width: 300px; margin-top: 0px !important;" disabled>
+                            <!--<label id="firstname-errorAux" class="error"></label>
                             <div style="display: none;">
                                 <label id="firstname-error" class="error" for="firstname"></label>
-                            </div>
+                            </div>-->
                         </div>
 
                         <div class="mb-3 justify-content-center">
 
                             <input id="lastname" name="lastname" type="text" class="form-control input-element"
-                                placeholder="Last Name" style="max-width: 300px;">
-                            <label id="lastname-errorAux" class="error"></label>
+                                placeholder="Last Name" style="max-width: 300px; margin-top: 0px !important;" disabled>
+                            <!--<label id="lastname-errorAux" class="error"></label>
                             <div style="display: none;">
                                 <label id="lastname-error" class="error" for="lastname"></label>
-                            </div>
+                            </div>-->
 
                         </div>
-                        <div class="mb-3 justify-content-center ">
+                        <div class="mb-3 justify-content-center">
 
                             <input id="phone" name="phone" type="text" class="form-control input-element"
-                                placeholder="Telephone" style="max-width: 300px;">
-                            <label id="phone-errorAux" class="error"></label>
+                                placeholder="Telephone" style="max-width: 300px; margin-top: 0px !important;" disabled>
+                            <!--<label id="phone-errorAux" class="error"></label>
                             <div style="display: none;">
                                 <label id="phone-error" class="error" for="phone"></label>
-                            </div>
+                            </div>-->
 
-                        </div>
-                        <div class="mb-3 d-flex justify-content-center">
-                            <button type="submit" value="submit" class="trn btn btn-secondary submit" id="saveClient"
-                                data-trn-key="save_data_lbl">Save
-                                data?</button>
                         </div>
                     </div>
                 </form>
@@ -155,6 +150,16 @@
 
                 </table>
                 <div id="small-return-order-items"></div>
+                <div class="row resume-order" style="margin-top: 10px">
+                    <div class="col-12 data-items-order">
+                        <span class="trn" data-trn-key="order_qty_items_lbl">Cantidad de items</span>: <label
+                            class="total-items-order" id="itemTotalOrderedTable2">0</label>
+                    </div>
+                    <div class="col-12 data-items-order">
+                        <span class="trn" data-trn-key="order_amount_total_lbl">Monto total</span>: <label
+                            class="total-items-order" id="totalAmountOrderedTable2">$0</label>
+                    </div>
+                </div>
             </div>
 
             <br><br>
@@ -182,6 +187,16 @@
 
                 </table>
                 <div id="small-items-returned-list"></div>
+                <div class="row resume-order" style="margin-top: 10px">
+                    <div class="col-12 data-items-order">
+                        <span class="trn" data-trn-key="order_qty_items_lbl">Cantidad de items</span>: <label
+                            class="total-items-order" id="itemTotalOrderedTable3">0</label>
+                    </div>
+                    <div class="col-12 data-items-order">
+                        <span class="trn" data-trn-key="order_amount_total_lbl">Monto total</span>: <label
+                            class="total-items-order" id="totalAmountOrderedTable3">$0</label>
+                    </div>
+                </div>
             </div>
 
             <br>

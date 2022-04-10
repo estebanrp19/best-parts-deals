@@ -1,5 +1,16 @@
 var configGeneral;
-var appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTotalOrdered: 0, totalAmountOrdered: 0 };
+var appState = {
+    carShopList: [],
+    itemsReturned: [],
+    itemsByOrder: [],
+    itemsTotalOrdered: 0,
+    totalAmountOrdered: 0,
+    itemsTotalOrderedTable2: 0,
+    totalAmountOrderedTable2: 0,
+    itemsTotalOrderedTable3: 0,
+    totalAmountOrderedTable3: 0,
+    langSelected: 'en'
+};
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
@@ -79,6 +90,46 @@ $(document).ready(function () {
         $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
     }
 
+    const addAmountTotalAndQtyTable2 = () => {
+        let auxAmount = 0;
+        let auxQty = 0;
+        appState.itemsTotalOrderedTable2 = 0;
+        appState.totalAmountOrderedTable2 = 0;
+
+        appState.itemsByOrder.forEach((elem) => {
+            auxAmount += Number(appState.totalAmountOrderedTable2) + (Number(elem.itemPrice) * Number(elem.qty));
+            auxQty += Number(appState.itemsTotalOrderedTable2) + Number(elem.qty);
+        })
+
+        appState.itemsTotalOrderedTable2 = auxQty;
+        appState.totalAmountOrderedTable2 = auxAmount;
+
+
+        $('#itemTotalOrderedTable2').html(appState.itemsTotalOrderedTable2);
+        $('#totalAmountOrderedTable2').html('$' + parseFloat(appState.totalAmountOrderedTable2).toFixed(2));
+    }
+
+    const addAmountTotalAndQtyTable3 = () => {
+        let auxAmount = 0;
+        let auxQty = 0;
+        appState.itemsTotalOrderedTable3 = 0;
+        appState.totalAmountOrderedTable3 = 0;
+
+        appState.itemsReturned.forEach((elem) => {
+            auxAmount += Number(appState.totalAmountOrderedTable3) + (Number(elem.itemPrice) * Number(elem.qty));
+            auxQty += Number(appState.itemsTotalOrderedTable3) + Number(elem.qty);
+        })
+
+        appState.itemsTotalOrderedTable3 = auxQty;
+        appState.totalAmountOrderedTable3 = auxAmount;
+
+
+        $('#itemTotalOrderedTable3').html(appState.itemsTotalOrderedTable3);
+        $('#totalAmountOrderedTable3').html('$' + parseFloat(appState.totalAmountOrderedTable3).toFixed(2));
+    }
+
+
+
     const discountAmountTotalAndQty = (product) => {
         let auxAmount = 0;
         let auxQty = 0;
@@ -117,24 +168,12 @@ $(document).ready(function () {
             if (aux <= item.EXISTENCIA) {
                 appState.carShopList[foundItem].qty = aux;
                 $('#order-item-' + item.NUM_REG).html(aux);
-                $.toast({
-                    heading: 'Success',
-                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado a la orden',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    position: 'top-right',
-                });
+                showToast('success', translate('itemAddedToOrder', appState.langSelected, [item.APLICACION, item.DESCRIPCION]));
 
                 //debugger
-                addAmountTotalAndQty(item);
+                addAmountTotalAndQty(item, 'itemTotalOrdered', 'totalAmountOrdered', appState.carShopList);
             } else {
-                $.toast({
-                    heading: 'Error',
-                    text: 'La cantidad de productos solicitados supera la existencia disponible',
-                    showHideTransition: 'fade',
-                    icon: 'error',
-                    position: 'top-right',
-                })
+                showToast('success', translate('itemExceedStock', appState.langSelected));
             }
 
         } else {
@@ -144,13 +183,7 @@ $(document).ready(function () {
                 $('#products-add-to-order').append(itemOnOrder(item));
                 $('#total-item-on-order').html(appState.carShopList.length);
 
-                $.toast({
-                    heading: 'Success',
-                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado a la orden',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    position: 'top-right',
-                });
+                showToast('success', translate('itemAddedToOrder', appState.langSelected, [item.APLICACION, item.DESCRIPCION]));
 
                 $('body').on('click', '#btn-remove-item-order-' + item.NUM_REG, (e) => {
                     const idItemToRemove = e.target.id.split('-')[4];
@@ -161,13 +194,7 @@ $(document).ready(function () {
                 addAmountTotalAndQty(item);
 
             } else {
-                $.toast({
-                    heading: 'Error',
-                    text: 'La cantidad de productos solicitados supera la existencia disponible',
-                    showHideTransition: 'fade',
-                    icon: 'error',
-                    position: 'top-right',
-                })
+                showToast('success', translate('itemExceedStock', appState.langSelected));
             }
 
         }
@@ -782,7 +809,7 @@ $(document).ready(function () {
 
         appState.returnOrderSelected = data;
 
-        resGetOrder.forEach((item) => {
+        await resGetOrder.forEach((item) => {
             const params = {
                 description: item[1],
                 itemCode: item[0],
@@ -800,9 +827,10 @@ $(document).ready(function () {
 
         });
 
-        debugger
         $('#order-selected').text(data.id)
         loadItemsByReturnOrder();
+        addAmountTotalAndQtyTable2();
+        showToast('success', translate('orderSelected', appState.langSelected, [data.id]));
 
 
     }
@@ -821,9 +849,14 @@ $(document).ready(function () {
                 $('#small-tr-return-item-' + item.orderId + '-' + item.itemCode).remove();
                 e.stopImmediatePropagation();
                 e.preventDefault();
+                addAmountTotalAndQtyTable2();
+                addAmountTotalAndQtyTable3();
+                showToast('success', translate('itemOrderSelected', appState.langSelected, [item.itemCode, item.orderId]));
             });
+
             $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
         });
+
         //$('#tableOrderItems').stacktable();
     }
 
@@ -861,11 +894,18 @@ $(document).ready(function () {
                         $('#small-tableOrderItems-' + itemDeleted.itemCode + '-' + itemDeleted.orderId).remove();
                         e.stopImmediatePropagation();
                         e.preventDefault();
+                        addAmountTotalAndQtyTable2();
+                        addAmountTotalAndQtyTable3();
+                        showToast('success', translate('itemOrderSelected', appState.langSelected, [item.itemCode, item.orderId]));
+
                     }
                 });
 
                 appState.itemsReturned.splice(itemFound, 1);
                 $('#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).text(translate('return_item_btn', $("#select-idioma").val()));
+                addAmountTotalAndQtyTable2();
+                addAmountTotalAndQtyTable3();
+                showToast('warning', translate('itemReturnedSelected', appState.langSelected, [itemDeleted.itemCode, itemDeleted.orderId]));
             }
 
             e.stopImmediatePropagation();
@@ -982,7 +1022,7 @@ $(document).ready(function () {
                                 $("#lastname").val('').blur();
                                 $("#phone").val('').blur();
 
-                                //window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + aux.split('-')[1], "_self");
+                                window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + aux.split('-')[1], "_self");
                             }
                         }
 
@@ -1111,14 +1151,19 @@ $(document).ready(function () {
                         data.date = element[1];
                         data.total = element[2];
                         data.qtyItems = element[3];
-                        data.isReturnable = element[4] ? 'Si' : 'No';
+                        data.isReturnable = element[4] ? translate('yes', appState.langSelected) : translate('no', appState.langSelected);
 
                         $('#return-orders-list')
                             .append(returnOrders(data, data.isReturnable));
                         $('#small-return-orders-list').append(smallReturnOrders(data, data.isReturnable));
 
                         if (!element[4]) {
+                            $('#tr-returnable-' + data.id).addClass('is-retornable-no');
+                            $('#tr-small-returnable-' + data.id).addClass('is-retornable-no');
                             $('#btn-select-return-order-' + data.id).attr('disabled', true)
+                        } else {
+                            $('#tr-returnable-' + data.id).addClass('is-retornable-yes');
+                            $('#tr-small-returnable-' + data.id).addClass('is-retornable-yes');
                         }
 
                         $('body').on('click', '#btn-select-return-order-' + data.id, () => {

@@ -28,7 +28,7 @@ const smallReturnOrderItem = (data) => {
         '</tr>' +
         '<tr class="">' +
         '<td class="trn st-key" data-trn-key="actions_th">Actions</td>' +
-        '<td class="trn st-val "><button class="trn btn-case-return"' +
+        '<td class="trn st-val "><button class="trn btn btn-add-delete btn-outline-primary"' +
         'data-trn-key="return_item_btn" id="btn-return-item-' + data.orderId + '-' + data.itemCode + '">Return item</button></td>' +
         '</tr>' +
         '</tbody>' +
