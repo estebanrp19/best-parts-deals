@@ -1093,6 +1093,9 @@ $(document).ready(function () {
         $('#email').val(emailText);
         $('#emailReturn').val(emailReturnText);
 
+        addAmountTotalAndQtyTable2();
+        addAmountTotalAndQtyTable3();
+
         if (!isReturn && emailText == '') {
             $("#firstname").val('').blur();
             $("#lastname").val('').blur();
