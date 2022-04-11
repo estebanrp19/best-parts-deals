@@ -1,5 +1,16 @@
 var configGeneral;
-var appState = { carShopList: [], itemsReturned: [], itemsByOrder: [], itemsTotalOrdered: 0, totalAmountOrdered: 0 };
+var appState = {
+    carShopList: [],
+    itemsReturned: [],
+    itemsByOrder: [],
+    itemsTotalOrdered: 0,
+    totalAmountOrdered: 0,
+    itemsTotalOrderedTable2: 0,
+    totalAmountOrderedTable2: 0,
+    itemsTotalOrderedTable3: 0,
+    totalAmountOrderedTable3: 0,
+    langSelected: 'en'
+};
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
@@ -79,6 +90,46 @@ $(document).ready(function () {
         $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
     }
 
+    const addAmountTotalAndQtyTable2 = () => {
+        let auxAmount = 0;
+        let auxQty = 0;
+        appState.itemsTotalOrderedTable2 = 0;
+        appState.totalAmountOrderedTable2 = 0;
+
+        appState.itemsByOrder.forEach((elem) => {
+            auxAmount += Number(appState.totalAmountOrderedTable2) + (Number(elem.itemPrice) * Number(elem.qty));
+            auxQty += Number(appState.itemsTotalOrderedTable2) + Number(elem.qty);
+        })
+
+        appState.itemsTotalOrderedTable2 = auxQty;
+        appState.totalAmountOrderedTable2 = auxAmount;
+
+
+        $('#itemTotalOrderedTable2').html(appState.itemsTotalOrderedTable2);
+        $('#totalAmountOrderedTable2').html('$' + parseFloat(appState.totalAmountOrderedTable2).toFixed(2));
+    }
+
+    const addAmountTotalAndQtyTable3 = () => {
+        let auxAmount = 0;
+        let auxQty = 0;
+        appState.itemsTotalOrderedTable3 = 0;
+        appState.totalAmountOrderedTable3 = 0;
+
+        appState.itemsReturned.forEach((elem) => {
+            auxAmount += Number(appState.totalAmountOrderedTable3) + (Number(elem.itemPrice) * Number(elem.qty));
+            auxQty += Number(appState.itemsTotalOrderedTable3) + Number(elem.qty);
+        })
+
+        appState.itemsTotalOrderedTable3 = auxQty;
+        appState.totalAmountOrderedTable3 = auxAmount;
+
+
+        $('#itemTotalOrderedTable3').html(appState.itemsTotalOrderedTable3);
+        $('#totalAmountOrderedTable3').html('$' + parseFloat(appState.totalAmountOrderedTable3).toFixed(2));
+    }
+
+
+
     const discountAmountTotalAndQty = (product) => {
         let auxAmount = 0;
         let auxQty = 0;
@@ -117,24 +168,12 @@ $(document).ready(function () {
             if (aux <= item.EXISTENCIA) {
                 appState.carShopList[foundItem].qty = aux;
                 $('#order-item-' + item.NUM_REG).html(aux);
-                $.toast({
-                    heading: 'Success',
-                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado a la orden',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    position: 'top-right',
-                });
+                showToast('success', translate('itemAddedToOrder', appState.langSelected, [item.APLICACION, item.DESCRIPCION]));
 
                 //debugger
-                addAmountTotalAndQty(item);
+                addAmountTotalAndQty(item, 'itemTotalOrdered', 'totalAmountOrdered', appState.carShopList);
             } else {
-                $.toast({
-                    heading: 'Error',
-                    text: 'La cantidad de productos solicitados supera la existencia disponible',
-                    showHideTransition: 'fade',
-                    icon: 'error',
-                    position: 'top-right',
-                })
+                showToast('success', translate('itemExceedStock', appState.langSelected));
             }
 
         } else {
@@ -144,13 +183,7 @@ $(document).ready(function () {
                 $('#products-add-to-order').append(itemOnOrder(item));
                 $('#total-item-on-order').html(appState.carShopList.length);
 
-                $.toast({
-                    heading: 'Success',
-                    text: 'El producto ' + item.APLICACION + ' - ' + item.DESCRIPCION + ' ha sido agregado a la orden',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    position: 'top-right',
-                });
+                showToast('success', translate('itemAddedToOrder', appState.langSelected, [item.APLICACION, item.DESCRIPCION]));
 
                 $('body').on('click', '#btn-remove-item-order-' + item.NUM_REG, (e) => {
                     const idItemToRemove = e.target.id.split('-')[4];
@@ -161,13 +194,7 @@ $(document).ready(function () {
                 addAmountTotalAndQty(item);
 
             } else {
-                $.toast({
-                    heading: 'Error',
-                    text: 'La cantidad de productos solicitados supera la existencia disponible',
-                    showHideTransition: 'fade',
-                    icon: 'error',
-                    position: 'top-right',
-                })
+                showToast('success', translate('itemExceedStock', appState.langSelected));
             }
 
         }
@@ -319,6 +346,18 @@ $(document).ready(function () {
         } else {
             await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
         }
+
+
+
+        $('body').translate({ lang: appState.langSelected, t: dict });
+
+        $('[id*="tr-small-returnable-"]').each((index, elem) => {
+            if ($(elem).text() == 'No') {
+                $(elem).text(translate('no', appState.langSelected))
+            } else {
+                $(elem).text(translate('yes', appState.langSelected))
+            }
+        });
 
     });
 
@@ -480,6 +519,10 @@ $(document).ready(function () {
                 required: true,
                 email: true
             },
+            emailReturn: {
+                required: true,
+                email: true
+            },
             phone: {
                 required: true,
                 digits: true,
@@ -496,6 +539,10 @@ $(document).ready(function () {
                 lettersAndSpace: translate("letters_spaces", appState.langSelected),
             },
             email: {
+                required: translate("email_required", appState.langSelected),
+                email: translate("email_format", appState.langSelected),
+            },
+            emailReturn: {
                 required: translate("email_required", appState.langSelected),
                 email: translate("email_format", appState.langSelected),
             },
@@ -725,7 +772,7 @@ $(document).ready(function () {
 
     }
 
-    const createReturnCase = (APP_NUMBER) => {
+    const createReturnCase = async (APP_NUMBER) => {
         const data = {
             tas_uid: constants.TASK_UID_DIRECT_SEARCH,
             variables: [{}]
@@ -751,7 +798,7 @@ $(document).ready(function () {
 
         //appState.carShopList = [];
         //$('#products-add-to-order').empty();
-        const response = apiProcessMaker.CREATE_CASE(data);
+        const response = await apiProcessMaker.CREATE_CASE(data);
         return response;
 
     }
@@ -767,12 +814,14 @@ $(document).ready(function () {
     };
 
     const selectReturnOrder = async (data) => {
+        //debugger
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty();
-        $('[id*="small-tableOrderItems"]').remove();
+        $('#small-return-order-items').empty();
 
         appState.returnOrderSelected = data;
+
 
         resGetOrder.forEach((item) => {
             const params = {
@@ -792,9 +841,11 @@ $(document).ready(function () {
 
         });
 
-        debugger
         $('#order-selected').text(data.id)
         loadItemsByReturnOrder();
+        addAmountTotalAndQtyTable2();
+        showToast('success', translate('orderSelected', appState.langSelected, [data.id]));
+        $('body').translate({ lang: appState.langSelected, t: dict });
 
 
     }
@@ -813,9 +864,18 @@ $(document).ready(function () {
                 $('#small-tr-return-item-' + item.orderId + '-' + item.itemCode).remove();
                 e.stopImmediatePropagation();
                 e.preventDefault();
+                addAmountTotalAndQtyTable2();
+                addAmountTotalAndQtyTable3();
+                showToast('success', translate('itemOrderSelected', appState.langSelected, [item.itemCode, item.orderId]));
+                $('body').translate({ lang: appState.langSelected, t: dict });
             });
-            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()))
+
+            $('#btn-return-item-' + item.orderId + '-' + item.itemCode).text(translate('return_item_btn', $("#select-idioma").val()));
+            $('body').translate({ lang: appState.langSelected, t: dict });
         });
+
+        $('body').translate({ lang: appState.langSelected, t: dict });
+
         //$('#tableOrderItems').stacktable();
     }
 
@@ -825,7 +885,7 @@ $(document).ready(function () {
 
         $('#items-returned-list').append(itemsReturnedList(data));
         $('#small-items-returned-list').append(smallItemsReturnedList(data));
-        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', $("#select-idioma").val()));
+        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', appState.langSelected));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).off('click');
         $('body').on('click', '#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode, (e) => {
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
@@ -853,11 +913,21 @@ $(document).ready(function () {
                         $('#small-tableOrderItems-' + itemDeleted.itemCode + '-' + itemDeleted.orderId).remove();
                         e.stopImmediatePropagation();
                         e.preventDefault();
+                        addAmountTotalAndQtyTable2();
+                        addAmountTotalAndQtyTable3();
+                        showToast('success', translate('itemOrderSelected', appState.langSelected, [item.itemCode, item.orderId]));
+                        $('body').translate({ lang: appState.langSelected, t: dict });
+
                     }
                 });
 
                 appState.itemsReturned.splice(itemFound, 1);
                 $('#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).text(translate('return_item_btn', $("#select-idioma").val()));
+                addAmountTotalAndQtyTable2();
+                addAmountTotalAndQtyTable3();
+                showToast('warning', translate('itemReturnedSelected', appState.langSelected, [itemDeleted.itemCode, itemDeleted.orderId]));
+                $('body').translate({ lang: appState.langSelected, t: dict });
+                selectReturnOrder({ id: itemDeleted.orderId });
             }
 
             e.stopImmediatePropagation();
@@ -962,11 +1032,24 @@ $(document).ready(function () {
                         action: async () => {
                             const resPreReturn = await requestPreReturn().then((res) => res);
                             if (resPreReturn) {
-                                createReturnCase().then((res) => {
+                                await createReturnCase().then((res) => {
                                     showToast('success', translate('preReturnSuccess', appState.userLang));
                                     clearReturnTables('all');
+                                    $("#select-region").change();
+                                    $("#emailReturn").val('').blur();
+                                    $("#firstname").val('').blur();
+                                    $("#lastname").val('').blur();
+                                    $("#phone").val('').blur();
+
+                                    appState.itemsByOrder = [];
+                                    appState.itemsReturned = [];
+
+                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
+
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
+
+
                             }
                         }
 
@@ -1012,9 +1095,16 @@ $(document).ready(function () {
     const emailChange = async (isReturn) => {
         const emailText = await $('#email').val();
         const emailReturnText = await $('#emailReturn').val();
+        clearReturnTables('all');
+        appState.itemsByOrder = [];
+        appState.itemsReturned = [];
+        $('#order-selected').text('')
 
         $('#email').val(emailText);
         $('#emailReturn').val(emailReturnText);
+
+        addAmountTotalAndQtyTable2()
+        addAmountTotalAndQtyTable3()
 
         if (!isReturn && emailText == '') {
             $("#firstname").val('').blur();
@@ -1053,7 +1143,7 @@ $(document).ready(function () {
 
         appState.userLang = clientLang;
         appState.langSelected = clientLang;
-        $("#select-idioma").val(clientLang).change();
+        await $("#select-idioma").val(clientLang).change();
 
         if (!isReturn) {
             switch (res[0]) {
@@ -1095,14 +1185,19 @@ $(document).ready(function () {
                         data.date = element[1];
                         data.total = element[2];
                         data.qtyItems = element[3];
-                        data.isReturnable = element[4] ? 'Si' : 'No';
+                        data.isReturnable = element[4] ? translate('yes', appState.langSelected) : translate('no', appState.langSelected);
 
                         $('#return-orders-list')
                             .append(returnOrders(data, data.isReturnable));
                         $('#small-return-orders-list').append(smallReturnOrders(data, data.isReturnable));
 
                         if (!element[4]) {
+                            $('#tr-returnable-' + data.id).addClass('is-retornable-no');
+                            $('#tr-small-returnable-' + data.id).addClass('is-retornable-no');
                             $('#btn-select-return-order-' + data.id).attr('disabled', true)
+                        } else {
+                            $('#tr-returnable-' + data.id).addClass('is-retornable-yes');
+                            $('#tr-small-returnable-' + data.id).addClass('is-retornable-yes');
                         }
 
                         $('body').on('click', '#btn-select-return-order-' + data.id, () => {
@@ -1114,6 +1209,7 @@ $(document).ready(function () {
                     // $('#tableOrders').stacktable();
                     break;
             }
+            $('body').translate({ lang: appState.langSelected, t: dict });
         }
 
         $("#firstname").val(clientName).blur();

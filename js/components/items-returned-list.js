@@ -8,7 +8,7 @@ const itemsReturnedList = (data) => {
         '<td id="itemPrice">' + data.itemPrice + '</td>' +
         '<td id="qty">' + data.qty + '</td>' +
         '<td id="total">' + data.total + '</td>' +
-        '<td><button class="trn btn-case-return" data-trn-key="cancel_return_btn" id="btn-remove-item-returned-' + data.orderId + '-' + data.itemCode + '">Cancel return</button></td>' +
+        '<td><button class="trn btn btn-outline-danger btn-add-delete" data-trn-key="cancel_return_btn" id="btn-remove-item-returned-' + data.orderId + '-' + data.itemCode + '">Cancel return</button></td>' +
         '</tr>'
 
     return template;

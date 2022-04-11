@@ -28,8 +28,8 @@ const smallItemsReturnedList = (data) => {
         '</tr>' +
         '<tr class="">' +
         '<td class="trn st-key" data-trn-key="actions_th">Actions</td>' +
-        '<td class="trn st-val ">' +
-        '<button class="trn btn-case-return" data-trn-key="return_item_btn" id="btn-remove-item-returned-' + data.orderId + '-' + data.itemCode + '">Cancel return</button>' +
+        '<td class="st-val ">' +
+        '<button class="trn btn btn-outline-danger btn-add-delete" data-trn-key="cancel_return_btn" id="btn-remove-item-returned-' + data.orderId + '-' + data.itemCode + '">Remove item</button>' +
         '</td>' +
         '</tr>' +
         '</tbody>' +
