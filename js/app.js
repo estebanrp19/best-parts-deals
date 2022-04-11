@@ -1086,6 +1086,9 @@ $(document).ready(function () {
     const emailChange = async (isReturn) => {
         const emailText = await $('#email').val();
         const emailReturnText = await $('#emailReturn').val();
+        clearReturnTables('all');
+        appState.itemsByOrder = [];
+        appState.itemsReturned = [];
 
         $('#email').val(emailText);
         $('#emailReturn').val(emailReturnText);
