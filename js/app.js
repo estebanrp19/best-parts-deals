@@ -1032,7 +1032,11 @@ $(document).ready(function () {
                                     $("#lastname").val('').blur();
                                     $("#phone").val('').blur();
 
+                                    appState.itemsByOrder = [];
+                                    appState.itemsReturned = [];
+
                                     window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
+
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
 
