@@ -348,7 +348,16 @@ $(document).ready(function () {
         }
 
 
+
         $('body').translate({ lang: appState.langSelected, t: dict });
+
+        $('[id*="tr-small-returnable-"]').each((index, elem) => {
+            if ($(elem).text() == 'No') {
+                $(elem).text(translate('no', appState.langSelected))
+            } else {
+                $(elem).text(translate('yes', appState.langSelected))
+            }
+        });
 
     });
 
@@ -1089,12 +1098,13 @@ $(document).ready(function () {
         clearReturnTables('all');
         appState.itemsByOrder = [];
         appState.itemsReturned = [];
+        $('#order-selected').text('')
 
         $('#email').val(emailText);
         $('#emailReturn').val(emailReturnText);
 
-        addAmountTotalAndQtyTable2();
-        addAmountTotalAndQtyTable3();
+        addAmountTotalAndQtyTable2()
+        addAmountTotalAndQtyTable3()
 
         if (!isReturn && emailText == '') {
             $("#firstname").val('').blur();
@@ -1133,7 +1143,7 @@ $(document).ready(function () {
 
         appState.userLang = clientLang;
         appState.langSelected = clientLang;
-        $("#select-idioma").val(clientLang).change();
+        await $("#select-idioma").val(clientLang).change();
 
         if (!isReturn) {
             switch (res[0]) {
@@ -1199,6 +1209,7 @@ $(document).ready(function () {
                     // $('#tableOrders').stacktable();
                     break;
             }
+            $('body').translate({ lang: appState.langSelected, t: dict });
         }
 
         $("#firstname").val(clientName).blur();
