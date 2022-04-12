@@ -725,13 +725,13 @@ $(document).ready(function () {
         itemQtyTotal = 0;
 
         appState.itemsReturned.forEach((item, index) => {
-            itemQtyTotal += parseInt(item.qty);
+            const itemAmountTotal = parseFloat(parseInt(item.qty) * parseFloat(item.itemPrice)).toFixed(2);
 
             let objGrille = [
                 item.itemCode,
                 item.itemPrice,
                 item.qty,
-                itemQtyTotal,
+                itemAmountTotal,
                 item.orderId,
                 item.description
             ]
@@ -1032,7 +1032,7 @@ $(document).ready(function () {
                         action: async () => {
                             const resPreReturn = await requestPreReturn().then((res) => res);
                             if (resPreReturn) {
-                                await createReturnCase().then((res) => {
+                                /*await createReturnCase().then((res) => {
                                     showToast('success', translate('preReturnSuccess', appState.userLang));
                                     clearReturnTables('all');
                                     $("#select-region").change();
@@ -1046,7 +1046,7 @@ $(document).ready(function () {
 
                                     window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
 
-                                });
+                                });*/
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
 
 
