@@ -750,7 +750,7 @@ $(document).ready(function () {
         return resPreReturn;
     }
 
-    const createOrderCase = (APP_NUMBER) => {
+    const createOrderCase = async (APP_NUMBER) => {
         const data = {
             tas_uid: constants.TASK_UID_DIRECT_SEARCH,
             variables: [{}]
@@ -768,7 +768,8 @@ $(document).ready(function () {
 
         appState.carShopList = [];
         $('#products-add-to-order').empty();
-        apiProcessMaker.CREATE_CASE(data);
+        const res = await apiProcessMaker.CREATE_CASE(data);
+        return res;
 
     }
 
@@ -977,23 +978,22 @@ $(document).ready(function () {
                                     const validated = await validateExistence().then((res) => res); // con la respuesta de este servicio controlamos si la existencia es valida y pasamos al siguiente
 
                                     if (validated) {
-                                        const aux = await updatePreReserva().then((res) => {
-                                            createOrderCase(res);
-                                            return res;
+                                        updatePreReserva().then(async (res) => {
+                                            const resCreate = await createOrderCase(res);
+                                            $("#select-region").change();
+                                            $("#email").val('').blur();
+                                            $("#firstname").val('').blur();
+                                            $("#lastname").val('').blur();
+                                            $("#phone").val('').blur();
+                                            $("#sendCase").attr('disabled', true);
+                                            appState.carShopList.forEach((item) => {
+                                                $('#container-order-item-' + item.NUM_REG).remove();
+                                                discountAmountTotalAndQty(item);
+                                            });
+
+                                            window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_self");
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
-                                        $("#select-region").change();
-                                        $("#email").val('').blur();
-                                        $("#firstname").val('').blur();
-                                        $("#lastname").val('').blur();
-                                        $("#phone").val('').blur();
-                                        $("#sendCase").attr('disabled', true);
-                                        appState.carShopList.forEach((item) => {
-                                            $('#container-order-item-' + item.NUM_REG).remove();
-                                            discountAmountTotalAndQty(item);
-                                        });
-
-                                        window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + aux.split('-')[1], "_self");
-
+                                        
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
                                     }
