@@ -1032,7 +1032,7 @@ $(document).ready(function () {
                         action: async () => {
                             const resPreReturn = await requestPreReturn().then((res) => res);
                             if (resPreReturn) {
-                                /*await createReturnCase().then((res) => {
+                                await createReturnCase().then((res) => {
                                     showToast('success', translate('preReturnSuccess', appState.userLang));
                                     clearReturnTables('all');
                                     $("#select-region").change();
@@ -1044,9 +1044,9 @@ $(document).ready(function () {
                                     appState.itemsByOrder = [];
                                     appState.itemsReturned = [];
 
-                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
+                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_blank");
 
-                                });*/
+                                });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
 
 
