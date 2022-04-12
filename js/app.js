@@ -815,7 +815,7 @@ $(document).ready(function () {
     };
 
     const selectReturnOrder = async (data) => {
-        //debugger
+        debugger
         const resGetOrder = await requestGetOrder(data);
         appState.itemsByOrder = [];
         $('#return-order-items').empty();
@@ -903,7 +903,7 @@ $(document).ready(function () {
                 $('#small-return-order-items').append(smallReturnOrderItem(itemDeleted));
                 $('#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).off('click');
                 $('body').on('click', '#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode, (e) => {
-                    debugger
+
                     const itemFound = appState.itemsByOrder.findIndex((element) => (element.orderId == itemDeleted.orderId && element.itemCode == itemDeleted.itemCode));
                     if (itemFound != -1) {
                         appState.itemsByOrder.splice(itemFound, 1);
@@ -1194,14 +1194,19 @@ $(document).ready(function () {
                         if (!element[4]) {
                             $('#tr-returnable-' + data.id).addClass('is-retornable-no');
                             $('#tr-small-returnable-' + data.id).addClass('is-retornable-no');
-                            $('#btn-select-return-order-' + data.id).attr('disabled', true)
+                            //$('#btn-select-return-order-' + data.id).attr('disabled', true)
                         } else {
                             $('#tr-returnable-' + data.id).addClass('is-retornable-yes');
                             $('#tr-small-returnable-' + data.id).addClass('is-retornable-yes');
                         }
 
                         $('body').on('click', '#btn-select-return-order-' + data.id, () => {
-                            selectReturnOrder(data);
+                            if (!element[4]) {
+                                showToast('error', translate('no_return_message', appState.langSelected))
+                            } else {
+                                selectReturnOrder(data);
+                            }
+
                         });
 
                         $('#btn-select-return-order-' + data.id).text(translate('select_order_btn', $("#select-idioma").val()))

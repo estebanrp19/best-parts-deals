@@ -82,6 +82,7 @@ const langTranlate = {
         "itemExceedStock": "La cantidad de productos solicitados supera la existencia disponible",
         "yes": "Si",
         "no": "No",
+        "no_return_message": "Esta orden no se puede retornar, el tiempo de retorno ha expirado",
     },
     "en": {
         "Ubi0Res0": 'case 0',
@@ -165,5 +166,6 @@ const langTranlate = {
         "itemExceedStock": "The quantity of items ordered exceeds the stock on hand",
         "yes": "Yes",
         "no": "No",
+        "no_return_message": "This order is not returnable, return timeframe is already due",
     }
 }
