@@ -991,9 +991,9 @@ $(document).ready(function () {
                                                 discountAmountTotalAndQty(item);
                                             });
 
-                                            window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_self");
+                                            window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_blank");
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
-                                        
+
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
                                     }
