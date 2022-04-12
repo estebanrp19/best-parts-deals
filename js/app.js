@@ -991,7 +991,7 @@ $(document).ready(function () {
                                                 discountAmountTotalAndQty(item);
                                             });
 
-                                            window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_blank");
+                                            window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_self");
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
 
                                     } else {
@@ -1044,7 +1044,7 @@ $(document).ready(function () {
                                     appState.itemsByOrder = [];
                                     appState.itemsReturned = [];
 
-                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_blank");
+                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
 
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
@@ -1244,13 +1244,6 @@ $(document).ready(function () {
 
         $('#products-list').empty();
     })
-
-
-
-    const requestReturnItems = async () => {
-        //const reStReturnItems = await apiProcessMaker.RETURN_ITEMS({ test: 'test' }).then((res) => res);
-        //return reStReturnItems;
-    }
 
     $('body').on('click', '#imageShppingCart', () => {
         document.getElementById("products-add-to-order").scrollIntoView();

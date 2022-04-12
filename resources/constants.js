@@ -22,7 +22,6 @@ const constants = {
         SAVE_CLIENT: "/pm/save-client",
         CREATE_ORDER_CASE: "/pm/create-case",
         PRE_RETURN: "/pm/pre-return",
-        RETURN_ITEMS: "/pm/return-items"
     },
     TASK_NAME_DIRECT_SEARCH: "direct_search",
     TASK_UID_DIRECT_SEARCH: "88981594356c9ef90b4bb48005562106",

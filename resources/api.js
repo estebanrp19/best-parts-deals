@@ -140,16 +140,6 @@ class ApiProcessMaker {
         })
     };
 
-    RETURN_ITEMS = async (data) => {
-        return $.ajax({
-            method: "POST",
-            dataType: 'json',
-            data,
-            crossDomain: true,
-            url: constants.BASE_URL + constants.WORKFLOW_API_REST.RETURN_ITEMS
-        })
-    };
-
     GET_CAR_BRAND_LIST_BY_YEAR = async (data) => {
         return $.ajax({
             method: "POST",
