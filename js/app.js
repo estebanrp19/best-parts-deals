@@ -185,6 +185,7 @@ $(document).ready(function () {
 
                 showToast('success', translate('itemAddedToOrder', appState.langSelected, [item.APLICACION, item.DESCRIPCION]));
 
+                $('body').off('click', '#btn-remove-item-order-' + item.NUM_REG);
                 $('body').on('click', '#btn-remove-item-order-' + item.NUM_REG, (e) => {
                     const idItemToRemove = e.target.id.split('-')[4];
                     removeItemOnOrder(idItemToRemove);
@@ -250,6 +251,7 @@ $(document).ready(function () {
                     $('#products-list')
                         .append(itemOnProductsList(item));
 
+                    $('body').off('click', '#btn-add-item-' + item.NUM_REG);
                     $('body').on('click', '#btn-add-item-' + item.NUM_REG, () => {
                         item.qty = parseInt($('#qty-' + item.NUM_REG).val());
                         addItemToOrder(item);
@@ -853,10 +855,11 @@ $(document).ready(function () {
 
     const loadItemsByReturnOrder = () => {
         $('#return-order-items').empty();
-        $('[id*="btn-return-item-"]').off('click');
+        //$('[id*="btn-return-item-"]').off('click');
         appState.itemsByOrder.forEach((item) => {
             $('#return-order-items').append(returnOrderItem(item));
             $('#small-return-order-items').append(smallReturnOrderItem(item));
+            $('body').off('click', '#btn-return-item-' + item.orderId + '-' + item.itemCode);
             $('body').on('click', '#btn-return-item-' + item.orderId + '-' + item.itemCode, (e) => {
                 selectReturnItem(item);
                 const itemFound = appState.itemsByOrder.findIndex((element) => (element.orderId == item.orderId && element.itemCode == item.itemCode));
@@ -887,7 +890,7 @@ $(document).ready(function () {
         $('#items-returned-list').append(itemsReturnedList(data));
         $('#small-items-returned-list').append(smallItemsReturnedList(data));
         $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).text(translate('cancel_return_btn', appState.langSelected));
-        $('#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode).off('click');
+        $('body').off('click', '#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode);
         $('body').on('click', '#btn-remove-item-returned-' + data.orderId + '-' + data.itemCode, (e) => {
             const itemFound = appState.itemsReturned.findIndex((element) => (element.orderId == data.orderId && element.itemCode == data.itemCode));
             if (itemFound != -1) {
@@ -901,7 +904,7 @@ $(document).ready(function () {
 
                 $('#return-order-items').append(returnOrderItem(itemDeleted));
                 $('#small-return-order-items').append(smallReturnOrderItem(itemDeleted));
-                $('#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode).off('click');
+                $('body').off('click', '#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode);
                 $('body').on('click', '#btn-return-item-' + itemDeleted.orderId + '-' + itemDeleted.itemCode, (e) => {
 
                     const itemFound = appState.itemsByOrder.findIndex((element) => (element.orderId == itemDeleted.orderId && element.itemCode == itemDeleted.itemCode));
@@ -986,10 +989,13 @@ $(document).ready(function () {
                                             $("#lastname").val('').blur();
                                             $("#phone").val('').blur();
                                             $("#sendCase").attr('disabled', true);
-                                            appState.carShopList.forEach((item) => {
-                                                $('#container-order-item-' + item.NUM_REG).remove();
-                                                discountAmountTotalAndQty(item);
-                                            });
+                                            appState.carShopList = [];
+
+                                            appState.itemsTotalOrdered = 0;
+                                            appState.totalAmountOrdered = 0;
+
+                                            $('#itemTotalOrdered').html(appState.itemsTotalOrdered);
+                                            $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
 
                                             window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_self");
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
@@ -1200,6 +1206,7 @@ $(document).ready(function () {
                             $('#tr-small-returnable-' + data.id).addClass('is-retornable-yes');
                         }
 
+                        $('body').off('click', '#btn-select-return-order-' + data.id);
                         $('body').on('click', '#btn-select-return-order-' + data.id, () => {
                             if (!element[4]) {
                                 showToast('error', translate('no_return_message', appState.langSelected))
@@ -1250,6 +1257,7 @@ $(document).ready(function () {
         $('#products-list').empty();
     })
 
+    $('body').off('click', '#imageShppingCart')
     $('body').on('click', '#imageShppingCart', () => {
         document.getElementById("products-add-to-order").scrollIntoView();
     });
