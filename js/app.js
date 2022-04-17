@@ -988,6 +988,7 @@ $(document).ready(function () {
                                             $("#firstname").val('').blur();
                                             $("#lastname").val('').blur();
                                             $("#phone").val('').blur();
+                                            $("#input-filter-text").val('').blur();
                                             $("#sendCase").attr('disabled', true);
                                             appState.carShopList = [];
 
