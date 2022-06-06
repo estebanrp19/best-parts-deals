@@ -14,38 +14,6 @@ var appState = {
 var BPD_IMAGES_URL;
 $(document).ready(function () {
 
-
-    //$('#tableOrders').stacktable();
-    //$('#tableOrderItems').stacktable();
-    //$('#tableOrderItemsReturned').stacktable();
-    /*$('.table').basictable();
-
-    $('#table-breakpoint').basictable({
-        breakpoint: 768
-    });
-
-    $('#table-container-breakpoint').basictable({
-        containerBreakpoint: 485
-    });
-
-    $('#table-swap-axis').basictable({
-        swapAxis: true
-    });
-
-    $('#table-force-off').basictable({
-        forceResponsive: false
-    });
-
-    $('#table-no-resize').basictable({
-        noResize: true
-    });
-
-    $('#table-two-axis').basictable();
-
-    $('#table-max-height').basictable({
-        tableWrap: true
-    });*/
-
     const translator = $('body').translate({ lang: "en", t: dict }); //English use by default
     const api = new Api();
     const apiProcessMaker = new ApiProcessMaker();
