@@ -1291,7 +1291,7 @@ $(document).ready(function () {
 
     });
 
-    $('body').on('click', '[id*="itemImageContent-modal-"]', (e) => {
+    $('body').on('click', '[id*="i-modal-"]', (e) => {
         const aux = e.target.id.split('-modal-');
         const itemCodigo = aux[aux.length - 1];
 
