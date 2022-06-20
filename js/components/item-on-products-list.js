@@ -8,7 +8,8 @@ const itemOnProductsList = (data) => {
 
     const template = ' <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 ">' +
         '<div class="card mt-3">' +
-        '<img class="card-img-top" src="' + BPD_IMAGES_URL + data.CODIGO + '.jpg" alt="">' +
+        '<div class="itemImageContent d-flex justify-content-center" id="itemImageContent-modal-' + data.CODIGO + '"><i class="image-expand fa fa-search-plus fa-2x" id="i-modal-' + data.CODIGO + '"></i>' +
+        '<img class="card-img-top" src="' + BPD_IMAGES_URL + data.CODIGO + '.jpg" alt="' + description + '" id="img-modal-' + data.CODIGO + '"></div>' +
         '<div class="card-body">' +
         '<h5 class="card-tittle">' + description + '</h5>' +
         '<p class="card-subtitle text-muted">$' + data.PRECIO1 + '</p>' +

@@ -1291,4 +1291,21 @@ $(document).ready(function () {
 
     });
 
+    $('body').on('click', '[id*="itemImageContent-modal-"]', (e) => {
+        const aux = e.target.id.split('-modal-');
+        const itemCodigo = aux[aux.length - 1];
+
+        const oldModalEl = document.getElementById('itemImageViewModal');
+        if (oldModalEl != null) {
+            const oldModal = bootstrap.Modal.getInstance(oldModalEl) // Returns a Bootstrap modal instance
+            oldModal.dispose();
+            $("#itemImageViewModal").remove();
+        }
+
+        const image = $('#img-modal-' + itemCodigo);
+        $("#modal-screen").append(itemImageView({ image: image.attr('src'), title: image.attr('alt') }));
+        const myModal = new bootstrap.Modal(document.getElementById('itemImageViewModal'), {});
+        myModal.show();
+    });
+
 });

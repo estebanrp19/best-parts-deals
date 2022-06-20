@@ -137,6 +137,12 @@ body {
     padding-top: 5px;
 }
 
+.main .card .itemImageContent {
+    align-self: center;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
 .main .card .card-tittle {
     min-height: 96px;
 }
@@ -300,4 +306,11 @@ body {
     background-color: cadetblue;
     color: white;
     padding: 5px;
+}
+
+.image-expand{
+    color: #717981;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
