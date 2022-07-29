@@ -467,21 +467,12 @@ $(document).ready(function () {
     };
 
     $.validator.methods.email = function (value, element) {
-        return this.optional(element) || /[a-z]+@[a-z]+\.[a-z]+/.test(value);
+        return this.optional(element) || /[a-zA-Z0-9.-]+@[a-z]+\.[a-z]{2,4}/.test(value);
     }
 
     jQuery.validator.addMethod("lettersAndSpace", function (value, element) {
         return this.optional(element) || /^[a-zA-Z ]+$/.test(value);
     }, "Only lethers an space");
-
-    $.validator.addMethod(
-        "regex",
-        function (value, element, regexp) {
-            var re = new RegExp(regexp);
-            return this.optional(element) || re.test(value);
-        },
-        "Please check your input."
-    );
 
     $("#contactForm").validate({
         // in 'rules' user have to specify all the constraints for respective fields
@@ -496,7 +487,7 @@ $(document).ready(function () {
             },
             email: {
                 required: true,
-                regex: "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}",
+                email: true,
             },
             emailReturn: {
                 required: true,
