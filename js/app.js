@@ -474,6 +474,15 @@ $(document).ready(function () {
         return this.optional(element) || /^[a-zA-Z ]+$/.test(value);
     }, "Only lethers an space");
 
+    $.validator.addMethod(
+        "regex",
+        function (value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "Please check your input."
+    );
+
     $("#contactForm").validate({
         // in 'rules' user have to specify all the constraints for respective fields
         rules: {
@@ -487,7 +496,7 @@ $(document).ready(function () {
             },
             email: {
                 required: true,
-                email: true
+                regex: "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}",
             },
             emailReturn: {
                 required: true,
