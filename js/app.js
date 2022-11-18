@@ -26,7 +26,6 @@ $(document).ready(function () {
         appState.inputFilterText = $('#input-filter-text').val();
     }
 
-    $('#select-region').val("USA-001");
     $('#select-idioma').val("en");
 
     $('#pagination-top').html(pagination());
@@ -181,8 +180,11 @@ $(document).ready(function () {
         BPD_IMAGES_URL = configGeneral.filter((item) => item.CATEGORIA == 'BPD_IMAGES_URL')[0].VALOR;
 
         res.regions[0].forEach(element => {
+            console.log(element);
             $("#select-region").append('<option value="' + element.REGION_ID + '">' + element.REGION_NAME + '</option>')
         });
+
+        $('#select-region').val("USA-001");
 
         let modelYears = [];
         for (let i = res.initYears[0]; i <= res.endYears[1]; i++) {
