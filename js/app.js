@@ -968,7 +968,7 @@ $(document).ready(function () {
                                             $('#itemTotalOrdered').html(appState.itemsTotalOrdered);
                                             $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
 
-                                            window.open("http://bpd.dyndns-web.com:8083/Order_Detail.php?case=" + res.split('-')[1], "_self");
+                                            window.open(constants.WORKFLOW_BASE_URL + "/Order_Detail.php?case=" + res.split('-')[1], "_self");
                                         })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
 
                                     } else {
@@ -1021,7 +1021,7 @@ $(document).ready(function () {
                                     appState.itemsByOrder = [];
                                     appState.itemsReturned = [];
 
-                                    window.open("http://bpd.dyndns-web.com:8083/Return_Detail.php?case=" + res.app_number, "_self");
+                                    window.open(constants.WORKFLOW_BASE_URL + "/Return_Detail.php?case=" + res.app_number, "_self");
 
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
@@ -1233,65 +1233,64 @@ $(document).ready(function () {
         document.getElementById("products-add-to-order").scrollIntoView();
     });
 
-    //Listener event change labels errors form
-    $('body').on('DOMSubtreeModified', '#email-error, #firstname-error, #lastname-error, #phone-error', async function (e) {
-        if (e.target.id == 'email-error') {
-            const displayEmail = await $('#email-error').css('display');
-            await $('#email-errorAux').css('display', displayEmail);
+    const targets = ['#email-error', '#firstname-error', '#lastname-error', '#phone-error'];
 
-            const emailError = await $('#email-error').text();
-            if (emailError == '') {
-                await $('#email-errorAux').text(emailError);
-            } else if (emailError.search('introduzca') != -1 || emailError.search('enter') != -1) {
-                await $('#email-errorAux').text(translate("email_required", appState.langSelected));
-            } else {
-                await $('#email-errorAux').text(translate("email_format", appState.langSelected));
-            }
-        }
+const observer = new MutationObserver(async (mutationsList) => {
+  for (const mutation of mutationsList) {
+    const el = mutation.target;
+    const id = el.id;
 
-        if (e.target.id == 'firstname-error') {
-            const displayFirstname = await $('#firstname-error').css('display');
-            await $('#firstname-errorAux').css('display', displayFirstname);
+    if (!id) continue;
 
-            const firstnameError = await $('#firstname-error').text();
-            if (firstnameError == '') {
-                await $('#firstname-errorAux').text(firstnameError);
-            } else if (firstnameError.search('introduzca') != -1 || firstnameError.search('enter') != -1) {
-                await $('#firstname-errorAux').text(translate("firstname_required", appState.langSelected));
-            } else {
-                await $('#firstname-errorAux').text(translate("letters_spaces", appState.langSelected));
-            }
-        }
+    const display = await $(`#${id}`).css('display');
+    await $(`#${id}Aux`).css('display', display);
 
-        if (e.target.id == 'lastname-error') {
-            const displayLastname = await $('#lastname-error').css('display');
-            await $('#lastname-errorAux').css('display', displayLastname);
+    const text = await $(`#${id}`).text();
+    if (text === '') {
+      await $(`#${id}Aux`).text(text);
+      continue;
+    }
 
-            const lastnameError = await $('#lastname-error').text();
-            if (lastnameError == '') {
-                await $('#lastname-errorAux').text(lastnameError);
-            } else if (lastnameError.search('introduzca') != -1 || lastnameError.search('enter') != -1) {
-                await $('#lastname-errorAux').text(translate("lastname_required", appState.langSelected));
-            } else {
-                await $('#lastname-errorAux').text(translate("letters_spaces", appState.langSelected));
-            }
-        }
+    if (text.includes('introduzca') || text.includes('enter')) {
+      switch (id) {
+        case 'email-error':
+          await $('#email-errorAux').text(translate("email_required", appState.langSelected));
+          break;
+        case 'firstname-error':
+          await $('#firstname-errorAux').text(translate("firstname_required", appState.langSelected));
+          break;
+        case 'lastname-error':
+          await $('#lastname-errorAux').text(translate("lastname_required", appState.langSelected));
+          break;
+        case 'phone-error':
+          await $('#phone-errorAux').text(translate("phone_required", appState.langSelected));
+          break;
+      }
+    } else {
+      switch (id) {
+        case 'email-error':
+          await $('#email-errorAux').text(translate("email_format", appState.langSelected));
+          break;
+        case 'firstname-error':
+        case 'lastname-error':
+          await $(`#${id}Aux`).text(translate("letters_spaces", appState.langSelected));
+          break;
+        case 'phone-error':
+          await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
+          break;
+      }
+    }
+  }
+});
 
-        if (e.target.id == 'phone-error') {
-            const displayPhone = await $('#phone-error').css('display');
-            await $('#phone-errorAux').css('display', displayPhone);
+// Iniciar el observer para cada target
+targets.forEach(selector => {
+  const node = document.querySelector(selector);
+  if (node) {
+    observer.observe(node, { childList: true, subtree: true, characterData: true });
+  }
+});
 
-            const phoneError = await $('#phone-error').text();
-            if (phoneError == '') {
-                await $('#phone-errorAux').text(phoneError);
-            } else if (phoneError.search('introduzca') != -1 || phoneError.search('enter') != -1) {
-                await $('#phone-errorAux').text(translate("phone_required", appState.langSelected));
-            } else {
-                await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
-            }
-        }
-
-    });
 
     $('body').on('click', '[id*="i-modal-"]', (e) => {
         const aux = e.target.id.split('-modal-');
