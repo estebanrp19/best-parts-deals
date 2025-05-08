@@ -170,9 +170,24 @@ $(document).ready(function () {
     }
 
     const getBrandsbyYear = async (data) => {
-        const brandsByYear = await apiProcessMaker.GET_CAR_BRAND_LIST_BY_YEAR(data).then((res) => res);
+        const brandsByYear = await apiProcessMaker.GET_CAR_BRAND_LIST_BY_YEAR(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         return brandsByYear;
     }
+
+    const validateServerStatus = () => {
+        console.log('Validando el estado del servidor');
+        api.loadServerStatus().then((res) => {
+            MAINTENANCE_STATUS = res.filter((item) => item.CATEGORIA == 'MAINTENANCE_STATUS')[0].VALOR;
+    
+            if (MAINTENANCE_STATUS != '0') {
+                window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
+            }
+        }).catch((e) => {
+            window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
+        });
+    };
+
+    setInterval(validateServerStatus(), 15000);
 
     api.loadInitialData().then((res) => {
 
@@ -196,6 +211,8 @@ $(document).ready(function () {
         });
 
         spinner.stop();
+    }).catch((e) => {
+        window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
     });
 
     const reloadProductList = (callback) => {
@@ -235,6 +252,8 @@ $(document).ready(function () {
                     callback();
                 }
 
+            }).catch((e) => {
+                window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
             });
             $('#form-message').empty();
         } else if (!(/^\d{4}$/.test(filter.year))) {
@@ -361,6 +380,8 @@ $(document).ready(function () {
 
 
             reloadProductList();
+        }).catch((e) => {
+            window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
         });
 
     });
@@ -542,7 +563,7 @@ $(document).ready(function () {
             lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
         }
 
-        const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        const requestEmailValidate = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         return requestEmailValidate;
 
     };
@@ -559,7 +580,7 @@ $(document).ready(function () {
             lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
         }
 
-        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         const clientLang = (resSaveClient[1] == 'sp-001') ? 'es' : 'en';
 
         appState.userLang = clientLang;
@@ -591,7 +612,7 @@ $(document).ready(function () {
             lang: ($("#select-idioma").val() == "en") ? "en-001" : "sp-001"
         }
 
-        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res);
+        const resSaveClient = await apiProcessMaker.SAVE_CLIENT(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         return resSaveClient;
     }
 
@@ -614,7 +635,7 @@ $(document).ready(function () {
         });
 
         data.datos = arrDataRequest;
-        const resValidateExistence = await apiProcessMaker.VALIDATE_EXISTENCE(data).then((res) => res);
+        const resValidateExistence = await apiProcessMaker.VALIDATE_EXISTENCE(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
 
         existenceIsValid = false;
         const itemInvalids = resValidateExistence[0].filter((item) => {
@@ -680,7 +701,7 @@ $(document).ready(function () {
 
         await apiProcessMaker.UPDATE_PRE_RESERVA(data).then((res) => {
             app_number = res;
-        })
+        }).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;})
 
         return app_number;
     }
@@ -718,7 +739,7 @@ $(document).ready(function () {
         data.total_price_ret = returnOrderTotal;
         data.total_qty_ret = itemQtyTotal;
 
-        resPreReturn = await apiProcessMaker.PRE_RETURN(data).then((res) => res);
+        resPreReturn = await apiProcessMaker.PRE_RETURN(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         return resPreReturn;
     }
 
@@ -782,7 +803,7 @@ $(document).ready(function () {
             order_row: data.id
         }
 
-        const resGetOrder = await apiProcessMaker.SAVE_CLIENT(params).then((res) => res);
+        const resGetOrder = await apiProcessMaker.SAVE_CLIENT(params).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         return resGetOrder;
     };
 
@@ -969,7 +990,7 @@ $(document).ready(function () {
                                             $('#totalAmountOrdered').html('$' + parseFloat(appState.totalAmountOrdered).toFixed(2));
 
                                             window.open(constants.WORKFLOW_BASE_URL + "/Order_Detail.php?case=" + res.split('-')[1], "_self");
-                                        })// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
+                                        }).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;})// actualizamos y generamnos APP_NUMBER .. siguiente generar caso nuevo
 
                                     } else {
                                         showToast("warning", translate('insuficientExistence', appState.userLang));
@@ -1007,7 +1028,9 @@ $(document).ready(function () {
                     confirmar: {
                         text: confirmar,
                         action: async () => {
-                            const resPreReturn = await requestPreReturn().then((res) => res);
+                            const resPreReturn = await requestPreReturn().then((res) => res).catch((e) => {
+                                window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
+                            });
                             if (resPreReturn) {
                                 await createReturnCase().then((res) => {
                                     showToast('success', translate('preReturnSuccess', appState.userLang));
@@ -1023,6 +1046,8 @@ $(document).ready(function () {
 
                                     window.open(constants.WORKFLOW_BASE_URL + "/Return_Detail.php?case=" + res.app_number, "_self");
 
+                                }).catch((e) => {
+                                    window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
                                 });
                                 //showToast('success', translate('preReturnSuccess', appState.userLang));
 
@@ -1105,7 +1130,9 @@ $(document).ready(function () {
             return;
         }
 
-        const res = await requestEmailValidate(isReturn).then(res => res);
+        const res = await requestEmailValidate(isReturn).then(res => res).catch((e) => {
+            window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
+        });
         const clientName = res[1];
         const clientLastname = res[2];
         const clientPhone = res[3];
@@ -1235,61 +1262,61 @@ $(document).ready(function () {
 
     const targets = ['#email-error', '#firstname-error', '#lastname-error', '#phone-error'];
 
-const observer = new MutationObserver(async (mutationsList) => {
-  for (const mutation of mutationsList) {
-    const el = mutation.target;
-    const id = el.id;
+    const observer = new MutationObserver(async (mutationsList) => {
+        for (const mutation of mutationsList) {
+            const el = mutation.target;
+            const id = el.id;
 
-    if (!id) continue;
+            if (!id) continue;
 
-    const display = await $(`#${id}`).css('display');
-    await $(`#${id}Aux`).css('display', display);
+            const display = await $(`#${id}`).css('display');
+            await $(`#${id}Aux`).css('display', display);
 
-    const text = await $(`#${id}`).text();
-    if (text === '') {
-      await $(`#${id}Aux`).text(text);
-      continue;
-    }
+            const text = await $(`#${id}`).text();
+            if (text === '') {
+                await $(`#${id}Aux`).text(text);
+                continue;
+            }
 
-    if (text.includes('introduzca') || text.includes('enter')) {
-      switch (id) {
-        case 'email-error':
-          await $('#email-errorAux').text(translate("email_required", appState.langSelected));
-          break;
-        case 'firstname-error':
-          await $('#firstname-errorAux').text(translate("firstname_required", appState.langSelected));
-          break;
-        case 'lastname-error':
-          await $('#lastname-errorAux').text(translate("lastname_required", appState.langSelected));
-          break;
-        case 'phone-error':
-          await $('#phone-errorAux').text(translate("phone_required", appState.langSelected));
-          break;
-      }
-    } else {
-      switch (id) {
-        case 'email-error':
-          await $('#email-errorAux').text(translate("email_format", appState.langSelected));
-          break;
-        case 'firstname-error':
-        case 'lastname-error':
-          await $(`#${id}Aux`).text(translate("letters_spaces", appState.langSelected));
-          break;
-        case 'phone-error':
-          await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
-          break;
-      }
-    }
-  }
-});
+            if (text.includes('introduzca') || text.includes('enter')) {
+                switch (id) {
+                    case 'email-error':
+                        await $('#email-errorAux').text(translate("email_required", appState.langSelected));
+                        break;
+                    case 'firstname-error':
+                        await $('#firstname-errorAux').text(translate("firstname_required", appState.langSelected));
+                        break;
+                    case 'lastname-error':
+                        await $('#lastname-errorAux').text(translate("lastname_required", appState.langSelected));
+                        break;
+                    case 'phone-error':
+                        await $('#phone-errorAux').text(translate("phone_required", appState.langSelected));
+                        break;
+                }
+            } else {
+                switch (id) {
+                    case 'email-error':
+                        await $('#email-errorAux').text(translate("email_format", appState.langSelected));
+                        break;
+                    case 'firstname-error':
+                    case 'lastname-error':
+                        await $(`#${id}Aux`).text(translate("letters_spaces", appState.langSelected));
+                        break;
+                    case 'phone-error':
+                        await $('#phone-errorAux').text(translate("format_phone", appState.langSelected));
+                        break;
+                }
+            }
+        }
+    });
 
-// Iniciar el observer para cada target
-targets.forEach(selector => {
-  const node = document.querySelector(selector);
-  if (node) {
-    observer.observe(node, { childList: true, subtree: true, characterData: true });
-  }
-});
+    // Iniciar el observer para cada target
+    targets.forEach(selector => {
+        const node = document.querySelector(selector);
+        if (node) {
+            observer.observe(node, { childList: true, subtree: true, characterData: true });
+        }
+    });
 
 
     $('body').on('click', '[id*="i-modal-"]', (e) => {

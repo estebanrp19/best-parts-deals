@@ -27,4 +27,5 @@ const constants = {
     TASK_UID_DIRECT_SEARCH: "88981594356c9ef90b4bb48005562106",
     TASK_NAME_RETURN: "retornos",
     TASK_UID_RETURN: "754598695606bb6b494b4e1090394054",
+    MAINTENANCE_REDIRECTOR_URL: "https://bestpartsdeals.com/maintenance_landing.php"
 }

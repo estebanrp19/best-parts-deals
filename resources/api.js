@@ -59,6 +59,16 @@ class Api {
 
     }
 
+    loadServerStatus = async () => {
+        const models = await $.ajax({
+            method: "GET",
+            dataType: 'json',
+            crossDomain: true,
+            url: constants.BASE_URL + constants.API_URLS.GET_GENERAL_CONFIG
+        });
+        return models;
+    }
+
     GET_MODELS = async (data) => {
         const models = await $.ajax({
             method: "POST",
