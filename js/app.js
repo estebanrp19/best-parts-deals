@@ -12,11 +12,13 @@ var appState = {
     langSelected: 'en'
 };
 var BPD_IMAGES_URL;
+
 $(document).ready(function () {
 
     const translator = $('body').translate({ lang: "en", t: dict }); //English use by default
     const api = new Api();
     const apiProcessMaker = new ApiProcessMaker();
+
     spinner.show();
 
     const updateState = (e) => {
@@ -173,21 +175,6 @@ $(document).ready(function () {
         const brandsByYear = await apiProcessMaker.GET_CAR_BRAND_LIST_BY_YEAR(data).then((res) => res).catch((e) => {window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;});
         return brandsByYear;
     }
-
-    const validateServerStatus = () => {
-        console.log('Validando el estado del servidor');
-        api.loadServerStatus().then((res) => {
-            MAINTENANCE_STATUS = res.filter((item) => item.CATEGORIA == 'MAINTENANCE_STATUS')[0].VALOR;
-    
-            if (MAINTENANCE_STATUS != '0') {
-                window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
-            }
-        }).catch((e) => {
-            window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
-        });
-    };
-
-    setInterval(validateServerStatus(), 15000);
 
     api.loadInitialData().then((res) => {
 

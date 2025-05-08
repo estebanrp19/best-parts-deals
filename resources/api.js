@@ -1,3 +1,24 @@
+const validateServerStatus = async () => {
+    console.log('Validando el estado del servidor');
+
+    const config = await $.ajax({
+        method: "GET",
+        dataType: 'json',
+        crossDomain: true,
+        url: constants.BASE_URL + constants.API_URLS.GET_GENERAL_CONFIG
+    });
+
+    config.then((res) => {
+        MAINTENANCE_STATUS = res.filter((item) => item.CATEGORIA == 'MAINTENANCE_STATUS')[0].VALOR;
+
+        if (MAINTENANCE_STATUS != '0') {
+            window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
+        }
+    }).catch((e) => {
+        window.location.href = constants.MAINTENANCE_REDIRECTOR_URL;
+    });
+};
+
 class Api {
     #GET_BRANDS = $.ajax({
         method: "GET",
@@ -36,6 +57,7 @@ class Api {
     });
 
     loadInitialData = async () => {
+        validateServerStatus();
         return await $.when(this.#GET_REGIONS, this.#GET_BRANDS, this.#GET_INIT_YEARS, this.#GET_END_YEARS, this.#GET_CONFIG_GENERAL).then(function (r1, r2, r3, r4, r5) {
             const response = {
                 regions: r1,
@@ -59,17 +81,8 @@ class Api {
 
     }
 
-    loadServerStatus = async () => {
-        const models = await $.ajax({
-            method: "GET",
-            dataType: 'json',
-            crossDomain: true,
-            url: constants.BASE_URL + constants.API_URLS.GET_GENERAL_CONFIG
-        });
-        return models;
-    }
-
     GET_MODELS = async (data) => {
+        validateServerStatus();
         const models = await $.ajax({
             method: "POST",
             dataType: 'json',
@@ -81,6 +94,7 @@ class Api {
     }
 
     GET_APPLICATIONS_YEAR_START() {
+        validateServerStatus();
         return $.ajax({
             method: "GET",
             dataType: 'json',
@@ -89,6 +103,7 @@ class Api {
     }
 
     GET_FILTERED_PARTS_LIST = async (filter) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -101,6 +116,7 @@ class Api {
 class ApiProcessMaker {
 
     VALIDATE_EXISTENCE = async (data) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -111,6 +127,7 @@ class ApiProcessMaker {
     };
 
     UPDATE_PRE_RESERVA = async (data) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -121,6 +138,7 @@ class ApiProcessMaker {
     };
 
     SAVE_CLIENT = async (data) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -131,6 +149,7 @@ class ApiProcessMaker {
     };
 
     CREATE_CASE = async (data) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -141,6 +160,7 @@ class ApiProcessMaker {
     }
 
     PRE_RETURN = async (data) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
@@ -151,6 +171,7 @@ class ApiProcessMaker {
     };
 
     GET_CAR_BRAND_LIST_BY_YEAR = async (data) => {
+        validateServerStatus();
         return $.ajax({
             method: "POST",
             dataType: 'json',
