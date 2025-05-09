@@ -1,7 +1,7 @@
 const validateServerStatus = async () => {
     console.log('Validando el estado del servidor');
 
-    const config = await $.ajax({
+    const config = $.ajax({
         method: "GET",
         dataType: 'json',
         crossDomain: true,
