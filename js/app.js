@@ -224,6 +224,7 @@ $(document).ready(function () {
                 res.forEach((item) => {
                     $('#products-list')
                         .append(itemOnProductsList(item));
+                        $('body').translate({ lang: appState.langSelected, t: dict });
 
                     $('body').off('click', '#btn-add-item-' + item.NUM_REG);
                     $('body').on('click', '#btn-add-item-' + item.NUM_REG, () => {
